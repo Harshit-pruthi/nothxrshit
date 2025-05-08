@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head content as videoediting.html -->
+    <style>
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .photo-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-wrapper">
+        <!-- Same navigation as videoediting.html -->
+    </div>
+
+    <section class="hero container" style="background: linear-gradient(45deg, #2ae8d5, #7d2ae8); padding: 4rem; border-radius: 15px; margin-top: 2rem;">
+        <div class="hero-content">
+            <h1>Photo Manipulation Showcase</h1>
+            <p>Creative image editing and composite artwork</p>
+            <a href="index.html" class="skill-chip">← Back to Portfolio</a>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="photo-grid">
+            <div class="photo-card">
+                <img src="photo-project1.jpg" alt="Photo Project 1">
+                <div class="project-info">
+                    <h3>Surreal Landscape</h3>
+                    <p>Client: Creative Agency</p>
+                </div>
+            </div>
+            <!-- Add more photo projects -->
+        </div>
+    </section>
+</body>
+</html>
