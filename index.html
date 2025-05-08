@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Editor Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #7d2ae8;
+            --bg-color: #0f0f0f;
+        }
+
+        body {
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        /* Animated Elements */
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .skill-chip {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-chip:hover {
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+      /* Project Pages */
+        .project-page {
+            display: none;
+            padding: 4rem 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.1);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .instagram-embed {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 15px;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-wrapper">
+        <nav class="container">
+            <div class="logo">EditorPro</div>
+            <div class="nav-links">
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <section class="hero container">
+            <div class="hero-content">
+                <h1>Visual Storyteller &<br>Creative Editor</h1>
+                <p>Transforming ideas into captivating visual experiences</p>
+                <div class="skills-container">
+                    <div class="skill-chip" data-page="video-editing">Video Editing</div>
+                    <div class="skill-chip" data-page="photo-manipulation">Photo Manipulation</div>
+                    <div class="skill-chip" data-page="thumbnail-design">Thumbnail Design</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" id="work">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+            <!-- Add your project images here -->
+            <div class="project-card">
+                <img src="project1.jpg" alt="Project 1" class="project-image">
+            </div>
+            <div class="project-card">
+                <img src="project2.jpg" alt="Project 2" class="project-image">
+            </div>
+            <div class="project-card">
+                <img src="project3.jpg" alt="Project 3" class="project-image">
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section container" id="contact">
+        <h2>Let's Create Magic Together</h2>
+        <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-behance"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-dribbble"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/not.hxrshit" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+    </section>
+       <!-- Video Editing Projects Page -->
+    <div id="video-editing" class="project-page container">
+        <div class="back-button" onclick="showMainContent()">← Back to Main</div>
+        <h2 class="page-title">Video Editing Showcase</h2>
+        <div class="project-grid">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+            </div>
+            <div class="instagram-embed">
+                <!-- Add Instagram embed code here -->
+                <blockquote class="instagram-media" data-instgrm-permalink="URL" style="width: 100%"></blockquote>
+            </div>
+            <!-- Add more projects -->
+        </div>
+    </div>
+
+    <!-- Photo Manipulation Projects Page -->
+    <div id="photo-manipulation" class="project-page container">
+        <div class="back-button" onclick="showMainContent()">← Back to Main</div>
+        <h2 class="page-title">Photo Manipulation Showcase</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="photo-project1.jpg" alt="Photo Project 1">
+            </div>
+            <!-- Add more projects -->
+        </div>
+    </div>
+
+    <!-- Thumbnail Design Projects Page -->
+    <div id="thumbnail-design" class="project-page container">
+        <div class="back-button" onclick="showMainContent()">← Back to Main</div>
+        <h2 class="page-title">Thumbnail Design Showcase</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="thumbnail-project1.jpg" alt="Thumbnail Project 1">
+            </div>
+            <!-- Add more projects -->
+        </div>
+    </div>
+
+    <section class="contact-section container" id="contact">
+        <!-- Existing contact section -->
+    </section>
+
+    <script>
+       document.querySelectorAll('.skill-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const pageId = this.dataset.page;
+                showProjectPage(pageId);
+                window.location.hash = pageId;
+            });
+        });
+
+        function showProjectPage(pageId) {
+            document.getElementById('main-content').style.display = 'none';
+            document.querySelectorAll('.project-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function showMainContent() {
+            document.getElementById('main-content').style.display = 'block';
+            document.querySelectorAll('.project-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            window.location.hash = '';
+        }
+
+        // Handle initial page load with hash
+        window.addEventListener('load', () => {
+            if(window.location.hash) {
+                const pageId = window.location.hash.substring(1);
+                if(document.getElementById(pageId)) {
+                    showProjectPage(pageId);
+                }
+            }
+        });
+
+        // Instagram embed script
+        const instagramScript = document.createElement('script');
+        instagramScript.src = '//www.instagram.com/embed.js';
+        document.body.appendChild(instagramScript);
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add animation on scroll
+        window.addEventListener('scroll', function() {
+            const elements = document.querySelectorAll('.project-card');
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect();
+                if(position.top < window.innerHeight) {
+                    element.style.opacity = '1';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
