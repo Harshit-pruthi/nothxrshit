@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Use same CSS as index.html */
         * {
             margin: 0;
             padding: 0;
@@ -27,41 +26,117 @@
             overflow-x: hidden;
         }
 
-        /* Add all other CSS styles from index.html here */
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
         .video-container {
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
             height: 0;
             overflow: hidden;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .video-container:hover {
-            transform: scale(1.05);
         }
 
         .video-container iframe {
             position: absolute;
             top: 0;
             left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            border: none;
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-90px);
+        }
+
+        .video-player {
             width: 100%;
-            height: 100%;
+            height: 300px;
+            object-fit: cover;
+            border: none;
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .skill-chip {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-chip:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .nav-wrapper {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
         }
     </style>
 </head>
 <body>
     <div class="nav-wrapper">
         <nav class="container">
-            <a href="index.html" class="logo">EditorPro</a>
+            <a href="index.html" class="logo">Harshit Arora</a>
             <div class="nav-links">
                 <a href="index.html#work">Work</a>
                 <a href="index.html#about">About</a>
@@ -70,10 +145,10 @@
         </nav>
     </div>
 
-    <section class="hero container" style="background: linear-gradient(45deg, #ff69b4, #7d2ae8); padding: 4rem; border-radius: 15px; margin-top: 2rem;">
+    <section class="hero container">
         <div class="hero-content">
             <h1>Video Editing Showcase</h1>
-            <p>Professional video editing with seamless transitions and dynamic effects</p>
+            <p>Professional edits with seamless transitions and dynamic effects</p>
             <a href="index.html" class="skill-chip">← Back to Portfolio</a>
         </div>
     </section>
@@ -82,32 +157,174 @@
         <div class="video-grid">
             <!-- YouTube Video -->
             <div class="video-card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                    </iframe>
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/BmlWmsY2RYs?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Cinematic Gaming Video</h3>
+                    <p>H STAR GAMERZ</p>
                 </div>
-                <h3>Project Title 1</h3>
-                <p>Client: XYZ Company</p>
             </div>
 
             <!-- Instagram Video -->
             <div class="video-card">
-                <div class="video-container">
-                    <iframe src="https://www.instagram.com/p/YOUR_POST_ID/embed" 
+                 <div class="video-container">
+                    <iframe src="https://www.instagram.com/p/DJPX69Mh0gg/embed" 
                             frameborder="0"
                             scrolling="no"
                             allowtransparency="true">
                     </iframe>
                 </div>
-                <h3>Social Media Reel</h3>
-                <p>Platform: Instagram</p>
+                <div class="project-info">
+                    <h3>The Amazing Spider-man - Die with a smile edit</h3>
+                    <p>@not.hxrshit</p>
+                </div>
             </div>
 
-            <!-- Add more video projects as needed -->
+            <!-- Another Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/339L_wpJWmo?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Gaming Edit</h3>
+                    <p>Color Graded • H STAR GAMERZ</p>
+                </div>
+            </div>
+          <!-- YouTube Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/TllGUFSj7FM?si=mCWbdD7LrAgVpqfy&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Cinematic Trailer Video</h3>
+                    <p>H STAR GAMERZ</p>
+                </div>
+            </div>
+          <!-- YouTube Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/7YHt5fTFXhA?si=lu4aPGlTG0qVboIA&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Roast Video</h3>
+                    <p>H STAR GAMERZ</p>
+                </div>
+            </div>
+           <!-- Instagram Video -->
+            <div class="video-card">
+                 <div class="video-container">
+                    <iframe src="https://www.instagram.com/p/DI-5HD0hXQb/embed" 
+                            frameborder="0"
+                            scrolling="no"
+                            allowtransparency="true">
+                    </iframe>
+                </div>
+                <div class="project-info">
+                    <h3>Paatal Lok - Vidrado Em Voce Edit</h3>
+                    <p>@not.hxrshit</p>
+                </div>
+            </div>
+           <!-- Instagram Video -->
+            <div class="video-card">
+                 <div class="video-container">
+                    <iframe src="https://www.instagram.com/p/DI4QLarhFRy/embed" 
+                            frameborder="0"
+                            scrolling="no"
+                            allowtransparency="true">
+                    </iframe>
+                </div>
+                <div class="project-info">
+                    <h3>Tokyo Drift - Six Days Edit</h3>
+                    <p>@not.hxrshit</p>
+                </div>
+            </div>
+          <!-- YouTube Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/PmfRsvN1LnM?si=Tkigc5WlF7aP-yYk&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Tech Video</h3>
+                    <p>H STAR GAMERZ</p>
+                </div>
+            </div>
+                    <!-- YouTube Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/4Bh-CVDpKsM?si=qjCvMCAv2t32MoUp&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Tech Video</h3>
+                    <p>H STAR GAMERZ</p>
+                </div>
+            </div>
+                    <!-- YouTube Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/https://youtu.be/UYMkwrpKRjo?si=BiE15-lRO4AJ0U6W&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Cinematic Short Film</h3>
+                    <p>H STAR GAMERZ</p>
+                </div>
+            </div>
+                    <!-- YouTube Video -->
+            <div class="video-card">
+                <iframe class="video-player" 
+                    src="https://www.youtube.com/embed/-jAAYtstXhM?si=LxEx6aUJO0mRVrOc&controls=1&modestbranding=1&rel=0" 
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+                <div class="project-info">
+                    <h3>Gamming Video</h3>
+                    <p>H STAR GAMERZ</p>
+                </div>
+            </div>
+          
         </div>
     </section>
+
+    <script>
+        // Improved video control
+        const videos = document.querySelectorAll('video');
+        
+        // Pause all videos when out of view
+        window.addEventListener('scroll', () => {
+            videos.forEach(video => {
+                const rect = video.getBoundingClientRect();
+                if(rect.top > window.innerHeight || rect.bottom < 0) {
+                    video.pause();
+                }
+            });
+        });
+
+        // Auto-play when 50% visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.play();
+                } else {
+                    entry.target.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        videos.forEach(video => observer.observe(video));
+    </script>
 </body>
 </html>
