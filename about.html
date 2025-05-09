@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Harshit Arora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #7d2ae8;
+            --bg-color: #0f0f0f;
+        }
+
+        body {
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            animation: fadeInUp 1s ease;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--primary-color);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .price-card {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .contact-form {
+            margin-top: 2rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: white;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.15) rotate(15deg);
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .nav-wrapper {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-wrapper">
+        <nav class="container">
+            <a href="index.html" class="logo">EditorPro</a>
+            <div class="nav-links">
+                <a href="index.html#work">Work</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
+            </div>
+        </nav>
+    </div>
+
+    <section class="hero container">
+        <div class="hero-content">
+            <h1>Harshit Arora</h1>
+            <p>Creative Editor & Digital Artisan</p>
+            <div class="skills-grid">
+                <div class="skill-chip">Photo Editing</div>
+                <div class="skill-chip">Video Production</div>
+                <div class="skill-chip">Thumbnail Design</div>
+                <div class="skill-chip">Motion Graphics</div>
+            </div>
+            <div class="social-links">
+                <a href="https://reddit.com/user/your-profile" class="social-btn" target="_blank">
+                    <i class="fab fa-reddit-alien"></i>
+                </a>
+                <a href="https://discord.gg/your-invite" class="social-btn" target="_blank">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://instagram.com/your-profile" class="social-btn" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="about-content">
+            <div class="profile-card">
+                <img src="https://drive.google.com/thumbnail?id=1bhyZaMug-8SpKLIFYYXf1e7jtsDhmbae&sz=w800-h600" alt="Harshit Arora" class="profile-img">
+                <h2>About Me</h2>
+                <p>📍 Haryana, India</p>
+                <p>🎂 18 Years Young</p>
+                <p>💻 Computer Enthusiast</p>
+                <p>🎨 3+ Years Creative Experience</p>
+            </div>
+
+            <div class="bio-content">
+                <h2>My Journey</h2>
+                <p>Hey! I'm Harshit, a passionate creative editor from India. Over the past 3 years, I've honed my skills in:</p>
+                
+                <ul class="skills-grid">
+                    <li><i class="fas fa-photo-video"></i> Photo/Video Editing</li>
+                    <li><i class="fas fa-palette"></i> Thumbnail Design</li>
+                    <li><i class="fas fa-film"></i> Motion Graphics</li>
+                    <li><i class="fas fa-magic"></i> Visual Effects</li>
+                </ul>
+
+                <div class="price-card">
+                    <h3>Affordable Rates</h3>
+                    <p>Starting from just <strong>$5-10</strong> per project!</p>
+                    <small>(Custom quotes available for complex projects)</small>
+                </div>
+
+                <div class="contact-form">
+                    <h3>Let's Create Together!</h3>
+                    <form action="https://formspree.io/f/mldbljgp" method="POST">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Email Address" required>
+                        <textarea name="message" rows="5" placeholder="Project Details" required></textarea>
+                        <button type="submit"><i class="fas fa-paper-plane"></i> Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Form submission handling
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Thank you! Your inquiry has been sent. I\'ll respond within 24 hours.');
+                    form.reset();
+                } else {
+                    alert('Oops! There was a problem submitting your form. Please try again.');
+                }
+            } catch (error) {
+                alert('Network error. Please check your internet connection.');
+            }
+        });
+    </script>
+</body>
+</html>
