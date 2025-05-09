@@ -141,11 +141,16 @@
         }
 
         .skill-chip {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 600;
-            transition: transform 0.3s ease;
+         display: inline-block;
+         text-align: center;
+         background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+         padding: 0.5rem 1.5rem;
+         border-radius: 20px;
+         font-weight: 600;
+         color: #fff;
+         text-decoration: none;     /* 🔥 This removes the underline */
+         transition: transform 0.3s ease;
+         cursor: pointer;           /* Makes it look clickable */
         }
 
         .skill-chip:hover {
@@ -251,12 +256,32 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+.button-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+
+.skill-chip {
+    display: inline-block;
+    text-align: center;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+    color: #fff; /* Ensure white text */
+}
+
+.skill-chip:hover {
+    transform: scale(1.05);
+}
     </style>
 </head>
 <body>
     <div class="nav-wrapper">
         <nav class="container">
-            <div class="logo">EditorPro</div>
+            <div class="logo">Harshit Arora</div>
             <div class="nav-links">
                 <a href="#work">Work</a>
                 <a href="#about">About</a>
@@ -272,9 +297,9 @@
                 <h1>Visual Storyteller &<br>Creative Editor</h1>
                 <p>Transforming ideas into captivating visual experiences</p>
                 <div class="skills-container">
-                    <div class="skill-chip" data-page="video-editing">Video Editing</div>
-                    <div class="skill-chip" data-page="photo-manipulation">Photo Manipulation</div>
-                    <div class="skill-chip" data-page="thumbnail-design">Thumbnail Design</div>
+                   <a class="skill-chip" href="videoediting.html">Video Editing</a>
+                   <a class="skill-chip" href="photoediting.html">Photo Manipulation</a>
+                   <a class="skill-chip" href="thumbnaildesign.html">Thumbnail Design</a>
                 </div>
             </div>
         </section>
@@ -284,13 +309,13 @@
             <div class="projects-grid">
             <!-- Add your project images here -->
             <div class="project-card">
-                <img src="project1.jpg" alt="Project 1" class="project-image">
+               <img src="https://drive.google.com/thumbnail?id=1xW6db7GPRIlwsjJZkx0BioWGw_tmxGN9&sz=w800-h600" alt="Project 1" class="project-image">
             </div>
             <div class="project-card">
-                <img src="project2.jpg" alt="Project 2" class="project-image">
+                <img src="https://drive.google.com/thumbnail?id=16KT8wtbMOkfxuUOQupgSpUtidmS6_FLz&sz=w800-h600" alt="Project 2" class="project-image">
             </div>
             <div class="project-card">
-                <img src="project3.jpg" alt="Project 3" class="project-image">
+                <img src="https://drive.google.com/thumbnail?id=1GaYR66_Ch41Is_Bn5B6p4hpY_3t7k3hR&sz=w800-h600" alt="Project 3" class="project-image">
             </div>
         </div>
     </section>
@@ -408,5 +433,7 @@
             });
         });
     </script>
+      
 </body>
+  
 </html>
