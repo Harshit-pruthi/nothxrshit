@@ -1,330 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Editing Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Editing Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-        :root {
-            --primary-color: #ff69b4;
-            --secondary-color: #7d2ae8;
-            --bg-color: #0f0f0f;
-        }
+    :root {
+      --primary-color: #ff69b4;
+      --secondary-color: #7d2ae8;
+      --bg-color: #0f0f0f;
+    }
 
-        body {
-            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-            color: #fff;
-            overflow-x: hidden;
-        }
+    body {
+      background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-        }
+    .nav-wrapper {
+      position: fixed;
+      width: 100%;
+      padding: 1.5rem 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100% !important;
-            height: 100% !important;
-            border: none;
-        }
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 4rem 0;
-        }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
 
-        .video-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .video-card:hover {
-            transform: translateY(-90px);
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: logoFloat 3s ease-in-out infinite;
+    }
 
-        .video-player {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border: none;
-        }
+    .nav-links a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-        .project-info {
-            padding: 1.5rem;
-        }
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
 
-        .skill-chip {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 1rem;
-            text-decoration: none;
-            color: white;
-            transition: transform 0.3s ease;
-        }
+    .hero-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
 
-        .skill-chip:hover {
-            transform: scale(1.05);
-        }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
 
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+    .skill-chip {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.3s ease;
+    }
 
-        @media (max-width: 768px) {
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-        }
+    .skill-chip:hover {
+      transform: scale(1.05);
+    }
 
-        .nav-wrapper {
-            position: fixed;
-            width: 100%;
-            padding: 1.5rem 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 4rem auto;
+    }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .video-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
+    .video-card:hover {
+      transform: translateY(-10px);
+    }
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-    </style>
+    .video-player, .video-container iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .project-info {
+      padding: 1.2rem;
+    }
+
+    .project-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="nav-wrapper">
-        <nav class="container">
-            <a href="index.html" class="logo">Harshit Arora</a>
-            <div class="nav-links">
-                <a href="index.html#work">Work</a>
-                <a href="index.html#about">About</a>
-                <a href="index.html#contact">Contact</a>
-            </div>
-        </nav>
+  <!-- Navigation -->
+  <div class="nav-wrapper">
+    <nav class="container">
+      <a href="index.html" class="logo">Harshit Arora</a>
+      <div class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero container">
+    <div class="hero-content">
+      <h1>Video Editing Showcase</h1>
+      <p>Professional edits with seamless transitions and dynamic effects</p>
+      <a href="index.html" class="skill-chip">← Back to Portfolio</a>
     </div>
+  </section>
 
-    <section class="hero container">
-        <div class="hero-content">
-            <h1>Video Editing Showcase</h1>
-            <p>Professional edits with seamless transitions and dynamic effects</p>
-            <a href="index.html" class="skill-chip">← Back to Portfolio</a>
+  <!-- Video Portfolio Grid -->
+  <section class="container">
+    <div class="video-grid">
+      <!-- YouTube Videos -->
+      <div class="video-card">
+        <iframe class="video-player" src="https://www.youtube.com/embed/BmlWmsY2RYs" allowfullscreen></iframe>
+        <div class="project-info"><h3>Cinematic Gaming Video</h3><p>H STAR GAMERZ</p></div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-container">
+          <iframe src="https://www.instagram.com/p/DJPX69Mh0gg/embed" allowtransparency="true"></iframe>
         </div>
-    </section>
+        <div class="project-info"><h3>Spider-man - Die With a Smile</h3><p>@not.hxrshit</p></div>
+      </div>
 
-    <section class="container">
-        <div class="video-grid">
-            <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/BmlWmsY2RYs?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Cinematic Gaming Video</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
+      <div class="video-card">
+        <iframe class="video-player" src="https://www.youtube.com/embed/339L_wpJWmo" allowfullscreen></iframe>
+        <div class="project-info"><h3>Gaming Edit</h3><p>Color Graded • H STAR GAMERZ</p></div>
+      </div>
 
-            <!-- Instagram Video -->
-            <div class="video-card">
-                 <div class="video-container">
-                    <iframe src="https://www.instagram.com/p/DJPX69Mh0gg/embed" 
-                            frameborder="0"
-                            scrolling="no"
-                            allowtransparency="true">
-                    </iframe>
-                </div>
-                <div class="project-info">
-                    <h3>The Amazing Spider-man - Die with a smile edit</h3>
-                    <p>@not.hxrshit</p>
-                </div>
-            </div>
+      <div class="video-card">
+        <iframe class="video-player" src="https://www.youtube.com/embed/TllGUFSj7FM" allowfullscreen></iframe>
+        <div class="project-info"><h3>Cinematic Trailer</h3><p>H STAR GAMERZ</p></div>
+      </div>
 
-            <!-- Another Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/339L_wpJWmo?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Gaming Edit</h3>
-                    <p>Color Graded • H STAR GAMERZ</p>
-                </div>
-            </div>
-          <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/TllGUFSj7FM?si=mCWbdD7LrAgVpqfy&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Cinematic Trailer Video</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
-          <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/7YHt5fTFXhA?si=lu4aPGlTG0qVboIA&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Roast Video</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
-           <!-- Instagram Video -->
-            <div class="video-card">
-                 <div class="video-container">
-                    <iframe src="https://www.instagram.com/p/DI-5HD0hXQb/embed" 
-                            frameborder="0"
-                            scrolling="no"
-                            allowtransparency="true">
-                    </iframe>
-                </div>
-                <div class="project-info">
-                    <h3>Paatal Lok - Vidrado Em Voce Edit</h3>
-                    <p>@not.hxrshit</p>
-                </div>
-            </div>
-           <!-- Instagram Video -->
-            <div class="video-card">
-                 <div class="video-container">
-                    <iframe src="https://www.instagram.com/p/DI4QLarhFRy/embed" 
-                            frameborder="0"
-                            scrolling="no"
-                            allowtransparency="true">
-                    </iframe>
-                </div>
-                <div class="project-info">
-                    <h3>Tokyo Drift - Six Days Edit</h3>
-                    <p>@not.hxrshit</p>
-                </div>
-            </div>
-          <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/PmfRsvN1LnM?si=Tkigc5WlF7aP-yYk&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Tech Video</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
-                    <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/4Bh-CVDpKsM?si=qjCvMCAv2t32MoUp&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Tech Video</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
-                    <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/https://youtu.be/UYMkwrpKRjo?si=BiE15-lRO4AJ0U6W&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Cinematic Short Film</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
-                    <!-- YouTube Video -->
-            <div class="video-card">
-                <iframe class="video-player" 
-                    src="https://www.youtube.com/embed/-jAAYtstXhM?si=LxEx6aUJO0mRVrOc&controls=1&modestbranding=1&rel=0" 
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-                <div class="project-info">
-                    <h3>Gamming Video</h3>
-                    <p>H STAR GAMERZ</p>
-                </div>
-            </div>
-          
+      <div class="video-card">
+        <iframe class="video-player" src="https://www.youtube.com/embed/7YHt5fTFXhA" allowfullscreen></iframe>
+        <div class="project-info"><h3>Roast Video</h3><p>H STAR GAMERZ</p></div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-container">
+          <iframe src="https://www.instagram.com/p/DI-5HD0hXQb/embed" allowtransparency="true"></iframe>
         </div>
-    </section>
+        <div class="project-info"><h3>Paatal Lok - Vidrado Em Voce</h3><p>@not.hxrshit</p></div>
+      </div>
 
-    <script>
-        // Improved video control
-        const videos = document.querySelectorAll('video');
-        
-        // Pause all videos when out of view
-        window.addEventListener('scroll', () => {
-            videos.forEach(video => {
-                const rect = video.getBoundingClientRect();
-                if(rect.top > window.innerHeight || rect.bottom < 0) {
-                    video.pause();
-                }
-            });
-        });
+      <div class="video-card">
+        <div class="video-container">
+          <iframe src="https://www.instagram.com/p/DI4QLarhFRy/embed" allowtransparency="true"></iframe>
+        </div>
+        <div class="project-info"><h3>Tokyo Drift - Six Days Edit</h3><p>@not.hxrshit</p></div>
+      </div>
 
-        // Auto-play when 50% visible
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.play();
-                } else {
-                    entry.target.pause();
-                }
-            });
-        }, { threshold: 0.5 });
+      <div class="video-card">
+        <iframe class="video-player" src="https://www.youtube.com/embed/PmfRsvN1LnM" allowfullscreen></iframe>
+        <div class="project-info"><h3>Tech Video</h3><p>H STAR GAMERZ</p></div>
+      </div>
 
-        videos.forEach(video => observer.observe(video));
-    </script>
+      <div class="video-card">
+        <iframe class="video-player" src="https://www.youtube.com/embed/4Bh-CVDpKsM" allowfullscreen></iframe>
+        <div class="project-info"><h3>Tech Video</h3><p>H STAR GAMERZ</p></div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
