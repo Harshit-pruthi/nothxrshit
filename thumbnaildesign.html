@@ -1,358 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thumbnail Design Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Cleaned and optimized CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thumbnail Design Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-        :root {
-            --primary-color: #ff69b4;
-            --secondary-color: #7d2ae8;
-            --bg-color: #0f0f0f;
-        }
+    :root {
+      --primary-color: #ff69b4;
+      --secondary-color: #7d2ae8;
+      --bg-color: #0f0f0f;
+    }
 
-        body {
-            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-            color: #fff;
-            overflow-x: hidden;
-        }
+    body {
+      background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-        .thumbnail-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 4rem 0;
-        }
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
 
-        .thumbnail-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
+    .thumbnail-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
 
-        .thumbnail-card:hover {
-            transform: translateY(-10px);
-        }
+    .thumbnail-card:hover {
+      transform: translateY(-10px);
+    }
 
-        .gdrive-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 15px 15px 0 0;
-        }
+    .gdrive-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 15px 15px 0 0;
+    }
 
-        .project-info {
-            padding: 1.5rem;
-        }
+    .project-info {
+      padding: 1.5rem;
+    }
 
-        .skill-chip {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 1rem;
-            text-decoration: none;
-            color: white;
-            transition: transform 0.3s ease;
-        }
+    .skill-chip {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 1rem;
+      text-decoration: none;
+      color: white;
+      transition: transform 0.3s ease;
+    }
 
-        .skill-chip:hover {
-            transform: scale(1.05);
-        }
+    .skill-chip:hover {
+      transform: scale(1.05);
+    }
 
-        .nav-wrapper {
-            position: fixed;
-            width: 100%;
-            padding: 1.5rem 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
+    .nav-wrapper {
+      position: fixed;
+      width: 100%;
+      padding: 1.5rem 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: logoFloat 3s ease-in-out infinite;
+    }
 
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
 
-        @media (max-width: 768px) {
-            .thumbnail-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-        }
+    @media (max-width: 768px) {
+      .thumbnail-grid {
+        grid-template-columns: 1fr;
+      }
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-    </style>
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+    }
+
+    .hero-content p {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+  </style>
 </head>
 <body>
-    <div class="nav-wrapper">
-        <nav class="container">
-            <a href="index.html" class="logo">Harshit Arora</a>
-            <div class="nav-links">
-                <a href="index.html#work">Work</a>
-                <a href="index.html#about">About</a>
-                <a href="index.html#contact">Contact</a>
-            </div>
-        </nav>
+  <div class="nav-wrapper">
+    <nav class="container">
+      <a href="index.html" class="logo">Harshit Arora</a>
+      <div class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </nav>
+  </div>
+
+  <section class="hero container">
+    <div class="hero-content">
+      <h1>Thumbnail Design Showcase</h1>
+      <p>Creating click-worthy thumbnails that drive engagement</p>
+      <a href="index.html" class="skill-chip">← Back to Portfolio</a>
     </div>
+  </section>
 
-    <section class="hero container">
-        <div class="hero-content">
-            <h1>Thumbnail Design Showcase</h1>
-            <p>Creating click-worthy thumbnails that drive engagement</p>
-            <a href="index.html" class="skill-chip">← Back to Portfolio</a>
+  <section class="container">
+    <div class="thumbnail-grid">
+      <!-- REPEAT THIS BLOCK FOR EACH IMAGE -->
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1HBJumGJC6ott1FyuuTlYgJbpFPxk95us&sz=w800-h600" class="gdrive-image" alt="Thumbnail 1">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
         </div>
-    </section>
+      </div>
 
-    <section class="container">
-        <div class="thumbnail-grid">
-            <!-- Thumbnail 1 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1HBJumGJC6ott1FyuuTlYgJbpFPxk95us&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 2 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1xW6db7GPRIlwsjJZkx0BioWGw_tmxGN9&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 3 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1neF_d8VAyCtXPY4d_hd5fNSLZIPEH-Ec&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-<!-- Thumbnail 4 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1ql-tTsX-vSGFMX8gT3EuyjaaSAX-L3uG&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 5 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1uJSeJ5xV1MtfvKQjkq8YfRdsmniASRwI&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 6 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1s-D7Le2A5MAYP1V1SSfWJv1ZCi9Uz9su&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-            <!-- Thumbnail 7 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1fwB3k1q6Kw8EFeYQfXS5florwBINJM8F&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 8-->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1bg8QwgoMFCk63TU3KoCKHgnwxUk9HCP5&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 9 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1zNMrw4uDwqoq1Bo3lk-dhrWhpLsf3QVq&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-            <!-- Thumbnail 10 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1_IvTFVsTcywp4wUPK1fPrKY57G8llAXD&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 11 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1uvqoZHHgAawTr9PM4FvtBXClbd3VUcsO&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 12 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1uQHGDMZknzTvwXINTUCQc7qr7vmbfToX&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-<!-- Thumbnail 13 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1fpF_h0mf7eUHYc_1g36_ttqJxT0CkIyK&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Tech Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 14 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1-7HdW3PPHSiJaATyHiLGkjN8Mup_KSvg&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Gaming Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-            <!-- Thumbnail 15 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=1GaYR66_Ch41Is_Bn5B6p4hpY_3t7k3hR&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Tech Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-            <!-- Thumbnail 16 -->
-            <div class="thumbnail-card">
-                <img src="https://drive.google.com/thumbnail?id=16KT8wtbMOkfxuUOQupgSpUtidmS6_FLz&sz=w800-h600" 
-                     class="gdrive-image" 
-                     alt="Thumbnail Design">
-                <div class="project-info">
-                    <h3>Tech Thumbnail</h3>
-                    <p>Photoshop Design</p>
-                </div>
-            </div>
-
-
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1xW6db7GPRIlwsjJZkx0BioWGw_tmxGN9&sz=w800-h600" class="gdrive-image" alt="Thumbnail 2">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
         </div>
-    </section>
+      </div>
 
-    <script>
-        // Improved image loading with error handling
-        document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('.gdrive-image');
-            
-            images.forEach(img => {
-                // Add loading state
-                img.parentElement.classList.add('loading');
-                
-                img.onload = () => {
-                    img.parentElement.classList.remove('loading');
-                    img.style.opacity = 1;
-                }
-                
-                img.onerror = () => {
-                    img.parentElement.classList.remove('loading');
-                    console.error('Failed to load image:', img.src);
-                }
-            });
-        });
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1neF_d8VAyCtXPY4d_hd5fNSLZIPEH-Ec&sz=w800-h600" class="gdrive-image" alt="Thumbnail 3">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
 
-        // Add hover effect
-        document.querySelectorAll('.thumbnail-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.querySelector('img').style.transform = 'scale(1.05)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.querySelector('img').style.transform = 'scale(1)';
-            });
-        });
-    </script>
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1ql-tTsX-vSGFMX8gT3EuyjaaSAX-L3uG&sz=w800-h600" class="gdrive-image" alt="Thumbnail 4">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1uJSeJ5xV1MtfvKQjkq8YfRdsmniASRwI&sz=w800-h600" class="gdrive-image" alt="Thumbnail 5">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1s-D7Le2A5MAYP1V1SSfWJv1ZCi9Uz9su&sz=w800-h600" class="gdrive-image" alt="Thumbnail 6">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1fwB3k1q6Kw8EFeYQfXS5florwBINJM8F&sz=w800-h600" class="gdrive-image" alt="Thumbnail 7">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1bg8QwgoMFCk63TU3KoCKHgnwxUk9HCP5&sz=w800-h600" class="gdrive-image" alt="Thumbnail 8">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1zNMrw4uDwqoq1Bo3lk-dhrWhpLsf3QVq&sz=w800-h600" class="gdrive-image" alt="Thumbnail 9">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1_IvTFVsTcywp4wUPK1fPrKY57G8llAXD&sz=w800-h600" class="gdrive-image" alt="Thumbnail 10">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1uvqoZHHgAawTr9PM4FvtBXClbd3VUcsO&sz=w800-h600" class="gdrive-image" alt="Thumbnail 11">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+
+      <div class="thumbnail-card">
+        <img src="https://drive.google.com/thumbnail?id=1uQHGDMZknzTvwXINTUCQc7qr7vmbfToX&sz=w800-h600" class="gdrive-image" alt="Thumbnail 12">
+        <div class="project-info">
+          <h3>Gaming Thumbnail</h3>
+          <p>Photoshop Design</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
