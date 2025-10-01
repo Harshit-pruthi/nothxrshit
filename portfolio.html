@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Harshit Pruthi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1d1d1f;
+            --secondary-color: #f5f5f7;
+            --accent-color: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --white: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-4: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ffffff;
+            --secondary-color: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --white: #000000;
+            --bg-primary: #000000;
+            --bg-secondary: #1d1d1f;
+            --border-color: #2d2d2f;
+            --card-bg: #1d1d1f;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] nav {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .back-btn {
+            padding: 10px 24px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: #005bb5;
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle {
+            width: 50px;
+            height: 28px;
+            background: var(--border-color);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(22px);
+        }
+
+        /* Portfolio Section */
+        .portfolio-section {
+            padding: 140px 40px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .portfolio-subtitle {
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+
+        /* Category Filters */
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 12px 30px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .portfolio-item {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+        }
+
+        .portfolio-media {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: var(--bg-secondary);
+            overflow: hidden;
+        }
+
+        .portfolio-media iframe,
+        .portfolio-media img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio-media img {
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-media img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-content {
+            padding: 25px;
+        }
+
+        .portfolio-category-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .portfolio-item[data-category="thumbnails"] .portfolio-category-tag {
+            background: var(--gradient-2);
+        }
+
+        .portfolio-item[data-category="photos"] .portfolio-category-tag {
+            background: var(--gradient-3);
+        }
+
+        .portfolio-item[data-category="reddit"] .portfolio-category-tag {
+            background: var(--gradient-4);
+        }
+
+        .portfolio-content h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .portfolio-content p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        .no-items-message {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--bg-primary);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        [data-theme="dark"] footer {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .portfolio-title {
+                font-size: 36px;
+            }
+
+            .portfolio-subtitle {
+                font-size: 16px;
+            }
+
+            .category-filters {
+                gap: 10px;
+            }
+
+            .category-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portfolio-section {
+                padding: 120px 20px 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">HP</a>
+            <div class="nav-right">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <div class="theme-toggle" id="themeToggle">
+                    <div class="theme-toggle-slider">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+        <div class="portfolio-header">
+            <h1 class="portfolio-title">My Portfolio</h1>
+            <p class="portfolio-subtitle">Explore my work across different categories</p>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="category-filters">
+            <button class="category-btn active" data-category="all">All Work</button>
+            <button class="category-btn" data-category="videos">Videos</button>
+            <button class="category-btn" data-category="thumbnails">Thumbnails</button>
+            <button class="category-btn" data-category="photos">Edited Photos</button>
+            <button class="category-btn" data-category="reddit">Reddit Marketing</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="portfolio-grid" id="portfolioGrid">
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Loading portfolio...
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Harshit Pruthi. All rights reserved. | Crafted with passion for visual storytelling</p>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzbKueSLaSGeMiDFd1aioP04iduaXdE4w",
+            authDomain: "portfolio-harshit-d73fb.firebaseapp.com",
+            projectId: "portfolio-harshit-d73fb",
+            storageBucket: "portfolio-harshit-d73fb.firebasestorage.app",
+            messagingSenderId: "766300632445",
+            appId: "1:766300632445:web:edd338edb1204fa5080814",
+            measurementId: "G-XWR4Z7E97J"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let allPortfolioItems = [];
+        let currentCategory = 'all';
+
+        // Load portfolio items from Firestore
+        async function loadPortfolioItems() {
+            try {
+                const portfolioQuery = query(collection(db, 'portfolioItems'), orderBy('order'));
+                const portfolioSnapshot = await getDocs(portfolioQuery);
+
+                allPortfolioItems = [];
+                portfolioSnapshot.forEach((doc) => {
+                    allPortfolioItems.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+
+                displayPortfolioItems(currentCategory);
+            } catch (error) {
+                console.error('Error loading portfolio:', error);
+                document.getElementById('portfolioGrid').innerHTML = 
+                    '<div class="loading-message">Error loading portfolio. Please try again later.</div>';
+            }
+        }
+
+        // Display portfolio items based on category
+        function displayPortfolioItems(category) {
+            const portfolioGrid = document.getElementById('portfolioGrid');
+
+            let filteredItems = allPortfolioItems;
+            if (category !== 'all') {
+                filteredItems = allPortfolioItems.filter(item => item.category === category);
+            }
+
+            if (filteredItems.length === 0) {
+                portfolioGrid.innerHTML = '<div class="no-items-message">No items in this category yet. Check back soon!</div>';
+                return;
+            }
+
+            portfolioGrid.innerHTML = '';
+
+            filteredItems.forEach((item) => {
+                const portfolioItem = document.createElement('div');
+                portfolioItem.className = 'portfolio-item';
+                portfolioItem.dataset.category = item.category;
+
+                let mediaContent = '';
+
+                // Handle different media types
+                if (item.category === 'videos' && item.videoUrl) {
+                    let videoId = '';
+                    if (item.videoUrl.includes('youtube.com/watch?v=')) {
+                        videoId = item.videoUrl.split('v=')[1].split('&')[0];
+                    } else if (item.videoUrl.includes('youtu.be/')) {
+                        videoId = item.videoUrl.split('youtu.be/')[1].split('?')[0];
+                    }
+
+                    if (videoId) {
+                        mediaContent = `
+                            <div class="portfolio-media">
+                                <iframe src="https://www.youtube.com/embed/${videoId}" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                        `;
+                    }
+                } else if (item.imageUrl) {
+                    mediaContent = `
+                        <div class="portfolio-media">
+                            <img src="${item.imageUrl}" alt="${item.title}" loading="lazy">
+                        </div>
+                    `;
+                }
+
+                const categoryNames = {
+                    'videos': 'Video Editing',
+                    'thumbnails': 'Thumbnail Design',
+                    'photos': 'Photo Editing',
+                    'reddit': 'Reddit Marketing'
+                };
+
+                portfolioItem.innerHTML = `
+                    ${mediaContent}
+                    <div class="portfolio-content">
+                        <span class="portfolio-category-tag">${categoryNames[item.category] || item.category}</span>
+                        <h3>${item.title}</h3>
+                        <p>${item.description || ''}</p>
+                    </div>
+                `;
+
+                portfolioGrid.appendChild(portfolioItem);
+            });
+        }
+
+        // Category filter functionality
+        const categoryButtons = document.querySelectorAll('.category-btn');
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                // Get category and display items
+                currentCategory = button.dataset.category;
+                displayPortfolioItems(currentCategory);
+            });
+        });
+
+        // Load portfolio on page load
+        loadPortfolioItems();
+    </script>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        }
+    </script>
+</body>
+</html>
