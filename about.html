@@ -3,283 +3,936 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me - Harshit Arora</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Admin Panel - Add Portfolio Items</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         :root {
-            --primary-color: #ff69b4;
-            --secondary-color: #7d2ae8;
-            --bg-color: #0f0f0f;
+            --primary-color: #1d1d1f;
+            --accent-color: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --success-color: #34c759;
+            --error-color: #ff3b30;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-            color: #fff;
-            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 2rem;
         }
 
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin: 4rem 0;
-        }
-
-        .profile-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
+        .header {
             text-align: center;
-            animation: fadeInUp 1s ease;
+            margin-bottom: 40px;
+            padding: 40px 0;
         }
 
-        .profile-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-            border: 3px solid var(--primary-color);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .price-card {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            padding: 2rem;
-            border-radius: 15px;
-            margin-top: 2rem;
-        }
-
-        .contact-form {
-            margin-top: 2rem;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 10px;
-            color: white;
-        }
-
-        button {
-            background: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .social-btn {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-            text-decoration: none;
-            color: white;
-        }
-
-        .social-btn:hover {
-            transform: scale(1.15) rotate(15deg);
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .nav-wrapper {
-            position: fixed;
-            width: 100%;
-            padding: 1.5rem 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: logoFloat 3s ease-in-out infinite;
+            background-clip: text;
         }
 
-        .hero {
-            height: 100vh;
+        .header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Auth Section */
+        .auth-container {
+            background: var(--card-bg);
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            display: none;
+        }
+
+        .auth-container.show {
+            display: block;
+        }
+
+        .auth-container h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .auth-container p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .google-signin-btn {
+            background: #4285f4;
+            color: white;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .google-signin-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        /* User Info */
+        .user-info-bar {
+            background: var(--card-bg);
+            padding: 20px 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .user-info-bar.show {
+            display: flex;
+        }
+
+        .user-details {
             display: flex;
             align-items: center;
-            position: relative;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .signout-btn {
+            padding: 10px 20px;
+            background: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .signout-btn:hover {
+            background: #d32f2f;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.show {
+            display: block;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .form-card h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .form-card .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--bg-primary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group small {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-success {
+            background: #d1f4e0;
+            color: #0d6832;
+            border: 2px solid #34c759;
+        }
+
+        .alert-error {
+            background: #ffe5e5;
+            color: #c41e3a;
+            border: 2px solid #ff3b30;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #0d47a1;
+            border: 2px solid #2196f3;
+        }
+
+        /* Items List */
+        .items-list {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .items-list h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .item-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border-color);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .item-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-videos {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .badge-thumbnails {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .badge-photos {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .badge-reddit {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .badge-featured {
+            background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        }
+
+        .item-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .debug-info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-card,
+            .auth-container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info-bar {
+                flex-direction: column;
+                align-items: start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="nav-wrapper">
-        <nav class="container">
-            <a href="index.html" class="logo">Harshit Arora</a>
-            <div class="nav-links">
-                <a href="index.html#work">Work</a>
-                <a href="about.html">About</a>
-                <a href="index.html#contact">Contact</a>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-crown"></i> Admin Panel</h1>
+            <p>Add portfolio items to Firestore</p>
+        </div>
+
+        <!-- Auth Container -->
+        <div class="auth-container" id="authContainer">
+            <h2>Admin Access Required</h2>
+            <p>Please sign in with your Google account to access the admin panel</p>
+            <button class="google-signin-btn" id="signInBtn">
+                <i class="fab fa-google"></i>
+                Sign in with Google
+            </button>
+        </div>
+
+        <!-- User Info Bar -->
+        <div class="user-info-bar" id="userInfoBar">
+            <div class="user-details">
+                <img src="" alt="User" class="user-avatar" id="userAvatar">
+                <div>
+                    <div class="user-name" id="userName"></div>
+                    <div class="user-email" id="userEmail"></div>
+                </div>
             </div>
-        </nav>
+            <button class="signout-btn" id="signOutBtn">
+                <i class="fas fa-sign-out-alt"></i> Sign Out
+            </button>
+        </div>
+
+        <!-- Admin Panel -->
+        <div class="admin-panel" id="adminPanel">
+            <!-- Alerts -->
+            <div class="alert alert-success" id="successAlert">
+                <i class="fas fa-check-circle"></i>
+                <span id="successMessage"></span>
+            </div>
+
+            <div class="alert alert-error" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorMessage"></span>
+            </div>
+
+            <div class="alert alert-info" id="infoAlert">
+                <i class="fas fa-info-circle"></i>
+                <span id="infoMessage"></span>
+            </div>
+
+            <!-- Add Item Form -->
+            <div class="form-card">
+                <h2>Add New Portfolio Item</h2>
+                <p class="subtitle">Fill in the details below to add a new item</p>
+
+                <form id="addItemForm">
+                    <!-- Collection Type -->
+                    <div class="form-group">
+                        <label for="collectionType">
+                            <i class="fas fa-database"></i> Collection Type *
+                        </label>
+                        <select id="collectionType" required>
+                            <option value="">Choose collection...</option>
+                            <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
+                            <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
+                        </select>
+                        <small>Choose where this item should appear</small>
+                    </div>
+
+                    <!-- Category (for portfolioItems) -->
+                    <div class="form-group" id="categoryGroup" style="display: none;">
+                        <label for="category">
+                            <i class="fas fa-tag"></i> Category *
+                        </label>
+                        <select id="category">
+                            <option value="">Choose category...</option>
+                            <option value="videos">Videos</option>
+                            <option value="thumbnails">Thumbnails</option>
+                            <option value="photos">Edited Photos</option>
+                            <option value="reddit">Reddit Marketing</option>
+                        </select>
+                        <small>Select the category for this item</small>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="title">
+                            <i class="fas fa-heading"></i> Title *
+                        </label>
+                        <input type="text" id="title" required placeholder="e.g., Cinematic Wedding Video">
+                        <small>Enter a descriptive title</small>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fas fa-align-left"></i> Description *
+                        </label>
+                        <textarea id="description" required placeholder="Brief description of the work..."></textarea>
+                        <small>Describe the project in 1-2 sentences</small>
+                    </div>
+
+                    <!-- Video URL -->
+                    <div class="form-group" id="videoUrlGroup">
+                        <label for="videoUrl">
+                            <i class="fab fa-youtube"></i> Video URL (YouTube)
+                        </label>
+                        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=VIDEO_ID">
+                        <small>Paste YouTube video link (for videos category)</small>
+                    </div>
+
+                    <!-- Image URL -->
+                    <div class="form-group" id="imageUrlGroup" style="display: none;">
+                        <label for="imageUrl">
+                            <i class="fas fa-image"></i> Image URL
+                        </label>
+                        <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com/...">
+                        <small>Paste image URL from Firebase Storage</small>
+                    </div>
+
+                    <!-- Order Number -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="order">
+                                <i class="fas fa-sort-numeric-up"></i> Order Number *
+                            </label>
+                            <input type="number" id="order" required value="1" min="1">
+                            <small>Lower numbers appear first</small>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-plus-circle"></i>
+                        Add to Firestore
+                    </button>
+                </form>
+
+                <!-- Debug Info -->
+                <div class="debug-info" id="debugInfo" style="display: none;">
+                    <strong>Debug Console:</strong><br>
+                    <span id="debugMessages"></span>
+                </div>
+            </div>
+
+            <!-- Recent Items -->
+            <div class="items-list">
+                <h2><i class="fas fa-list"></i> Recent Items</h2>
+                <div id="itemsList">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading items...
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <section class="hero container">
-        <div class="hero-content">
-            <h1>Harshit Arora</h1>
-            <p>Creative Editor & Digital Artisan</p>
-            <div class="skills-grid">
-                <div class="skill-chip">Photo Editing</div>
-                <div class="skill-chip">Video Production</div>
-                <div class="skill-chip">Thumbnail Design</div>
-                <div class="skill-chip">Motion Graphics</div>
-            </div>
-            <div class="social-links">
-                <a href="https://reddit.com/user/your-profile" class="social-btn" target="_blank">
-                    <i class="fab fa-reddit-alien"></i>
-                </a>
-                <a href="https://discord.gg/your-invite" class="social-btn" target="_blank">
-                    <i class="fab fa-discord"></i>
-                </a>
-                <a href="https://instagram.com/your-profile" class="social-btn" target="_blank">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-    <section class="container">
-        <div class="about-content">
-            <div class="profile-card">
-                <img src="https://drive.google.com/thumbnail?id=1bhyZaMug-8SpKLIFYYXf1e7jtsDhmbae&sz=w800-h600" alt="Harshit Arora" class="profile-img">
-                <h2>About Me</h2>
-                <p>📍 Haryana, India</p>
-                <p>🎂 18 Years Young</p>
-                <p>💻 Computer Enthusiast</p>
-                <p>🎨 3+ Years Creative Experience</p>
-            </div>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzbKueSLaSGeMiDFd1aioP04iduaXdE4w",
+            authDomain: "portfolio-harshit-d73fb.firebaseapp.com",
+            projectId: "portfolio-harshit-d73fb",
+            storageBucket: "portfolio-harshit-d73fb.firebasestorage.app",
+            messagingSenderId: "766300632445",
+            appId: "1:766300632445:web:edd338edb1204fa5080814",
+            measurementId: "G-XWR4Z7E97J"
+        };
 
-            <div class="bio-content">
-                <h2>My Journey</h2>
-                <p>Hey! I'm Harshit, a passionate creative editor from India. Over the past 3 years, I've honed my skills in:</p>
-                
-                <ul class="skills-grid">
-                    <li><i class="fas fa-photo-video"></i> Photo/Video Editing</li>
-                    <li><i class="fas fa-palette"></i> Thumbnail Design</li>
-                    <li><i class="fas fa-film"></i> Motion Graphics</li>
-                    <li><i class="fas fa-magic"></i> Visual Effects</li>
-                </ul>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-                <div class="price-card">
-                    <h3>Affordable Rates</h3>
-                    <p>Starting from just <strong>$5-10</strong> per project!</p>
-                    <small>(Custom quotes available for complex projects)</small>
-                </div>
+        let currentUser = null;
+        let debugMessages = [];
 
-                <div class="contact-form">
-                    <h3>Let's Create Together!</h3>
-                    <form action="https://formspree.io/f/mldbljgp" method="POST">
-                        <input type="text" name="name" placeholder="Your Name" required>
-                        <input type="email" name="email" placeholder="Email Address" required>
-                        <textarea name="message" rows="5" placeholder="Project Details" required></textarea>
-                        <button type="submit"><i class="fas fa-paper-plane"></i> Send Inquiry</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+        // Debug logging
+        function addDebugMessage(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugMessages.push(`[${timestamp}] ${message}`);
+            const debugInfo = document.getElementById('debugInfo');
+            const debugMessagesDiv = document.getElementById('debugMessages');
+            debugInfo.style.display = 'block';
+            debugMessagesDiv.innerHTML = debugMessages.slice(-10).join('<br>');
+            console.log(message);
+        }
 
-    <script>
-        // Form submission handling
-        const form = document.querySelector('form');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const formData = new FormData(form);
-            
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    alert('Thank you! Your inquiry has been sent. I\'ll respond within 24 hours.');
-                    form.reset();
-                } else {
-                    alert('Oops! There was a problem submitting your form. Please try again.');
-                }
-            } catch (error) {
-                alert('Network error. Please check your internet connection.');
+        // Auth state observer
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            updateUIForAuthState(user);
+            if (user) {
+                addDebugMessage(`✓ Signed in as: ${user.email}`);
+            } else {
+                addDebugMessage('✗ Not signed in');
             }
         });
+
+        function updateUIForAuthState(user) {
+            const authContainer = document.getElementById('authContainer');
+            const userInfoBar = document.getElementById('userInfoBar');
+            const adminPanel = document.getElementById('adminPanel');
+
+            if (user) {
+                authContainer.classList.remove('show');
+                userInfoBar.classList.add('show');
+                adminPanel.classList.add('show');
+
+                document.getElementById('userName').textContent = user.displayName || 'Admin User';
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('userAvatar').src = user.photoURL || '';
+
+                loadRecentItems();
+            } else {
+                authContainer.classList.add('show');
+                userInfoBar.classList.remove('show');
+                adminPanel.classList.remove('show');
+            }
+        }
+
+        // Sign in
+        document.getElementById('signInBtn').addEventListener('click', async () => {
+            try {
+                addDebugMessage('Attempting sign in...');
+                await signInWithPopup(auth, provider);
+                addDebugMessage('✓ Sign in successful');
+            } catch (error) {
+                console.error('Error signing in:', error);
+                addDebugMessage(`✗ Sign in error: ${error.message}`);
+                showError('Failed to sign in: ' + error.message);
+            }
+        });
+
+        // Sign out
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                debugMessages = [];
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+
+        // Collection type change handler
+        document.getElementById('collectionType').addEventListener('change', (e) => {
+            const categoryGroup = document.getElementById('categoryGroup');
+            const imageUrlGroup = document.getElementById('imageUrlGroup');
+            const videoUrlGroup = document.getElementById('videoUrlGroup');
+
+            if (e.target.value === 'portfolioItems') {
+                categoryGroup.style.display = 'block';
+                document.getElementById('category').required = true;
+            } else if (e.target.value === 'featuredWork') {
+                categoryGroup.style.display = 'none';
+                document.getElementById('category').required = false;
+                videoUrlGroup.style.display = 'block';
+                imageUrlGroup.style.display = 'none';
+                document.getElementById('videoUrl').required = true;
+                document.getElementById('imageUrl').required = false;
+            }
+        });
+
+        // Category change handler
+        document.getElementById('category').addEventListener('change', (e) => {
+            const videoUrlGroup = document.getElementById('videoUrlGroup');
+            const imageUrlGroup = document.getElementById('imageUrlGroup');
+            const videoUrlInput = document.getElementById('videoUrl');
+            const imageUrlInput = document.getElementById('imageUrl');
+
+            if (e.target.value === 'videos') {
+                videoUrlGroup.style.display = 'block';
+                imageUrlGroup.style.display = 'none';
+                videoUrlInput.required = true;
+                imageUrlInput.required = false;
+            } else if (e.target.value && e.target.value !== 'videos') {
+                videoUrlGroup.style.display = 'none';
+                imageUrlGroup.style.display = 'block';
+                videoUrlInput.required = false;
+                imageUrlInput.required = true;
+            } else {
+                videoUrlGroup.style.display = 'none';
+                imageUrlGroup.style.display = 'none';
+                videoUrlInput.required = false;
+                imageUrlInput.required = false;
+            }
+        });
+
+        // Form submission
+        document.getElementById('addItemForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            addDebugMessage('Form submitted');
+
+            if (!currentUser) {
+                showError('Please sign in first');
+                addDebugMessage('✗ No user signed in');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+
+            try {
+                const collectionType = document.getElementById('collectionType').value;
+                const title = document.getElementById('title').value;
+                const description = document.getElementById('description').value;
+                const order = parseInt(document.getElementById('order').value);
+
+                addDebugMessage(`Collection: ${collectionType}`);
+                addDebugMessage(`Title: ${title}`);
+
+                const itemData = {
+                    title: title,
+                    description: description,
+                    order: order,
+                    createdAt: Timestamp.now(),
+                    addedBy: currentUser.email
+                };
+
+                if (collectionType === 'portfolioItems') {
+                    const category = document.getElementById('category').value;
+                    if (!category) {
+                        showError('Please select a category');
+                        addDebugMessage('✗ No category selected');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
+                        return;
+                    }
+                    itemData.category = category;
+                    addDebugMessage(`Category: ${category}`);
+
+                    if (category === 'videos') {
+                        const videoUrl = document.getElementById('videoUrl').value;
+                        if (!videoUrl) {
+                            showError('Please enter a video URL');
+                            addDebugMessage('✗ No video URL');
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
+                            return;
+                        }
+                        itemData.videoUrl = videoUrl;
+                        addDebugMessage(`Video URL: ${videoUrl}`);
+                    } else {
+                        const imageUrl = document.getElementById('imageUrl').value;
+                        if (!imageUrl) {
+                            showError('Please enter an image URL');
+                            addDebugMessage('✗ No image URL');
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
+                            return;
+                        }
+                        itemData.imageUrl = imageUrl;
+                        addDebugMessage(`Image URL: ${imageUrl}`);
+                    }
+                } else {
+                    const videoUrl = document.getElementById('videoUrl').value;
+                    if (!videoUrl) {
+                        showError('Please enter a video URL');
+                        addDebugMessage('✗ No video URL for featured work');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
+                        return;
+                    }
+                    itemData.videoUrl = videoUrl;
+                    addDebugMessage(`Video URL: ${videoUrl}`);
+                }
+
+                addDebugMessage('Attempting to add to Firestore...');
+                addDebugMessage(`Data: ${JSON.stringify(itemData, null, 2)}`);
+
+                const docRef = await addDoc(collection(db, collectionType), itemData);
+
+                addDebugMessage(`✓ Successfully added! Doc ID: ${docRef.id}`);
+                showSuccess(`Item added successfully to ${collectionType}!`);
+                showInfo(`Refresh your portfolio website to see the new item. Document ID: ${docRef.id}`);
+                document.getElementById('addItemForm').reset();
+                loadRecentItems();
+            } catch (error) {
+                console.error('Error adding item:', error);
+                addDebugMessage(`✗ Firestore error: ${error.code} - ${error.message}`);
+
+                if (error.code === 'permission-denied') {
+                    showError('Permission denied! Please update Firestore rules. Check the console for details.');
+                    showInfo('Go to Firebase Console > Firestore > Rules and update them. See FIRESTORE_RULES_FOR_ADMIN.txt');
+                } else {
+                    showError(`Error: ${error.message}`);
+                }
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
+            }
+        });
+
+        // Load recent items
+        async function loadRecentItems() {
+            const itemsList = document.getElementById('itemsList');
+            itemsList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading items...</div>';
+
+            try {
+                const allItems = [];
+
+                // Load from portfolioItems
+                try {
+                    const portfolioQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(5));
+                    const portfolioSnapshot = await getDocs(portfolioQuery);
+                    portfolioSnapshot.forEach((doc) => {
+                        allItems.push({
+                            id: doc.id,
+                            collection: 'portfolioItems',
+                            ...doc.data()
+                        });
+                    });
+                    addDebugMessage(`Loaded ${portfolioSnapshot.size} items from portfolioItems`);
+                } catch (e) {
+                    addDebugMessage(`Could not load portfolioItems: ${e.message}`);
+                }
+
+                // Load from featuredWork
+                try {
+                    const featuredQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(3));
+                    const featuredSnapshot = await getDocs(featuredQuery);
+                    featuredSnapshot.forEach((doc) => {
+                        allItems.push({
+                            id: doc.id,
+                            collection: 'featuredWork',
+                            ...doc.data()
+                        });
+                    });
+                    addDebugMessage(`Loaded ${featuredSnapshot.size} items from featuredWork`);
+                } catch (e) {
+                    addDebugMessage(`Could not load featuredWork: ${e.message}`);
+                }
+
+                // Sort by creation date
+                allItems.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+
+                if (allItems.length === 0) {
+                    itemsList.innerHTML = '<div class="loading">No items added yet</div>';
+                    return;
+                }
+
+                itemsList.innerHTML = '';
+                allItems.slice(0, 10).forEach((item) => {
+                    const itemCard = document.createElement('div');
+                    itemCard.className = 'item-card';
+
+                    const badgeClass = item.collection === 'featuredWork' 
+                        ? 'badge-featured' 
+                        : `badge-${item.category || 'videos'}`;
+
+                    const badgeText = item.collection === 'featuredWork' 
+                        ? 'Featured' 
+                        : item.category || 'Video';
+
+                    const date = new Date(item.createdAt.seconds * 1000).toLocaleDateString();
+
+                    itemCard.innerHTML = `
+                        <div class="item-header">
+                            <div class="item-title">${item.title}</div>
+                            <div class="item-badge ${badgeClass}">${badgeText}</div>
+                        </div>
+                        <div class="item-description">${item.description}</div>
+                        <div class="item-meta">
+                            <span><i class="fas fa-calendar"></i> ${date}</span>
+                            <span><i class="fas fa-sort"></i> Order: ${item.order}</span>
+                            <span><i class="fas fa-database"></i> ${item.collection}</span>
+                        </div>
+                    `;
+
+                    itemsList.appendChild(itemCard);
+                });
+            } catch (error) {
+                console.error('Error loading items:', error);
+                addDebugMessage(`✗ Error loading items: ${error.message}`);
+                itemsList.innerHTML = '<div class="loading">Error loading items</div>';
+            }
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const alert = document.getElementById('successAlert');
+            document.getElementById('successMessage').textContent = message;
+            alert.classList.add('show');
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Show error message
+        function showError(message) {
+            const alert = document.getElementById('errorAlert');
+            document.getElementById('errorMessage').textContent = message;
+            alert.classList.add('show');
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 8000);
+        }
+
+        // Show info message
+        function showInfo(message) {
+            const alert = document.getElementById('infoAlert');
+            document.getElementById('infoMessage').textContent = message;
+            alert.classList.add('show');
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 8000);
+        }
     </script>
 </body>
 </html>
