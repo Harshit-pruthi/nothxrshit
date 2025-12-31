@@ -1,251 +1,1033 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Creative Editor Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    :root {
-      --primary-color: #ff69b4;
-      --secondary-color: #7d2ae8;
-      --bg-color: #0f0f0f;
-    }
-
-    body {
-      background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-
-    .nav-wrapper {
-      position: fixed;
-      width: 100%;
-      padding: 1rem 0;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: logoFloat 3s ease-in-out infinite;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary-color);
-    }
-
-    .hero {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      animation: fadeInUp 1s ease;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      animation: fadeInUp 1s ease 0.2s;
-      opacity: 0;
-      animation-fill-mode: forwards;
-    }
-
-    .skills-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .skill-chip {
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      padding: 0.5rem 1.5rem;
-      border-radius: 20px;
-      font-weight: 600;
-      color: #fff;
-      text-decoration: none;
-      transition: transform 0.3s ease;
-    }
-
-    .skill-chip:hover {
-      transform: scale(1.05);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin: 4rem 0;
-    }
-
-    .project-card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s ease;
-      cursor: pointer;
-    }
-
-    .project-card:hover {
-      transform: translateY(-10px);
-    }
-
-    .project-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .project-card:hover .project-image {
-      transform: scale(1.05);
-    }
-
-    .contact-section {
-      text-align: center;
-      padding: 4rem 1rem;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .social-icon {
-      font-size: 2rem;
-      color: #fff;
-      transition: color 0.3s ease;
-    }
-
-    .social-icon:hover {
-      color: var(--primary-color);
-    }
-
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      .nav-links {
-        justify-content: center;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harshit Pruthi - Video Editor Visual Storyteller</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-browser@3/dist/email.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #1d1d1f;
+            --secondary-color: #f5f5f7;
+            --accent-color: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --white: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-4: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Festival Theme Overrides */
+        body.festival-theme,
+        html.festival-theme {
+            --shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+        }
+        
+        body.festival-diwali {
+            --accent-color: #ff6b35;
+            --gradient-1: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --bg-secondary: #fff5f0;
+            --card-bg: #fffaf5;
+        }
+        
+        body.festival-holi {
+            --accent-color: #ff0080;
+            --gradient-1: linear-gradient(135deg, #ff0080 0%, #ff8e53 100%);
+            --bg-secondary: #fdf2f8;
+            --card-bg: #fef3ff;
+        }
+        
+        body.festival-navratri {
+            --accent-color: #d4a017;
+            --gradient-1: linear-gradient(135deg, #d4a017 0%, #ff6b35 100%);
+            --bg-secondary: #fff8e7;
+            --card-bg: #fff5e6;
+        }
+        
+        body.festival-christmas {
+            --accent-color: #d63031;
+            --gradient-1: linear-gradient(135deg, #d63031 0%, #00b894 100%);
+            --bg-secondary: #f0f9ff;
+            --card-bg: #f8fafc;
+        }
+        
+        body.festival-easter {
+            --accent-color: #feca57;
+            --gradient-1: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+            --bg-secondary: #fdf4ff;
+            --card-bg: #fbf0ff;
+        }
+        
+        body.festival-new-year {
+            --accent-color: #00d2d3;
+            --gradient-1: linear-gradient(135deg, #00d2d3 0%, #5f27cd 100%);
+            --bg-secondary: #f0f9ff;
+            --card-bg: #f8fcff;
+        }
+        
+        /* Festival Decorations */
+        .festival-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .festival-diwali .festival-decoration.diwali-lamp {
+            content: '🪔';
+            font-size: 40px;
+            top: 10%;
+            right: 10%;
+        }
+        
+        .festival-holi .festival-decoration.holi-powder {
+            content: '💥';
+            font-size: 30px;
+            top: 20%;
+            left: 10%;
+            animation-duration: 15s;
+        }
+        
+        .festival-navratri .festival-decoration.navratri-dandiya {
+            content: '🎪';
+            font-size: 35px;
+            bottom: 20%;
+            right: 15%;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #ffffff;
+            --secondary-color: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --white: #000000;
+            --bg-primary: #000000;
+            --bg-secondary: #1d1d1f;
+            --border-color: #2d2d2f;
+            --card-bg: #1d1d1f;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        [data-theme="dark"] nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        [data-theme="dark"] nav {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        [data-theme="dark"] nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .theme-toggle {
+            width: 50px;
+            height: 28px;
+            background: var(--border-color);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--accent-color);
+        }
+        
+        .theme-toggle-slider {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(22px);
+        }
+        
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            display: none;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .auth-button {
+            padding: 8px 16px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .auth-button:hover {
+            background: #005bb5;
+            transform: translateY(-1px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            margin-top: 60px;
+        }
+        
+        .hero-content {
+            z-index: 2;
+            max-width: 900px;
+        }
+        
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-tagline {
+            font-size: 28px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 40px;
+            animation: fadeInUp 1.2s ease;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1.4s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+        
+        .animation-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .camera {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            top: 20%;
+            left: 15%;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite, rotate3d 8s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+        }
+        
+        .timeline {
+            width: 200px;
+            height: 40px;
+            background: var(--gradient-2);
+            border-radius: 10px;
+            top: 60%;
+            right: 15%;
+            animation: float 5s ease-in-out infinite 1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .film-reel {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-3);
+            border-radius: 50%;
+            bottom: 20%;
+            left: 10%;
+            animation: float 7s ease-in-out infinite 2s, spin 10s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+        
+        /* Sections */
+        section {
+            padding: 120px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 56px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 20px;
+            margin-bottom: 80px;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        
+        .experience-highlight {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .experience-card {
+            flex: 1;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+        }
+        
+        .experience-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .experience-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .service-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-color);
+        }
+        
+        .service-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: var(--gradient-1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: #ffffff;
+            position: relative;
+        }
+        
+        .service-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: inherit;
+            opacity: 0.3;
+            filter: blur(20px);
+            z-index: -1;
+        }
+        
+        .service-card:nth-child(2) .service-icon { background: var(--gradient-2); }
+        .service-card:nth-child(3) .service-icon { background: var(--gradient-3); }
+        .service-card:nth-child(4) .service-icon { background: var(--gradient-4); }
+        
+        .service-card h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        .service-price {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        /* Featured Work */
+        .featured-videos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            border: 2px solid var(--border-color);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: var(--bg-secondary);
+        }
+        
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-info {
+            padding: 20px;
+        }
+        
+        .video-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .video-info p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .view-more-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 16px 40px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .view-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+        
+        .loading-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 42px; }
+            .hero-tagline { font-size: 20px; }
+            .section-title { font-size: 36px; }
+            .about-content, .contact-container { grid-template-columns: 1fr; }
+            .services-grid, .featured-videos { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            section { padding: 80px 20px; }
+            .experience-highlight { flex-direction: column; }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-30px) translateX(10px); }
+        }
+        
+        @keyframes rotate3d {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <div class="nav-wrapper">
-    <nav class="container">
-      <div class="logo">Harshit Arora</div>
-      <div class="nav-links">
-        <a href="#work">Work</a>
-        <a href="about.html">About</a>
-        <a href="#contact">Contact</a>
-      </div>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">HP</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="auth-section">
+                    <div class="user-info" id="userInfo">
+                        <img src="" alt="User Avatar" class="user-avatar" id="userAvatar">
+                        <span class="user-name" id="userName"></span>
+                    </div>
+                    <button class="auth-button" id="signInBtn">
+                        <i class="fab fa-google"></i> Sign In
+                    </button>
+                    <button class="auth-button" id="signOutBtn" style="display: none;">Sign Out</button>
+                </div>
+                <div class="theme-toggle" id="themeToggle">
+                    <div class="theme-toggle-slider">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
-  </div>
 
-  <main id="main-content">
-    <section class="hero container">
-      <div class="hero-content">
-        <h1>Visual Storyteller &<br>Creative Editor</h1>
-        <p>Transforming ideas into captivating visual experiences</p>
-        <div class="skills-container">
-          <a class="skill-chip" href="videoediting.html">Video Editing</a>
-          <a class="skill-chip" href="photoediting.html">Photo Editing</a>
-          <a class="skill-chip" href="thumbnaildesign.html">Thumbnail Design</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="animation-container">
+            <div class="floating-element camera">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="floating-element timeline">
+                <i class="fas fa-film"></i>
+            </div>
+            <div class="floating-element film-reel">
+                <i class="fas fa-circle-play"></i>
+            </div>
         </div>
-      </div>
+        <div class="hero-content">
+            <h1>Harshit Pruthi</h1>
+            <p class="hero-tagline">Crafting Visual Stories that Inspire</p>
+            <a href="#services" class="cta-button">Explore My Work</a>
+        </div>
     </section>
 
-    <section class="container" id="work">
-      <h2 style="text-align:center; font-size:2rem; margin-bottom:2rem;">Featured Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <img src="https://drive.google.com/thumbnail?id=1xW6db7GPRIlwsjJZkx0BioWGw_tmxGN9&sz=w800-h600" alt="Project 1" class="project-image">
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Passionate about bringing ideas to life</p>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3+ years of editing experience</strong> and <strong>1+ year of professional client work</strong>. I specialize in creating captivating content that resonates with audiences across all platforms.</p>
+                <br>
+                <p>My journey in editing began with a curiosity for visual storytelling and has evolved into a professional career helping creators, brands, and businesses elevate their content. From YouTube videos to marketing campaigns, I've worked across diverse fields and industries, delivering excellence in every frame.</p>
+                <br>
+                <p>Whether you need stunning video edits, eye-catching thumbnails, professional photo retouching, or Reddit marketing strategies, I bring creativity, technical expertise, and a commitment to making your vision a reality.</p>
+                <div class="experience-highlight">
+                    <div class="experience-card">
+                        <div class="experience-number">3</div>
+                        <div class="experience-label">Years of Editing</div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-number">1</div>
+                        <div class="experience-label">Year with Clients</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <i class="fas fa-clapperboard" style="font-size: 80px; color: white;"></i>
+            </div>
         </div>
-        <div class="project-card">
-          <img src="https://drive.google.com/thumbnail?id=16KT8wtbMOkfxuUOQupgSpUtidmS6_FLz&sz=w800-h600" alt="Project 2" class="project-image">
-        </div>
-        <div class="project-card">
-          <img src="https://drive.google.com/thumbnail?id=1GaYR66_Ch41Is_Bn5B6p4hpY_3t7k3hR&sz=w800-h600" alt="Project 3" class="project-image">
-        </div>
-      </div>
     </section>
 
-    <section class="contact-section container" id="contact">
-      <h2 style="font-size:2rem;">Let's Create Magic Together</h2>
-      <div class="social-links">
-        <a href="https://discord.gg/BHtRWDnjPs" class="social-icon"><i class="fab fa-discord"></i></a>
-        <a href="https://www.reddit.com/user/harshitpruthi" class="social-icon"><i class="fab fa-reddit"></i></a>
-        <a href="https://www.instagram.com/not.hxrshit" class="social-icon"><i class="fab fa-instagram"></i></a>
-      </div>
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Services</h2>
+        <p class="section-subtitle">Premium editing solutions tailored to your needs</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>Video Editing</h3>
+                <p>Professional video editing for any field - YouTube, marketing, weddings, corporate, music videos, and more. Includes color grading, transitions, effects, and expert storytelling.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Thumbnail Design</h3>
+                <p>Eye-catching, click-worthy thumbnails that boost your video's CTR. Custom designs tailored to your brand and content style.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>Photo Editing</h3>
+                <p>Professional photo retouching, color correction, background removal, and enhancement for portraits, products, and events.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fab fa-reddit"></i>
+                </div>
+                <h3>Reddit Marketing</h3>
+                <p>Strategic Reddit marketing to grow your brand, engage communities, and drive traffic. Authentic engagement that gets results.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+        </div>
     </section>
-  </main>
+
+    <!-- Featured Work Section -->
+    <section id="work">
+        <h2 class="section-title">Featured Work</h2>
+        <p class="section-subtitle">See my latest projects</p>
+        <div class="featured-videos" id="featuredVideos">
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Loading work...
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <a href="portfolio.html" class="view-more-btn">View Full Portfolio</a>
+        </div>
+    </section>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, query, orderBy, limit, Timestamp, addDoc, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzbKueSLaSGeMiDFd1aioP04iduaXdE4w",
+            authDomain: "portfolio-harshit-d73fb.firebaseapp.com",
+            projectId: "portfolio-harshit-d73fb",
+            storageBucket: "portfolio-harshit-d73fb.firebasestorage.app",
+            messagingSenderId: "766300632445",
+            appId: "1:766300632445:web:edd338edb1204fa5080814",
+            measurementId: "G-XWR4Z7E97J"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Load and apply festival theme FIRST
+        async function applyFestivalTheme() {
+            try {
+                const themeDoc = await getDoc(doc(db, 'siteSettings', 'mainTheme'));
+                if (themeDoc.exists()) {
+                    const theme = themeDoc.data();
+                    if (theme.enabled && theme.festival) {
+                        document.body.classList.add('festival-theme', `festival-${theme.festival}`);
+                        document.documentElement.classList.add('festival-theme');
+                        
+                        // Add festival decorations
+                        const decorations = {
+                            diwali: '🪔',
+                            holi: '💥',
+                            navratri: '🎪',
+                            christmas: '🎄',
+                            easter: '🐣',
+                            'new-year': '🎉'
+                        };
+                        
+                        if (decorations[theme.festival]) {
+                            const deco = document.createElement('div');
+                            deco.className = `festival-decoration ${theme.festival}-deco`;
+                            deco.textContent = decorations[theme.festival];
+                            deco.style.cssText = `
+                                position: fixed;
+                                top: 10%; right: 10%;
+                                font-size: 40px;
+                                pointer-events: none;
+                                z-index: 999;
+                                opacity: 0.08;
+                                animation: float 20s ease-in-out infinite;
+                            `;
+                            document.body.appendChild(deco);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        }
+
+        // Auth state management
+        let currentUser = null;
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            updateUIForAuthState(user);
+        });
+
+        function updateUIForAuthState(user) {
+            const signInBtn = document.getElementById('signInBtn');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+            const userAvatar = document.getElementById('userAvatar');
+            const signOutBtn = document.getElementById('signOutBtn');
+
+            if (user) {
+                signInBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userName.textContent = user.displayName || 'User';
+                userAvatar.src = user.photoURL || '';
+                signOutBtn.style.display = 'inline-flex';
+            } else {
+                signInBtn.style.display = 'inline-flex';
+                userInfo.style.display = 'none';
+                signOutBtn.style.display = 'none';
+            }
+        }
+
+        // Sign in/out functions
+        document.getElementById('signInBtn').addEventListener('click', async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error('Error signing in:', error);
+                alert('Error signing in. Please try again.');
+            }
+        });
+
+        document.getElementById('signOutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        });
+
+        // Load featured videos (top 3)
+        async function loadFeaturedVideos() {
+            try {
+                const videosQuery = query(collection(db, 'featuredWork'), orderBy('order'), limit(3));
+                const videosSnapshot = await getDocs(videosQuery);
+                const featuredVideos = document.getElementById('featuredVideos');
+
+                if (videosSnapshot.empty) {
+                    featuredVideos.innerHTML = '<div class="loading-message">No featured work available yet. Check back soon!</div>';
+                    return;
+                }
+
+                featuredVideos.innerHTML = '';
+                videosSnapshot.forEach((doc) => {
+                    const work = doc.data();
+                    const workCard = document.createElement('div');
+                    workCard.className = 'video-card';
+
+                    let videoId = '';
+                    if (work.videoUrl) {
+                        if (work.videoUrl.includes('youtube.com/watch?v=')) {
+                            videoId = work.videoUrl.split('v=')[1].split('&')[0];
+                        } else if (work.videoUrl.includes('youtu.be/')) {
+                            videoId = work.videoUrl.split('youtu.be/')[1].split('?')[0];
+                        }
+                    }
+
+                    if (videoId) {
+                        workCard.innerHTML = `
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="video-info">
+                                <h3>${work.title}</h3>
+                                <p>${work.description}</p>
+                            </div>
+                        `;
+                    } else {
+                        workCard.innerHTML = `
+                            <div class="video-info" style="padding: 40px; text-align: center;">
+                                <h3>${work.title}</h3>
+                                <p>${work.description}</p>
+                                <p style="color: var(--text-secondary); font-size: 14px;">Video coming soon...</p>
+                            </div>
+                        `;
+                    }
+
+                    featuredVideos.appendChild(workCard);
+                });
+            } catch (error) {
+                console.error('Error loading featured videos:', error);
+                document.getElementById('featuredVideos').innerHTML = '<div class="loading-message">Error loading work. Please try again later.</div>';
+            }
+        }
+
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Initialize
+        applyFestivalTheme();
+        loadFeaturedVideos();
+    </script>
 </body>
 </html>
