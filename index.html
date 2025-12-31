@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harshit Pruthi - Video Editor | Visual Storyteller</title>
+    <title>Harshit Pruthi - Video Editor & Visual Storyteller</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --primary-color: #1d1d1f;
             --secondary-color: #f5f5f7;
@@ -24,7 +24,7 @@
             --white: #ffffff;
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f7;
-            --border-color: #e5e5ea;
+            --border-color: #e5e5e5;
             --card-bg: #ffffff;
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -32,7 +32,7 @@
             --gradient-4: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
-        
+
         [data-theme="dark"] {
             --primary-color: #ffffff;
             --secondary-color: #1d1d1f;
@@ -46,235 +46,20 @@
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===========================================
-           IMMERSIVE FESTIVAL THEMES 
-        =========================================== */
-        
-        /* DIWALI - Deepavali Magic ✨🪔 */
-        [data-festival="diwali"] {
-            --festival-bg: linear-gradient(135deg, #1e3c72 0%, #2a5298 30%, #ff6b35 70%, #f7931e 100%);
-            --festival-text: #ffffff;
-            --festival-accent: #ff1744;
-            --festival-glow: 0 0 30px rgba(255, 215, 0, 0.6);
-        }
-        [data-festival="diwali"] .diwali-lamps { animation: diwaliGlow 2s ease-in-out infinite alternate; }
-        [data-festival="diwali"] .diwali-firework { animation: fireworkBurst 3s ease-out infinite; }
-        
-        /* CHRISTMAS - Winter Wonderland ❄️🎄 */
-        [data-festival="christmas"] {
-            --festival-bg: linear-gradient(135deg, #2c3e50 0%, #34495e 30%, #e74c3c 60%, #27ae60 100%);
-            --festival-text: #ffffff;
-            --festival-accent: #f39c12;
-            --festival-glow: 0 0 25px rgba(255, 255, 255, 0.8);
-        }
-        [data-festival="christmas"] .snowflake { animation: snowfall 8s linear infinite; }
-        
-        /* HOLI - Colors of Joy 🌈🎉 */
-        [data-festival="holi"] {
-            --festival-bg: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #f18f01 50%, #8338ec 75%, #3a86ff 100%);
-            --festival-text: #ffffff;
-            --festival-accent: #ffeb3b;
-            --festival-glow: 0 0 40px rgba(255, 235, 59, 0.7);
-        }
-        
-        /* NEW YEAR - Celebration Blast 🎆✨ */
-        [data-festival="new-year"] {
-            --festival-bg: radial-gradient(circle at 20% 80%, #667eea 0%, #764ba2 30%, #f093fb 70%, #ffd700 100%);
-            --festival-text: #ffffff;
-            --festival-accent: #00d4ff;
-            --festival-glow: 0 0 35px rgba(255, 215, 0, 0.8);
-        }
-        
-        /* NAVRATRI - Devi Power 🪔⚔️ */
-        [data-festival="navratri"] {
-            --festival-bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 40%, #fecfef 60%, #ff6b6b 100%);
-            --festival-text: #8b4513;
-            --festival-accent: #ff4500;
-        }
-        
-        /* EID - Moon Magic 🌙🕌 */
-        [data-festival="eid"] {
-            --festival-bg: linear-gradient(135deg, #4ecdc4 0%, #44a08d 40%, #2d7d68 70%, #ffd700 100%);
-            --festival-text: #ffffff;
-            --festival-accent: #ff9800;
-        }
-        
-        /* DUSSEHRA - Victory Fire 🔥🏹 */
-        [data-festival="dussehra"] {
-            --festival-bg: linear-gradient(135deg, #ff416c 0%, #ff4b2b 40%, #ff1744 80%, #ffd700 100%);
-            --festival-text: #ffffff;
-            --festival-accent: #ffeb3b;
-        }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
-            transition: all 0.5s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* ===========================================
-           FESTIVAL DECORATION SYSTEM 
-        =========================================== */
-        .festival-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-            overflow: hidden;
+        html {
+            scroll-behavior: smooth;
         }
 
-        /* FESTIVAL BANNER - Headline Style */
-        .festival-banner {
-            position: fixed;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--festival-bg, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
-            color: var(--festival-text, #ffffff);
-            padding: 20px 40px;
-            border-radius: 50px;
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            box-shadow: var(--festival-glow, 0 20px 40px rgba(0,0,0,0.4));
-            z-index: 1002;
-            animation: bannerFloat 4s ease-in-out infinite;
-            border: 3px solid rgba(255,255,255,0.3);
-        }
-
-        @keyframes bannerFloat {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-
-        /* FLOATING ELEMENTS */
-        .festival-particle {
-            position: absolute;
-            font-size: 24px;
-            animation: festivalFloat 8s ease-in-out infinite;
-            text-shadow: var(--festival-glow, 0 0 10px rgba(255,255,255,0.8));
-        }
-
-        @keyframes festivalFloat {
-            0%, 100% { 
-                transform: translateY(0) rotate(0deg) scale(1); 
-                opacity: 0.8; 
-            }
-            33% { 
-                transform: translateY(-30px) rotate(120deg) scale(1.2); 
-                opacity: 1; 
-            }
-            66% { 
-                transform: translateY(-15px) rotate(240deg) scale(0.9); 
-                opacity: 0.9; 
-            }
-        }
-
-        /* DIWALI SPECIFIC */
-        .diwali-lamps {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #ffd700 20%, #ff6b35 70%);
-            border-radius: 50% 50% 50% 20%;
-            box-shadow: var(--festival-glow);
-            animation: diwaliGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes diwaliGlow {
-            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
-            100% { box-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 107, 53, 0.8); }
-        }
-
-        /* CHRISTMAS SNOW */
-        .snowflake {
-            color: #fff;
-            font-size: 20px;
-            animation: snowfall 10s linear infinite;
-        }
-
-        @keyframes snowfall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* FIREWORKS */
-        .firework {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ffd700;
-            border-radius: 50%;
-            box-shadow: var(--festival-glow);
-            animation: fireworkExplode 2s ease-out infinite;
-        }
-
-        @keyframes fireworkExplode {
-            0% { transform: scale(0); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        /* HERO SECTION FESTIVAL STYLE */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            padding: 0 20px;
-            margin-top: 60px;
-            background: var(--festival-bg, var(--bg-primary));
-            color: var(--festival-text, var(--text-primary));
-        }
-
-        .hero h1 {
-            font-size: 80px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, var(--festival-accent, #667eea), var(--festival-text));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: var(--festival-glow, none);
-            font-family: 'Playfair Display', serif;
-            animation: heroGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes heroGlow {
-            0% { filter: drop-shadow(0 0 10px var(--festival-accent)); }
-            100% { filter: drop-shadow(0 0 30px var(--festival-accent)); }
-        }
-
-        /* Navigation festival style */
-        [data-festival] nav {
-            background: rgba(var(--festival-text), 0.95) !important;
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(var(--festival-accent), 0.3);
-        }
-
-        /* Cards with festival glow */
-        [data-festival] .service-card:hover,
-        [data-festival] .video-card:hover {
-            box-shadow: var(--festival-glow), 0 30px 60px rgba(0,0,0,0.3) !important;
-            border-color: var(--festival-accent) !important;
-        }
-
-        /* ===========================================
-           BASE STYLES (unchanged from previous)
-        =========================================== */
-        html { scroll-behavior: smooth; }
-        
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -286,12 +71,20 @@
             padding: 20px 0;
             transition: all 0.3s ease;
         }
-        
-        nav.scrolled { 
-            background: rgba(255, 255, 255, 0.95) !important;
+
+        [data-theme="dark"] nav {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
+        [data-theme="dark"] nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -300,29 +93,38 @@
             align-items: center;
             padding: 0 40px;
         }
-        
+
         .logo {
             font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
         }
-        
-        .nav-right { display: flex; align-items: center; gap: 40px; }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
         .nav-links {
             display: flex;
             gap: 40px;
             list-style: none;
         }
+
         .nav-links a {
             color: var(--text-primary);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
-        .nav-links a:hover { color: var(--accent-color); }
-        
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
         .theme-toggle {
             width: 50px;
             height: 28px;
@@ -332,7 +134,11 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-        .theme-toggle:hover { background: var(--accent-color); }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+        }
+
         .theme-toggle-slider {
             position: absolute;
             width: 22px;
@@ -347,26 +153,38 @@
             justify-content: center;
             font-size: 12px;
         }
-        [data-theme="dark"] .theme-toggle-slider { transform: translateX(22px); }
-        
-        .auth-section { display: flex; align-items: center; gap: 15px; }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(22px);
+        }
+
+        /* Auth Section */
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .user-info {
             display: flex;
             align-items: center;
             gap: 10px;
             display: none;
         }
+
         .user-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
             object-fit: cover;
         }
+
         .user-name {
             font-size: 14px;
             font-weight: 500;
             color: var(--text-primary);
         }
+
         .auth-button {
             padding: 8px 16px;
             background: var(--accent-color);
@@ -382,11 +200,81 @@
             align-items: center;
             gap: 8px;
         }
+
         .auth-button:hover {
             background: #005bb5;
             transform: translateY(-1px);
         }
-        
+
+        .sign-in-prompt {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .sign-in-prompt h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .sign-in-prompt p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .google-signin-btn {
+            background: #4285f4;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .google-signin-btn:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            margin-top: 60px;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
         .hero-tagline {
             font-size: 28px;
             color: var(--text-secondary);
@@ -394,10 +282,11 @@
             margin-bottom: 40px;
             animation: fadeInUp 1.2s ease;
         }
+
         .cta-button {
             display: inline-block;
             padding: 16px 40px;
-            background: var(--festival-accent, var(--accent-color));
+            background: var(--accent-color);
             color: #ffffff;
             text-decoration: none;
             border-radius: 50px;
@@ -405,14 +294,13 @@
             font-size: 16px;
             transition: all 0.3s ease;
             animation: fadeInUp 1.4s ease;
-            box-shadow: var(--festival-glow, none);
-        }
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 113, 227, 0.4);
         }
 
-        /* Rest of your existing styles remain the same... */
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
         .animation-container {
             position: absolute;
             width: 100%;
@@ -422,14 +310,16 @@
             z-index: 1;
             pointer-events: none;
         }
+
         .floating-element {
             position: absolute;
             animation: float 6s ease-in-out infinite;
         }
+
         .camera {
             width: 120px;
             height: 120px;
-            background: var(--gradient-1);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 20px;
             top: 20%;
             left: 15%;
@@ -441,10 +331,11 @@
             font-size: 50px;
             color: white;
         }
+
         .timeline {
             width: 200px;
             height: 40px;
-            background: var(--gradient-2);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             border-radius: 10px;
             top: 60%;
             right: 15%;
@@ -455,10 +346,11 @@
             font-size: 24px;
             color: white;
         }
+
         .film-reel {
             width: 100px;
             height: 100px;
-            background: var(--gradient-3);
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             border-radius: 50%;
             bottom: 20%;
             left: 10%;
@@ -469,12 +361,14 @@
             font-size: 40px;
             color: white;
         }
-        
+
+        /* Sections */
         section {
             padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
+
         .section-title {
             font-size: 56px;
             font-weight: 800;
@@ -484,41 +378,826 @@
             transform: translateY(30px);
             transition: all 0.8s ease;
         }
+
         .section-title.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
         .section-subtitle {
             text-align: center;
             color: var(--text-secondary);
             font-size: 20px;
             margin-bottom: 80px;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 48px; }
-            .hero-tagline { font-size: 20px; }
-            .festival-banner { font-size: 18px; padding: 15px 25px; top: 80px; }
-            .section-title { font-size: 36px; }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .experience-highlight {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .experience-card {
+            flex: 1;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .experience-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .experience-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-visualization {
+            width: 90%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .timeline-track {
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 10px;
+        }
+
+        .timeline-clip {
+            height: 40px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 8px;
+            flex: 1;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .timeline-clip:nth-child(2) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            flex: 0.7;
+        }
+
+        .timeline-clip:nth-child(3) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            flex: 1.2;
+        }
+
+        .playhead {
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: white;
+            left: 30%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: playheadMove 3s ease-in-out infinite;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-color);
+        }
+
+        .service-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: var(--gradient-1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .service-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: inherit;
+            opacity: 0.3;
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            background: var(--gradient-2);
+        }
+
+        .service-card:nth-child(3) .service-icon {
+            background: var(--gradient-3);
+        }
+
+        .service-card:nth-child(4) .service-icon {
+            background: var(--gradient-4);
+        }
+
+        .service-card h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .service-price {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* Featured Work Section */
+        .featured-videos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            border: 2px solid var(--border-color);
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: var(--bg-secondary);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .video-info p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .view-more-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 16px 40px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .view-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Reviews Section */
+        .reviews-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+            border: 2px solid var(--border-color);
+        }
+
+        .overall-rating {
+            text-align: center;
+        }
+
+        .rating-number {
+            font-size: 64px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .rating-stars {
+            font-size: 24px;
+            color: #ffa500;
+            margin-bottom: 10px;
+        }
+
+        .rating-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .review-form-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+            border: 2px solid var(--border-color);
+        }
+
+        .review-form-container h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 10px;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .star-rating i {
+            cursor: pointer;
+            color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .star-rating i.active,
+        .star-rating i:hover {
+            color: #ffa500;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .review-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            overflow: hidden;
+        }
+
+        .reviewer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reviewer-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .review-date {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .review-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-stars {
+            font-size: 16px;
+            color: #ffa500;
+        }
+
+        .delete-review-btn {
+            padding: 6px 12px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .delete-review-btn:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Testimonials */
+        .testimonials-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .testimonial-card.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .testimonial-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .author-info h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .author-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-dot.active {
+            background: var(--accent-color);
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Booking Form */
+        .booking-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contact-info {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .contact-info h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .contact-method {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--bg-primary);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        [data-theme="dark"] footer {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        footer p {
+            opacity: 0.7;
         }
 
         /* Animations */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-30px) translateX(10px); }
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-30px) translateX(10px);
+            }
         }
+
         @keyframes rotate3d {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes playheadMove {
+            0% {
+                left: 10%;
+            }
+            50% {
+                left: 80%;
+            }
+            100% {
+                left: 10%;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-tagline {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid,
+            .featured-videos {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            .booking-container,
+            .contact-form,
+            .review-form-container {
+                padding: 40px 30px;
+            }
+
+            .experience-highlight {
+                flex-direction: column;
+            }
+
+            .rating-summary {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .auth-section {
+                gap: 10px;
+            }
+
+            .user-name {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -540,11 +1219,11 @@
                     <div class="user-info" id="userInfo">
                         <img src="" alt="User Avatar" class="user-avatar" id="userAvatar">
                         <span class="user-name" id="userName"></span>
+                        <button class="auth-button" id="signOutBtn">Sign Out</button>
                     </div>
                     <button class="auth-button" id="signInBtn">
                         <i class="fab fa-google"></i> Sign In
                     </button>
-                    <button class="auth-button" id="signOutBtn" style="display: none;">Sign Out</button>
                 </div>
                 <div class="theme-toggle" id="themeToggle">
                     <div class="theme-toggle-slider">
@@ -555,15 +1234,18 @@
         </div>
     </nav>
 
-    <!-- IMMERSIVE FESTIVAL OVERLAY -->
-    <div class="festival-overlay" id="festivalOverlay" style="display: none;"></div>
-
     <!-- Hero Section -->
-    <section class="hero" id="hero">
+    <section class="hero">
         <div class="animation-container">
-            <div class="floating-element camera"><i class="fas fa-video"></i></div>
-            <div class="floating-element timeline"><i class="fas fa-film"></i></div>
-            <div class="floating-element film-reel"><i class="fas fa-circle-play"></i></div>
+            <div class="floating-element camera">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="floating-element timeline">
+                <i class="fas fa-film"></i>
+            </div>
+            <div class="floating-element film-reel">
+                <i class="fas fa-circle-play"></i>
+            </div>
         </div>
         <div class="hero-content">
             <h1>Harshit Pruthi</h1>
@@ -572,15 +1254,335 @@
         </div>
     </section>
 
-    <!-- Your existing sections (About, Services, Work) go here - same as before -->
-    <!-- ... (keeping all your existing content) ... -->
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Passionate about bringing ideas to life</p>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3 years of editing experience</strong> and <strong>1 year of professional client work</strong>. I specialize in creating captivating content that resonates with audiences across all platforms.</p>
+                <br>
+                <p>My journey in editing began with a curiosity for visual storytelling and has evolved into a professional career helping creators, brands, and businesses elevate their content. From YouTube videos to marketing campaigns, I've worked across diverse fields and industries, delivering excellence in every frame.</p>
+                <br>
+                <p>Whether you need stunning video edits, eye-catching thumbnails, professional photo retouching, or Reddit marketing strategies, I bring creativity, technical expertise, and a commitment to making your vision a reality.</p>
+                <div class="experience-highlight">
+                    <div class="experience-card">
+                        <div class="experience-number">3+</div>
+                        <div class="experience-label">Years of Editing</div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-number">1+</div>
+                        <div class="experience-label">Year with Clients</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <i class="fas fa-clapperboard timeline-icon"></i>
+                <div class="timeline-visualization">
+                    <div class="timeline-track">
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="playhead"></div>
+                    </div>
+                    <div class="timeline-track">
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="playhead"></div>
+                    </div>
+                    <div class="timeline-track">
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="playhead"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Firebase + Festival Logic -->
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Services</h2>
+        <p class="section-subtitle">Premium editing solutions tailored to your needs</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>Video Editing</h3>
+                <p>Professional video editing for any field - YouTube, marketing, weddings, corporate, music videos, and more. Includes color grading, transitions, effects, and expert storytelling.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Thumbnail Design</h3>
+                <p>Eye-catching, click-worthy thumbnails that boost your video's CTR. Custom designs tailored to your brand and content style.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>Photo Editing</h3>
+                <p>Professional photo retouching, color correction, background removal, and enhancement for portraits, products, and events.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fab fa-reddit"></i>
+                </div>
+                <h3>Reddit Marketing</h3>
+                <p>Strategic Reddit marketing to grow your brand, engage communities, and drive traffic. Authentic engagement that gets results.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work Section -->
+    <section id="work">
+        <h2 class="section-title">Featured Work</h2>
+        <p class="section-subtitle">See my latest projects</p>
+        <div class="featured-videos" id="featuredVideos">
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Loading work...
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <a href="portfolio.html" class="view-more-btn">View Full Portfolio</a>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <h2 class="section-title">Client Reviews</h2>
+        <p class="section-subtitle">See what my clients say about working with me</p>
+
+        <div class="reviews-container">
+            <!-- Rating Summary -->
+            <div class="rating-summary">
+                <div class="overall-rating">
+                    <div class="rating-number" id="averageRating">5.0</div>
+                    <div class="rating-stars" id="averageStars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="rating-count" id="reviewCount">0 Reviews</div>
+                </div>
+            </div>
+
+            <!-- Review Form -->
+            <div class="review-form-container" id="reviewFormContainer">
+                <div class="sign-in-prompt" id="signInPrompt">
+                    <h3>Sign in to leave a review</h3>
+                    <p>Please sign in with your Google account to share your experience.</p>
+                    <button class="google-signin-btn" id="googleSignInBtn">
+                        <i class="fab fa-google"></i>
+                        Sign in with Google
+                    </button>
+                </div>
+
+                <div id="reviewFormSection" style="display: none;">
+                    <h3>Leave a Review</h3>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label>Your Rating</label>
+                            <div class="star-rating" id="starRating">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText">Your Review</label>
+                            <textarea id="reviewText" required placeholder="Share your experience..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-button" id="reviewSubmitBtn">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reviews List -->
+            <div class="reviews-list" id="reviewsList">
+                <div class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Loading reviews...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <h2 class="section-title">Testimonials</h2>
+        <p class="section-subtitle">Featured client testimonials</p>
+        <div class="testimonials-container">
+            <div class="testimonial-card active" data-index="0">
+                <p class="testimonial-text">"Harshit's editing skills transformed our YouTube channel. The quality and attention to detail are exceptional. Our engagement has increased by 300% since working with him!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RK</div>
+                    <div class="author-info">
+                        <h4>Rajesh Kumar</h4>
+                        <p>YouTube Content Creator</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card" data-index="1">
+                <p class="testimonial-text">"Professional, creative, and always delivers on time. Harshit understands the vision and brings it to life perfectly. Highly recommend for any video project!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">PS</div>
+                    <div class="author-info">
+                        <h4>Priya Sharma</h4>
+                        <p>Digital Marketing Manager</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card" data-index="2">
+                <p class="testimonial-text">"The Reddit marketing strategy Harshit developed helped us reach our target audience authentically. Our community engagement tripled within a month!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AV</div>
+                    <div class="author-info">
+                        <h4>Aditya Verma</h4>
+                        <p>Startup Founder</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <span class="testimonial-dot active" data-index="0"></span>
+                <span class="testimonial-dot" data-index="1"></span>
+                <span class="testimonial-dot" data-index="2"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking">
+        <h2 class="section-title">Book a Service</h2>
+        <p class="section-subtitle">Let's work together on your next project</p>
+        <div class="booking-container">
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="service">Select Service</label>
+                    <select id="service" name="service" required>
+                        <option value="">Choose a service...</option>
+                        <option value="video-editing">Video Editing (Any Field)</option>
+                        <option value="thumbnail">Thumbnail Design</option>
+                        <option value="photo">Photo Editing</option>
+                        <option value="reddit">Reddit Marketing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Project Details</label>
+                    <textarea id="message" name="message" required placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit Booking Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-subtitle">Let's create something amazing together</p>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <strong>Email</strong><br>
+                        harshitpruthiorg@gmail.com
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <strong>Phone</strong><br>
+                        +91 XXXXX XXXXX
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <strong>Location</strong><br>
+                        India
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Reddit">
+                        <i class="fab fa-reddit"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contact-name">Name</label>
+                        <input type="text" id="contact-name" required placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Email</label>
+                        <input type="email" id="contact-email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" required placeholder="Your message..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Harshit Pruthi. All rights reserved. | Crafted with passion for visual storytelling</p>
+    </footer>
+
+    <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, doc, getDoc, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp, deleteDoc, doc, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBzbKueSLaSGeMiDFd1aioP04iduaXdE4w",
             authDomain: "portfolio-harshit-d73fb.firebaseapp.com",
@@ -591,159 +1593,504 @@
             measurementId: "G-XWR4Z7E97J"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
+        // Initialize EmailJS
+        emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+
+        // Auth state management
         let currentUser = null;
 
-        // 🌟 IMMERSIVE FESTIVAL THEME ENGINE
-        async function loadFestivalTheme() {
-            try {
-                const themeDoc = await getDoc(doc(db, 'siteSettings', 'mainTheme'));
-                const festivalOverlay = document.getElementById('festivalOverlay');
-                
-                if (themeDoc.exists()) {
-                    const theme = themeDoc.data();
-                    console.log('🎉 Festival Theme Loaded:', theme.festivalName);
-                    
-                    if (theme.enableDecoration === 'yes' && theme.festivalName) {
-                        // Apply festival attribute
-                        document.documentElement.setAttribute('data-festival', theme.festivalName);
-                        festivalOverlay.style.display = 'block';
-                        
-                        // Create festival-specific experience
-                        createFestivalExperience(theme.festivalName, festivalOverlay);
-                    }
-                }
-            } catch (error) {
-                console.error('Festival theme error:', error);
-            }
-        }
-
-        function createFestivalExperience(festival, overlay) {
-            // Clear existing content
-            overlay.innerHTML = '';
-            
-            // Festival-specific implementations
-            const experiences = {
-                diwali: createDiwaliExperience,
-                christmas: createChristmasExperience,
-                holi: createHoliExperience,
-                'new-year': createNewYearExperience,
-                navratri: createNavratriExperience,
-                eid: createEidExperience,
-                dussehra: createDussehraExperience
-            };
-            
-            experiences[festival]?.(overlay);
-        }
-
-        // 🪔 DIWALI EXPERIENCE
-        function createDiwaliExperience(overlay) {
-            // Banner
-            const banner = document.createElement('div');
-            banner.className = 'festival-banner';
-            banner.innerHTML = '🪔 दीपावली की शुभकामनाएं! ✨<br><span style="font-size: 14px; opacity: 0.9;">Deepavali Blessings!</span>';
-            overlay.appendChild(banner);
-            
-            // 20+ Diyas floating
-            for (let i = 0; i < 25; i++) {
-                const diya = document.createElement('div');
-                diya.className = 'diwali-lamps festival-particle';
-                diya.innerHTML = '🪔';
-                diya.style.left = `${Math.random() * 100}%`;
-                diya.style.top = `${Math.random() * 50 + 20}%`;
-                diya.style.animationDelay = `${Math.random() * 4}s`;
-                diya.style.animationDuration = `${4 + Math.random() * 3}s`;
-                overlay.appendChild(diya);
-            }
-            
-            // Fireworks
-            setInterval(() => {
-                createFirework(overlay);
-            }, 2000);
-        }
-
-        // 🎄 CHRISTMAS EXPERIENCE
-        function createChristmasExperience(overlay) {
-            const banner = document.createElement('div');
-            banner.className = 'festival-banner';
-            banner.innerHTML = '🎄 Merry Christmas! ❄️<br><span style="font-size: 14px;">Joy to the World!</span>';
-            overlay.appendChild(banner);
-            
-            // Christmas Tree
-            const tree = document.createElement('div');
-            tree.style.cssText = `
-                position: absolute; left: 10%; top: 20%; width: 80px; height: 120px;
-                background: linear-gradient(45deg, #27ae60, #2ecc71);
-                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-                animation: treeGlow 3s ease-in-out infinite alternate;
-                box-shadow: var(--festival-glow);
-            `;
-            tree.innerHTML = '🎄';
-            tree.style.fontSize = '80px';
-            overlay.appendChild(tree);
-            
-            // Snowflakes
-            for (let i = 0; i < 50; i++) {
-                const snow = document.createElement('div');
-                snow.className = 'snowflake festival-particle';
-                snow.innerHTML = '❄️✨';
-                snow.style.left = `${Math.random() * 100}%`;
-                snow.style.animationDelay = `${Math.random() * 10}s`;
-                snow.style.animationDuration = `${8 + Math.random() * 4}s`;
-                overlay.appendChild(snow);
-            }
-        }
-
-        // 🌈 HOLI EXPERIENCE
-        function createHoliExperience(overlay) {
-            const banner = document.createElement('div');
-            banner.className = 'festival-banner';
-            banner.innerHTML = '🌈 होली की धूम! 🎉<br><span style="font-size: 14px;">Festival of Colors!</span>';
-            overlay.appendChild(banner);
-            
-            const colors = ['#ff6b9d', '#f18f01', '#8338ec', '#3a86ff', '#ffeb3b'];
-            for (let i = 0; i < 30; i++) {
-                const colorSplash = document.createElement('div');
-                colorSplash.className = 'festival-particle';
-                colorSplash.innerHTML = '💥';
-                colorSplash.style.left = `${Math.random() * 100}%`;
-                colorSplash.style.color = colors[Math.floor(Math.random() * colors.length)];
-                colorSplash.style.fontSize = `${20 + Math.random() * 20}px`;
-                overlay.appendChild(colorSplash);
-            }
-        }
-
-        function createFirework(overlay) {
-            const firework = document.createElement('div');
-            firework.style.cssText = `
-                position: absolute; left: ${Math.random() * 100}%; top: 20%;
-                width: 6px; height: 6px; background: #ffd700; border-radius: 50%;
-                box-shadow: var(--festival-glow);
-            `;
-            overlay.appendChild(firework);
-            
-            setTimeout(() => {
-                firework.remove();
-            }, 2000);
-        }
-
-        // Auth & other functions (same as before)
+        // Auth state observer
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             updateUIForAuthState(user);
+            console.log('Auth state changed:', user ? user.email : 'No user');
         });
 
-        // Initialize
-        window.addEventListener('load', async () => {
-            await loadFestivalTheme();
+        function updateUIForAuthState(user) {
+            const signInBtn = document.getElementById('signInBtn');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+            const userAvatar = document.getElementById('userAvatar');
+            const signInPrompt = document.getElementById('signInPrompt');
+            const reviewFormSection = document.getElementById('reviewFormSection');
+
+            if (user) {
+                signInBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userName.textContent = user.displayName || 'User';
+                userAvatar.src = user.photoURL || '';
+                signInPrompt.style.display = 'none';
+                reviewFormSection.style.display = 'block';
+            } else {
+                signInBtn.style.display = 'flex';
+                userInfo.style.display = 'none';
+                signInPrompt.style.display = 'block';
+                reviewFormSection.style.display = 'none';
+            }
+        }
+
+        // Sign in function
+        async function signInWithGoogle() {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                console.log('User signed in:', result.user);
+            } catch (error) {
+                console.error('Error signing in:', error);
+                alert('Error signing in. Please try again.');
+            }
+        }
+
+        // Sign out function
+        async function signOutUser() {
+            try {
+                await signOut(auth);
+                console.log('User signed out');
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        }
+
+        // Event listeners for auth buttons
+        document.getElementById('signInBtn').addEventListener('click', signInWithGoogle);
+        document.getElementById('googleSignInBtn').addEventListener('click', signInWithGoogle);
+        document.getElementById('signOutBtn').addEventListener('click', signOutUser);
+
+        // Load featured videos (top 3)
+        async function loadFeaturedVideos() {
+            try {
+                const videosQuery = query(collection(db, 'featuredWork'), orderBy('order'), limit(3));
+                const videosSnapshot = await getDocs(videosQuery);
+                const featuredVideos = document.getElementById('featuredVideos');
+
+                if (videosSnapshot.empty) {
+                    featuredVideos.innerHTML = '<div class="loading-message">No featured work available yet. Check back soon!</div>';
+                    return;
+                }
+
+                featuredVideos.innerHTML = '';
+
+                videosSnapshot.forEach((doc) => {
+                    const work = doc.data();
+                    const workCard = document.createElement('div');
+                    workCard.className = 'video-card';
+
+                    let videoId = '';
+                    if (work.videoUrl && work.videoUrl.includes('youtube.com/watch?v=')) {
+                        videoId = work.videoUrl.split('v=')[1].split('&')[0];
+                    } else if (work.videoUrl && work.videoUrl.includes('youtu.be/')) {
+                        videoId = work.videoUrl.split('youtu.be/')[1].split('?')[0];
+                    }
+
+                    if (videoId) {
+                        workCard.innerHTML = `
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/${videoId}" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="video-info">
+                                <h3>${work.title}</h3>
+                                <p>${work.description || ''}</p>
+                            </div>
+                        `;
+                    }
+
+                    featuredVideos.appendChild(workCard);
+                });
+            } catch (error) {
+                console.error('Error loading featured videos:', error);
+                document.getElementById('featuredVideos').innerHTML = 
+                    '<div class="loading-message">Error loading work. Please try again later.</div>';
+            }
+        }
+
+        // Load reviews from Firestore
+        async function loadReviews() {
+            try {
+                const reviewsQuery = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
+                const reviewsSnapshot = await getDocs(reviewsQuery);
+                const reviewsList = document.getElementById('reviewsList');
+
+                if (reviewsSnapshot.empty) {
+                    reviewsList.innerHTML = '<div class="loading-message">No reviews yet. Be the first to leave a review!</div>';
+                    updateRatingSummary([]);
+                    return;
+                }
+
+                reviewsList.innerHTML = '';
+                const reviews = [];
+
+                reviewsSnapshot.forEach((docSnap) => {
+                    const review = docSnap.data();
+                    const reviewId = docSnap.id;
+                    reviews.push(review);
+
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'review-card';
+                    reviewCard.dataset.reviewId = reviewId;
+                    reviewCard.dataset.userId = review.userId;
+
+                    const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                    const date = review.createdAt ? new Date(review.createdAt.seconds * 1000).toLocaleDateString() : 'Recently';
+
+                    const avatarContent = review.userPhoto 
+                        ? `<img src="${review.userPhoto}" alt="${review.name}">` 
+                        : review.name.charAt(0).toUpperCase();
+
+                    const deleteButton = currentUser && review.userId === currentUser.uid 
+                        ? `<button class="delete-review-btn" onclick="deleteReview('${reviewId}')" style="display: inline-block;"><i class="fas fa-trash"></i> Delete</button>`
+                        : '';
+
+                    reviewCard.innerHTML = `
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">${avatarContent}</div>
+                                <div>
+                                    <div class="reviewer-name">${review.name}</div>
+                                    <div class="review-date">${date}</div>
+                                </div>
+                            </div>
+                            <div class="review-actions">
+                                <div class="review-stars">${stars}</div>
+                                ${deleteButton}
+                            </div>
+                        </div>
+                        <p class="review-text">${review.text}</p>
+                    `;
+
+                    reviewsList.appendChild(reviewCard);
+                });
+
+                updateRatingSummary(reviews);
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                document.getElementById('reviewsList').innerHTML = 
+                    '<div class="loading-message">Error loading reviews. Please try again later.</div>';
+            }
+        }
+
+        // Delete review function
+        window.deleteReview = async function(reviewId) {
+            if (!currentUser) {
+                alert('You must be signed in to delete reviews.');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to delete this review? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, 'reviews', reviewId));
+                alert('Review deleted successfully!');
+                await loadReviews();
+            } catch (error) {
+                console.error('Error deleting review:', error);
+                alert('Error deleting review. Please try again.');
+            }
+        };
+
+        // Update rating summary
+        function updateRatingSummary(reviews) {
+            const reviewCount = reviews.length;
+            const averageRating = reviewCount > 0 
+                ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
+                : '5.0';
+
+            document.getElementById('averageRating').textContent = averageRating;
+            document.getElementById('reviewCount').textContent = `${reviewCount} Review${reviewCount !== 1 ? 's' : ''}`;
+
+            const starsContainer = document.getElementById('averageStars');
+            const fullStars = Math.floor(averageRating);
+            const hasHalfStar = averageRating % 1 >= 0.5;
+
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsContainer.innerHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++) {
+                starsContainer.innerHTML += '<i class="far fa-star"></i>';
+            }
+        }
+
+        // Star rating interaction
+        let selectedRating = 5;
+        const stars = document.querySelectorAll('#starRating i');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.getAttribute('data-rating'));
+                updateStarDisplay(selectedRating);
+            });
+
+            star.addEventListener('mouseenter', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                updateStarDisplay(rating);
+            });
         });
 
-        // Add other functions (signIn, loadFeaturedVideos, etc.) from previous version
-        // ... (keeping all your existing functionality)
+        document.getElementById('starRating').addEventListener('mouseleave', () => {
+            updateStarDisplay(selectedRating);
+        });
+
+        function updateStarDisplay(rating) {
+            stars.forEach(star => {
+                const starRating = parseInt(star.getAttribute('data-rating'));
+                if (starRating <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        updateStarDisplay(5);
+
+        // Submit review
+        document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert('Please sign in to submit a review.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('reviewSubmitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const reviewData = {
+                    name: currentUser.displayName || 'Anonymous User',
+                    text: document.getElementById('reviewText').value,
+                    rating: selectedRating,
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email,
+                    userPhoto: currentUser.photoURL || '',
+                    createdAt: Timestamp.now()
+                };
+
+                console.log('Submitting review:', reviewData);
+
+                await addDoc(collection(db, 'reviews'), reviewData);
+
+                alert('Thank you for your review! It has been submitted successfully.');
+                document.getElementById('reviewForm').reset();
+                selectedRating = 5;
+                updateStarDisplay(5);
+                await loadReviews();
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                alert(`Error submitting review: ${error.message}`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
+            }
+        });
+
+        // Booking form submission with email
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('.submit-button');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                service: document.getElementById('service').options[document.getElementById('service').selectedIndex].text,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                    to_email: 'harshitpruthiorg@gmail.com',
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    service: formData.service,
+                    date: formData.date,
+                    time: formData.time,
+                    message: formData.message,
+                    subject: 'New Booking Request - ' + formData.service
+                });
+
+                alert('Thank you for your booking request! I will get back to you within 24 hours.');
+                e.target.reset();
+            } catch (error) {
+                console.error('Email error:', error);
+                alert('Your booking request has been received. I will contact you soon!');
+                e.target.reset();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Booking Request';
+            }
+        });
+
+        // Contact form submission with email
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('.submit-button');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const formData = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                message: document.getElementById('contact-message').value
+            };
+
+            try {
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_CONTACT_TEMPLATE_ID', {
+                    to_email: 'harshitpruthiorg@gmail.com',
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    message: formData.message,
+                    subject: 'New Contact Message from Portfolio'
+                });
+
+                alert('Thank you for your message! I will respond to you shortly.');
+                e.target.reset();
+            } catch (error) {
+                console.error('Email error:', error);
+                alert('Your message has been received. I will get back to you soon!');
+                e.target.reset();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        // Load data on page load
+        loadFeaturedVideos();
+        loadReviews();
+    </script>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for section titles
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-title').forEach(title => {
+            observer.observe(title);
+        });
+
+        // Testimonial carousel
+        let currentTestimonial = 0;
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+
+        function showTestimonial(index) {
+            testimonialCards.forEach(card => card.classList.remove('active'));
+            testimonialDots.forEach(dot => dot.classList.remove('active'));
+
+            testimonialCards[index].classList.add('active');
+            testimonialDots[index].classList.add('active');
+        }
+
+        testimonialDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.getAttribute('data-index'));
+                currentTestimonial = index;
+                showTestimonial(index);
+            });
+        });
+
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
+            showTestimonial(currentTestimonial);
+        }, 5000);
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for floating elements
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            document.querySelectorAll('.floating-element').forEach((el, index) => {
+                const speed = (index + 1) * 20;
+                const x = (mouseX * speed) - (speed / 2);
+                const y = (mouseY * speed) - (speed / 2);
+
+                el.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Set minimum date for booking
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
     </script>
 </body>
 </html>
