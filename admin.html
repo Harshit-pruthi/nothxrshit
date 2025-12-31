@@ -393,35 +393,130 @@
             color: var(--text-secondary);
         }
 
-        /* Reviews Table */
-        .reviews-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Reviews Styles */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
             margin-top: 20px;
         }
 
-        .reviews-table th {
-            text-align: left;
-            padding: 12px 16px;
-            background: var(--main-bg);
-            font-weight: 600;
-            border-bottom: 2px solid var(--border-color);
+        .review-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            transition: transform 0.3s ease;
         }
 
-        .reviews-table td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: top;
+        .review-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--sidebar-accent);
+        }
+
+        .reviewer-info {
+            flex: 1;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .reviewer-email {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 5px;
         }
 
         .review-rating {
             color: #ff9500;
-            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .review-comment {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .comment-text {
+            position: relative;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .comment-text.collapsed {
+            max-height: 100px;
+        }
+
+        .comment-text.expanded {
+            max-height: none;
+        }
+
+        .comment-text.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, var(--card-bg) 80%);
+        }
+
+        .read-more-btn {
+            color: var(--sidebar-accent);
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more-btn:hover {
+            text-decoration: underline;
+        }
+
+        .review-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .review-date {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .review-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .action-btn {
@@ -432,21 +527,76 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-        }
-
-        .action-btn.approve {
-            background: var(--success-color);
-            color: white;
-        }
-
-        .action-btn.reject {
-            background: var(--error-color);
-            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .action-btn.delete {
-            background: #ff9500;
-            color: white;
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--error-color);
+        }
+
+        .action-btn.delete:hover {
+            background: rgba(255, 59, 48, 0.2);
+        }
+
+        /* Reviews Stats */
+        .stats-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background: var(--main-bg);
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .rating-distribution {
+            margin-top: 20px;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .rating-label {
+            width: 60px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .rating-progress {
+            flex: 1;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .rating-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff9500, #ffcc00);
+            border-radius: 4px;
+            transition: width 0.3s ease;
         }
 
         /* Loading States */
@@ -459,6 +609,25 @@
         .loading i {
             font-size: 24px;
             margin-bottom: 10px;
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
         }
 
         /* Responsive */
@@ -491,13 +660,13 @@
                 grid-template-columns: 1fr;
             }
             
-            .items-grid {
+            .items-grid,
+            .reviews-grid {
                 grid-template-columns: 1fr;
             }
             
-            .reviews-table {
-                display: block;
-                overflow-x: auto;
+            .stats-container {
+                flex-direction: column;
             }
         }
     </style>
@@ -652,25 +821,33 @@
         <!-- Reviews Section -->
         <div class="content-section" id="reviewsSection">
             <div class="section-header">
-                <h2>Reviews Management</h2>
-                <p>Manage and moderate client reviews</p>
+                <h2>Client Reviews</h2>
+                <p>View and manage client feedback and testimonials</p>
             </div>
 
             <!-- Reviews Stats -->
             <div class="card">
                 <h3><i class="fas fa-chart-pie"></i> Reviews Overview</h3>
-                <div style="display: flex; gap: 20px; margin-top: 15px;">
-                    <div style="flex: 1; text-align: center; padding: 20px; background: var(--main-bg); border-radius: 10px;">
-                        <div style="font-size: 32px; font-weight: 700; color: var(--sidebar-accent);" id="totalReviews">0</div>
-                        <div style="color: var(--text-secondary);">Total Reviews</div>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalReviews">0</div>
+                        <div class="stat-label">Total Reviews</div>
                     </div>
-                    <div style="flex: 1; text-align: center; padding: 20px; background: var(--main-bg); border-radius: 10px;">
-                        <div style="font-size: 32px; font-weight: 700; color: var(--success-color);" id="approvedReviews">0</div>
-                        <div style="color: var(--text-secondary);">Approved</div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="averageRating">0.0</div>
+                        <div class="stat-label">Average Rating</div>
                     </div>
-                    <div style="flex: 1; text-align: center; padding: 20px; background: var(--main-bg); border-radius: 10px;">
-                        <div style="font-size: 32px; font-weight: 700; color: var(--warning-color);" id="pendingReviews">0</div>
-                        <div style="color: var(--text-secondary);">Pending</div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="fiveStarReviews">0</div>
+                        <div class="stat-label">5-Star Reviews</div>
+                    </div>
+                </div>
+
+                <!-- Rating Distribution -->
+                <div class="rating-distribution">
+                    <h4 style="margin-bottom: 15px; font-size: 16px;">Rating Distribution</h4>
+                    <div id="ratingDistribution">
+                        <!-- Will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -679,25 +856,9 @@
             <div class="card">
                 <h3><i class="fas fa-comments"></i> All Reviews</h3>
                 <div id="reviewsList">
-                    <table class="reviews-table">
-                        <thead>
-                            <tr>
-                                <th>Client</th>
-                                <th>Rating</th>
-                                <th>Review</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reviewsTableBody">
-                            <tr>
-                                <td colspan="6" style="text-align: center; padding: 40px;">
-                                    <i class="fas fa-spinner fa-spin"></i> Loading reviews...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading reviews...
+                    </div>
                 </div>
             </div>
         </div>
@@ -820,7 +981,7 @@
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, deleteDoc, doc, updateDoc, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // Firebase Configuration
@@ -1092,38 +1253,75 @@
 
         // Load reviews from Firestore
         async function loadReviews() {
-            const reviewsTableBody = document.getElementById('reviewsTableBody');
-            reviewsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</td></tr>';
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</div>';
 
             try {
-                // Assuming you have a 'reviews' collection in Firestore
+                // Query all reviews, ordered by date (newest first)
                 const reviewsQuery = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
                 const reviewsSnapshot = await getDocs(reviewsQuery);
                 
                 let total = 0;
-                let approved = 0;
-                let pending = 0;
+                let totalRating = 0;
+                let fiveStarCount = 0;
+                let ratingDistribution = {5: 0, 4: 0, 3: 0, 2: 0, 1: 0};
                 
-                reviewsTableBody.innerHTML = '';
+                if (reviewsSnapshot.empty) {
+                    reviewsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-comment-slash"></i>
+                            <h4>No Reviews Yet</h4>
+                            <p>No client reviews have been submitted yet.</p>
+                        </div>
+                    `;
+                    
+                    // Update stats with zeros
+                    document.getElementById('totalReviews').textContent = '0';
+                    document.getElementById('averageRating').textContent = '0.0';
+                    document.getElementById('fiveStarReviews').textContent = '0';
+                    
+                    // Clear rating distribution
+                    document.getElementById('ratingDistribution').innerHTML = '';
+                    
+                    return;
+                }
+                
+                reviewsList.innerHTML = '<div class="reviews-grid">';
                 
                 reviewsSnapshot.forEach((doc) => {
                     total++;
                     const review = doc.data();
-                    const date = review.createdAt ? new Date(review.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
                     
-                    // Update counters based on status
-                    if (review.status === 'approved') {
-                        approved++;
-                    } else {
-                        pending++;
-                    }
-                    
-                    // Create table row
-                    const row = document.createElement('tr');
-                    
-                    // Star rating display
-                    let stars = '';
+                    // Calculate rating statistics
                     const rating = review.rating || 5;
+                    totalRating += rating;
+                    
+                    if (rating === 5) fiveStarCount++;
+                    
+                    // Update rating distribution
+                    ratingDistribution[rating] = (ratingDistribution[rating] || 0) + 1;
+                    
+                    // Format date
+                    const date = review.createdAt 
+                        ? new Date(review.createdAt.seconds * 1000).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        })
+                        : 'Date not available';
+                    
+                    // Get user info (stored in Firestore as per your rules)
+                    const userName = review.userName || review.name || 'Anonymous';
+                    const userPhoto = review.userPhoto || review.photoURL || 
+                                    `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=0071e3&color=fff`;
+                    const userEmail = review.email || 'No email provided';
+                    const comment = review.comment || review.message || 'No comment provided';
+                    
+                    // Check if comment is long (more than 200 characters)
+                    const isLongComment = comment.length > 200;
+                    
+                    // Create star rating display
+                    let stars = '';
                     for (let i = 0; i < 5; i++) {
                         if (i < rating) {
                             stars += '<i class="fas fa-star" style="color: #ff9500;"></i>';
@@ -1132,99 +1330,130 @@
                         }
                     }
                     
-                    row.innerHTML = `
-                        <td>
-                            <strong>${review.clientName || 'Anonymous'}</strong><br>
-                            <small style="color: var(--text-secondary);">${review.email || ''}</small>
-                        </td>
-                        <td>
-                            <div class="review-rating">${stars}</div>
-                            <small>${rating}/5</small>
-                        </td>
-                        <td style="max-width: 300px;">${review.comment || 'No comment provided'}</td>
-                        <td>${date}</td>
-                        <td>
-                            <span style="
-                                padding: 4px 12px;
-                                border-radius: 20px;
-                                font-size: 12px;
-                                font-weight: 600;
-                                background: ${review.status === 'approved' ? '#d1f4e0' : '#fff4e5'};
-                                color: ${review.status === 'approved' ? '#0d6832' : '#cc7000'};
-                            ">
-                                ${review.status === 'approved' ? 'Approved' : 'Pending'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="review-actions">
-                                ${review.status !== 'approved' ? 
-                                    `<button class="action-btn approve" onclick="approveReview('${doc.id}')">
-                                        <i class="fas fa-check"></i> Approve
-                                    </button>` : ''
-                                }
-                                <button class="action-btn delete" onclick="deleteReview('${doc.id}')">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
+                    // Generate review card
+                    reviewsList.innerHTML += `
+                        <div class="review-card" data-review-id="${doc.id}">
+                            <div class="review-header">
+                                <img src="${userPhoto}" alt="${userName}" class="reviewer-avatar">
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">${userName}</div>
+                                    <div class="reviewer-email">${userEmail}</div>
+                                    <div class="review-rating">
+                                        ${stars}
+                                        <span style="margin-left: 5px;">${rating}.0</span>
+                                    </div>
+                                </div>
                             </div>
-                        </td>
+                            
+                            <div class="review-comment">
+                                <div class="comment-text ${isLongComment ? 'collapsed' : ''}" id="comment-${doc.id}">
+                                    ${comment}
+                                </div>
+                                ${isLongComment ? `
+                                    <button class="read-more-btn" onclick="toggleReadMore('${doc.id}')">
+                                        <i class="fas fa-chevron-down"></i>
+                                        Read more
+                                    </button>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="review-meta">
+                                <div class="review-date">
+                                    <i class="far fa-calendar"></i>
+                                    ${date}
+                                </div>
+                                ${currentUser && currentUser.uid === review.userId ? `
+                                    <div class="review-actions">
+                                        <button class="action-btn delete" onclick="deleteReview('${doc.id}')">
+                                            <i class="fas fa-trash"></i>
+                                            Delete
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
                     `;
-                    
-                    reviewsTableBody.appendChild(row);
                 });
                 
-                // Update counters
-                document.getElementById('totalReviews').textContent = total;
-                document.getElementById('approvedReviews').textContent = approved;
-                document.getElementById('pendingReviews').textContent = pending;
+                reviewsList.innerHTML += '</div>';
                 
-                if (total === 0) {
-                    reviewsTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px;">
-                                <i class="fas fa-comment-slash" style="font-size: 48px; color: var(--text-secondary); margin-bottom: 10px;"></i><br>
-                                No reviews yet
-                            </td>
-                        </tr>
-                    `;
-                }
+                // Calculate and update statistics
+                const averageRating = total > 0 ? (totalRating / total).toFixed(1) : '0.0';
+                
+                document.getElementById('totalReviews').textContent = total;
+                document.getElementById('averageRating').textContent = averageRating;
+                document.getElementById('fiveStarReviews').textContent = fiveStarCount;
+                
+                // Update rating distribution visualization
+                updateRatingDistribution(ratingDistribution, total);
                 
             } catch (error) {
                 console.error('Error loading reviews:', error);
-                reviewsTableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--error-color);">
-                            <i class="fas fa-exclamation-triangle"></i> Error loading reviews
-                        </td>
-                    </tr>
+                reviewsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--error-color);"></i>
+                        <h4>Error Loading Reviews</h4>
+                        <p>There was an error loading the reviews. Please try again.</p>
+                    </div>
                 `;
             }
         }
 
-        // Review management functions (attached to window for onclick events)
-        window.approveReview = async function(reviewId) {
-            try {
-                await updateDoc(doc(db, 'reviews', reviewId), {
-                    status: 'approved',
-                    approvedAt: Timestamp.now()
-                });
-                showSuccess('Review approved successfully!');
-                loadReviews();
-            } catch (error) {
-                console.error('Error approving review:', error);
-                showError('Failed to approve review');
+        // Update rating distribution visualization
+        function updateRatingDistribution(distribution, total) {
+            const container = document.getElementById('ratingDistribution');
+            container.innerHTML = '';
+            
+            // Create distribution for ratings 5 to 1
+            for (let rating = 5; rating >= 1; rating--) {
+                const count = distribution[rating] || 0;
+                const percentage = total > 0 ? (count / total * 100).toFixed(0) : 0;
+                
+                container.innerHTML += `
+                    <div class="rating-bar">
+                        <div class="rating-label">
+                            ${rating} Star${rating !== 1 ? 's' : ''}
+                        </div>
+                        <div class="rating-progress">
+                            <div class="rating-fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <div style="width: 40px; text-align: right; font-size: 13px; color: var(--text-secondary);">
+                            ${count} (${percentage}%)
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Toggle read more for long comments
+        window.toggleReadMore = function(reviewId) {
+            const commentElement = document.getElementById(`comment-${reviewId}`);
+            const button = commentElement.nextElementSibling;
+            
+            if (commentElement.classList.contains('collapsed')) {
+                commentElement.classList.remove('collapsed');
+                commentElement.classList.add('expanded');
+                button.innerHTML = '<i class="fas fa-chevron-up"></i> Read less';
+            } else {
+                commentElement.classList.remove('expanded');
+                commentElement.classList.add('collapsed');
+                button.innerHTML = '<i class="fas fa-chevron-down"></i> Read more';
             }
         };
 
+        // Delete review (only allowed if current user is the review creator)
         window.deleteReview = async function(reviewId) {
-            if (confirm('Are you sure you want to delete this review?')) {
-                try {
-                    await deleteDoc(doc(db, 'reviews', reviewId));
-                    showSuccess('Review deleted successfully!');
-                    loadReviews();
-                } catch (error) {
-                    console.error('Error deleting review:', error);
-                    showError('Failed to delete review');
-                }
+            if (!confirm('Are you sure you want to delete this review? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                await deleteDoc(doc(db, 'reviews', reviewId));
+                showSuccess('Review deleted successfully!');
+                loadReviews(); // Reload the reviews list
+            } catch (error) {
+                console.error('Error deleting review:', error);
+                showError('Failed to delete review. You may not have permission to delete this review.');
             }
         };
 
@@ -1330,13 +1559,6 @@
                 alert.classList.remove('show');
             }, 5000);
         }
-
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', () => {
-            if (currentUser) {
-                loadReviews();
-            }
-        });
     </script>
 </body>
 </html>
