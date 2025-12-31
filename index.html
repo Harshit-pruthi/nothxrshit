@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Portfolio & Theme Management</title>
+    <title>Harshit Pruthi - Video Editor & Visual Storyteller</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -16,275 +17,1132 @@
 
         :root {
             --primary-color: #1d1d1f;
+            --secondary-color: #f5f5f7;
             --accent-color: #0071e3;
             --text-primary: #1d1d1f;
             --text-secondary: #6e6e73;
+            --white: #ffffff;
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f7;
             --border-color: #e5e5e5;
             --card-bg: #ffffff;
-            --success-color: #34c759;
-            --error-color: #ff3b30;
-            --warning-color: #ff9500;
-            --info-color: #5ac8fa;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-4: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            --sidebar-width: 280px;
+            
+            /* Festival Theme Variables */
+            --festival-primary: #0071e3;
+            --festival-secondary: #1d1d1f;
+            --festival-accent: #0071e3;
+            --festival-bg: #ffffff;
+            --festival-text: #1d1d1f;
+            --festival-banner-bg: linear-gradient(135deg, #0071e3 0%, #667eea 100%);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ffffff;
+            --secondary-color: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --white: #000000;
+            --bg-primary: #000000;
+            --bg-secondary: #1d1d1f;
+            --border-color: #2d2d2f;
+            --card-bg: #1d1d1f;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Festival Theme Classes */
+        .festival-theme {
+            --accent-color: var(--festival-accent);
+            --primary-color: var(--festival-primary);
+            --text-primary: var(--festival-text);
+            --bg-primary: var(--festival-bg);
+            --gradient-1: linear-gradient(135deg, var(--festival-primary) 0%, var(--festival-secondary) 100%);
+        }
+
+        .festival-theme.diwali {
+            --festival-primary: #FF9800;
+            --festival-secondary: #FF5722;
+            --festival-accent: #FFD700;
+            --festival-bg: #FFF8E1;
+            --festival-text: #5D4037;
+            --festival-banner-bg: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+        }
+
+        .festival-theme.christmas {
+            --festival-primary: #D32F2F;
+            --festival-secondary: #388E3C;
+            --festival-accent: #C62828;
+            --festival-bg: #F5F5F5;
+            --festival-text: #2E7D32;
+            --festival-banner-bg: linear-gradient(135deg, #D32F2F 0%, #388E3C 100%);
+        }
+
+        .festival-theme.eid {
+            --festival-primary: #4CAF50;
+            --festival-secondary: #8BC34A;
+            --festival-accent: #CDDC39;
+            --festival-bg: #F1F8E9;
+            --festival-text: #2E7D32;
+            --festival-banner-bg: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+        }
+
+        .festival-theme.holi {
+            --festival-primary: #E91E63;
+            --festival-secondary: #9C27B0;
+            --festival-accent: #2196F3;
+            --festival-bg: #FFF3E0;
+            --festival-text: #7B1FA2;
+            --festival-banner-bg: linear-gradient(135deg, #E91E63 0%, #9C27B0 100%);
+        }
+
+        .festival-theme.newyear {
+            --festival-primary: #2196F3;
+            --festival-secondary: #03A9F4;
+            --festival-accent: #00BCD4;
+            --festival-bg: #E3F2FD;
+            --festival-text: #1565C0;
+            --festival-banner-bg: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%);
+        }
+
+        /* Festival Banner */
+        .festival-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--festival-banner-bg);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-weight: 600;
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .festival-banner i {
+            font-size: 20px;
+        }
+
+        .festival-banner .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .festival-banner .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Festival Decorations */
+        .festival-decorations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .festival-decoration {
+            position: absolute;
+            opacity: 0.3;
+            animation: float 15s linear infinite;
+        }
+
+        .diwali-decoration {
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FF9800;
+        }
+
+        .christmas-decoration {
+            width: 15px;
+            height: 15px;
+            background: #D32F2F;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .eid-decoration {
+            width: 20px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            transform: rotate(45deg);
+        }
+
+        .holi-decoration {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #E91E63, #9C27B0, #2196F3, #4CAF50, #E91E63);
+        }
+
+        .newyear-decoration {
+            width: 20px;
+            height: 20px;
+            background: #2196F3;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        /* Special Festival Effects */
+        .festival-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: var(--sidebar-width);
             background: var(--bg-primary);
-            border-right: 1px solid var(--border-color);
-            padding: 30px 0;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow);
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 0 30px 30px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-
-        .sidebar-header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .sidebar-header p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 0 20px;
-        }
-
-        .nav-item {
-            margin-bottom: 8px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-link:hover {
-            background: var(--bg-secondary);
             color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .nav-link.active {
-            background: var(--accent-color);
-            color: white;
+        html {
+            scroll-behavior: smooth;
         }
 
-        .nav-link i {
-            width: 20px;
-            text-align: center;
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
         }
 
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            padding: 40px;
+        [data-theme="dark"] nav {
+            background: rgba(0, 0, 0, 0.8);
         }
 
-        .container {
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
         }
 
-        /* Auth Container */
-        .auth-container {
-            background: var(--card-bg);
-            padding: 80px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            text-align: center;
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            width: 50px;
+            height: 28px;
+            background: var(--border-color);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(22px);
+        }
+
+        /* Auth Section */
+        .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             display: none;
-            max-width: 500px;
-            margin: 100px auto;
         }
 
-        .auth-container.show {
-            display: block;
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
-        .auth-container h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
-        .auth-container p {
-            color: var(--text-secondary);
+        .auth-button {
+            padding: 8px 16px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-button:hover {
+            background: #005bb5;
+            transform: translateY(-1px);
+        }
+
+        .sign-in-prompt {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid var(--border-color);
             margin-bottom: 40px;
-            font-size: 16px;
+        }
+
+        .sign-in-prompt h3 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .sign-in-prompt p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
         }
 
         .google-signin-btn {
             background: #4285f4;
             color: white;
-            padding: 16px 40px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             transition: all 0.3s ease;
         }
 
         .google-signin-btn:hover {
             background: #3367d6;
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.3);
         }
 
-        /* User Info Bar */
-        .user-info-bar {
-            background: var(--card-bg);
-            padding: 20px 30px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            display: none;
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+            margin-top: 60px;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-tagline {
+            font-size: 28px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 40px;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1.4s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.3);
+        }
+
+        .animation-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .camera {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            top: 20%;
+            left: 15%;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite, rotate3d 8s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+        }
+
+        .timeline {
+            width: 200px;
+            height: 40px;
+            background: var(--gradient-2);
+            border-radius: 10px;
+            top: 60%;
+            right: 15%;
+            animation: float 5s ease-in-out infinite 1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .film-reel {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-3);
+            border-radius: 50%;
+            bottom: 20%;
+            left: 10%;
+            animation: float 7s ease-in-out infinite 2s, spin 10s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+        }
+
+        /* Sections */
+        section {
+            padding: 120px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 56px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 20px;
+            margin-bottom: 80px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .experience-highlight {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .experience-card {
+            flex: 1;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .experience-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .experience-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-visualization {
+            width: 90%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .timeline-track {
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 10px;
+        }
+
+        .timeline-clip {
+            height: 40px;
+            background: var(--gradient-2);
+            border-radius: 8px;
+            flex: 1;
+            box-shadow: 0 4px 15px rgba(var(--accent-color-rgb), 0.4);
+        }
+
+        .timeline-clip:nth-child(2) {
+            background: var(--gradient-1);
+            flex: 0.7;
+        }
+
+        .timeline-clip:nth-child(3) {
+            background: var(--gradient-3);
+            flex: 1.2;
+        }
+
+        .playhead {
+            position: absolute;
+            width: 3px;
+            height: 100%;
+            background: white;
+            left: 30%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: playheadMove 3s ease-in-out infinite;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-color);
+        }
+
+        .service-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: var(--gradient-1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .service-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: inherit;
+            opacity: 0.3;
+            filter: blur(20px);
+            z-index: -1;
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            background: var(--gradient-2);
+        }
+
+        .service-card:nth-child(3) .service-icon {
+            background: var(--gradient-3);
+        }
+
+        .service-card:nth-child(4) .service-icon {
+            background: var(--gradient-4);
+        }
+
+        .service-card h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .service-price {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* Featured Work Section */
+        .featured-videos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
             border: 2px solid var(--border-color);
         }
 
-        .user-info-bar.show {
-            display: flex;
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
         }
 
-        .user-details {
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: var(--bg-secondary);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 20px;
+        }
+
+        .video-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .video-info p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .view-more-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 16px 40px;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .view-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.3);
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Reviews Section */
+        .reviews-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+            border: 2px solid var(--border-color);
+        }
+
+        .overall-rating {
+            text-align: center;
+        }
+
+        .rating-number {
+            font-size: 64px;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .rating-stars {
+            font-size: 24px;
+            color: #ffa500;
+            margin-bottom: 10px;
+        }
+
+        .rating-count {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .review-form-container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 60px;
+            border: 2px solid var(--border-color);
+        }
+
+        .review-form-container h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 10px;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .star-rating i {
+            cursor: pointer;
+            color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .star-rating i.active,
+        .star-rating i:hover {
+            color: #ffa500;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .review-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-info {
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .user-avatar {
-            width: 48px;
-            height: 48px;
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            overflow: hidden;
+        }
+
+        .reviewer-avatar img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
-        .user-name {
+        .reviewer-name {
+            font-size: 18px;
             font-weight: 600;
-            font-size: 16px;
+            color: var(--text-primary);
         }
 
-        .user-email {
-            font-size: 14px;
+        .review-date {
+            font-size: 13px;
             color: var(--text-secondary);
         }
 
-        .signout-btn {
-            padding: 10px 20px;
-            background: var(--error-color);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .review-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .signout-btn:hover {
-            background: #d32f2f;
+        .review-stars {
+            font-size: 16px;
+            color: #ffa500;
         }
 
-        /* Tab Content */
-        .tab-content {
+        .delete-review-btn {
+            padding: 6px 12px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: none;
         }
 
-        .tab-content.active {
-            display: block;
+        .delete-review-btn:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
         }
 
-        .page-header {
-            margin-bottom: 40px;
-        }
-
-        .page-header h2 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .page-header p {
+        .review-text {
             color: var(--text-secondary);
             font-size: 16px;
+            line-height: 1.7;
         }
 
-        /* Form Cards */
-        .form-card {
+        /* Testimonials */
+        .testimonials-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
+            padding: 50px;
+            border-radius: 30px;
             box-shadow: var(--shadow);
-            margin-bottom: 40px;
-            border: 2px solid var(--border-color);
+            margin-bottom: 30px;
+            display: none;
         }
 
-        .form-card h3 {
+        .testimonial-card.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .testimonial-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
             font-size: 24px;
             font-weight: 700;
-            margin-bottom: 10px;
+        }
+
+        .author-info h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
             color: var(--text-primary);
         }
 
-        .form-card .subtitle {
+        .author-info p {
             color: var(--text-secondary);
-            margin-bottom: 30px;
-            font-size: 15px;
+            font-size: 14px;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-dot.active {
+            background: var(--accent-color);
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Booking Form */
+        .booking-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .form-group label {
             display: block;
             font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 15px;
+            margin-bottom: 10px;
+            font-size: 16px;
             color: var(--text-primary);
         }
 
@@ -292,10 +1150,10 @@
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 12px;
+            font-size: 16px;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             background: var(--bg-primary);
@@ -307,180 +1165,131 @@
         .form-group textarea:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
 
-        .form-group small {
-            display: block;
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin-top: 6px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-row .form-group:last-child {
-            margin-bottom: 25px;
-        }
-
-        /* Checkbox and Radio */
-        .checkbox-group,
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .checkbox-item,
-        .radio-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .checkbox-item input,
-        .radio-item input {
-            width: auto;
-            margin: 0;
-        }
-
-        /* Color Picker */
-        .color-picker-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .color-picker {
-            width: 60px;
-            height: 40px;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            padding: 2px;
-        }
-
-        .color-picker::-webkit-color-swatch {
-            border: none;
-            border-radius: 6px;
-        }
-
-        .color-picker::-moz-color-swatch {
-            border: none;
-            border-radius: 6px;
-        }
-
-        /* Image Upload Preview */
-        .image-upload-container {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        .image-upload-preview {
-            width: 200px;
-            height: 150px;
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            background: var(--bg-secondary);
-            overflow: hidden;
-        }
-
-        .image-upload-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .upload-btn {
-            padding: 12px 24px;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .upload-btn:hover {
-            background: #005bb5;
-        }
-
-        /* Submit Buttons */
-        .submit-btn {
+        .submit-button {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
             background: var(--accent-color);
-            color: white;
+            color: #ffffff;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
         }
 
-        .submit-btn:hover {
+        .submit-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
+            box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.3);
         }
 
-        .submit-btn:disabled {
+        .submit-button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        .btn-secondary {
-            background: var(--text-secondary);
-        }
-
-        .btn-secondary:hover {
-            background: #5a5a5f;
-            box-shadow: 0 10px 30px rgba(110, 110, 115, 0.3);
-        }
-
-        /* Alerts */
-        .alert {
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: none;
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
-            gap: 12px;
-            font-weight: 500;
-            border: 2px solid transparent;
         }
 
-        .alert.show {
+        .contact-info {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .contact-info h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .contact-method {
+            margin-bottom: 25px;
             display: flex;
-            animation: slideDown 0.3s ease;
+            align-items: center;
+            gap: 15px;
         }
 
-        @keyframes slideDown {
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--bg-primary);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        [data-theme="dark"] footer {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -488,907 +1297,504 @@
             }
         }
 
-        .alert-success {
-            background: #d1f4e0;
-            color: #0d6832;
-            border-color: #34c759;
-        }
-
-        .alert-error {
-            background: #ffe5e5;
-            color: #c41e3a;
-            border-color: #ff3b30;
-        }
-
-        .alert-warning {
-            background: #fff4e5;
-            color: #b35900;
-            border-color: #ff9500;
-        }
-
-        .alert-info {
-            background: #e5f7ff;
-            color: #00698c;
-            border-color: #5ac8fa;
-        }
-
-        /* Items List */
-        .items-list {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--border-color);
-        }
-
-        .items-list h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        .item-card {
-            background: var(--bg-secondary);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .item-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 10px;
-        }
-
-        .item-title {
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-
-        .item-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-videos {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .badge-thumbnails {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .badge-photos {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .badge-reddit {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .badge-featured {
-            background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-        }
-
-        .badge-theme {
-            background: linear-gradient(135deg, #8bc34a 0%, #4caf50 100%);
-        }
-
-        .badge-active {
-            background: linear-gradient(135deg, #34c759 0%, #2ecc71 100%);
-        }
-
-        .badge-inactive {
-            background: linear-gradient(135deg, #8e8e93 0%, #6e6e73 100%);
-        }
-
-        .item-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-
-        .item-meta {
-            display: flex;
-            gap: 20px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 10px;
-        }
-
-        .item-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .item-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .item-actions button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .item-actions .edit-btn {
-            background: var(--info-color);
-            color: white;
-        }
-
-        .item-actions .edit-btn:hover {
-            background: #2bb0e6;
-        }
-
-        .item-actions .delete-btn {
-            background: var(--error-color);
-            color: white;
-        }
-
-        .item-actions .delete-btn:hover {
-            background: #d32f2f;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-
-        .loading i {
-            margin-right: 10px;
-        }
-
-        /* Theme Preview */
-        .theme-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .theme-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .theme-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-        }
-
-        .theme-card.active {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
-        }
-
-        .theme-card.active::after {
-            content: '✓ Active';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--accent-color);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .theme-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            margin-bottom: 15px;
-        }
-
-        .theme-card h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .theme-card p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .theme-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .theme-status {
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .status-active {
-            background: #d1f4e0;
-            color: #0d6832;
-        }
-
-        .status-inactive {
-            background: #f2f2f7;
-            color: #6e6e73;
-        }
-
-        /* Festival Theme Styles */
-        .festival-theme {
-            background: var(--festival-bg, var(--bg-primary));
-            color: var(--festival-text, var(--text-primary));
-        }
-
-        /* Festival-specific preview colors */
-        .theme-card[data-festival="diwali"] .theme-icon {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-        }
-
-        .theme-card[data-festival="christmas"] .theme-icon {
-            background: linear-gradient(135deg, #FF0000 0%, #008000 100%);
-        }
-
-        .theme-card[data-festival="eid"] .theme-icon {
-            background: linear-gradient(135deg, #009688 0%, #4CAF50 100%);
-        }
-
-        .theme-card[data-festival="holi"] .theme-icon {
-            background: linear-gradient(135deg, #FF4081 0%, #9C27B0 100%);
-        }
-
-        .theme-card[data-festival="newyear"] .theme-icon {
-            background: linear-gradient(135deg, #2196F3 0%, #3F51B5 100%);
-        }
-
-        /* Theme Demo Preview */
-        .theme-demo-preview {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .theme-demo-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .theme-demo-title {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-color) 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .theme-demo-content {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .theme-demo-item {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .theme-demo-color-box {
-            width: 100%;
-            height: 100px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            background: var(--accent-color);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
             }
-            
-            .main-content {
-                margin-left: 240px;
-                padding: 30px;
+            to {
+                opacity: 1;
             }
         }
 
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-30px) translateX(10px);
+            }
+        }
+
+        @keyframes rotate3d {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes playheadMove {
+            0% {
+                left: 10%;
+            }
+            50% {
+                left: 80%;
+            }
+            100% {
+                left: 10%;
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            body {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero-tagline {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid,
+            .featured-videos {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            .booking-container,
+            .contact-form,
+            .review-form-container {
+                padding: 40px 30px;
+            }
+
+            .experience-highlight {
                 flex-direction: column;
             }
 
-            .sidebar {
-                position: static;
-                width: 100%;
-                height: auto;
-                padding: 20px 0;
+            .rating-summary {
+                flex-direction: column;
+                gap: 20px;
             }
 
-            .sidebar-header {
-                padding: 0 20px 20px;
-            }
-
-            .nav-menu {
-                display: flex;
-                overflow-x: auto;
-                padding: 0 20px;
+            .auth-section {
                 gap: 10px;
             }
 
-            .nav-item {
-                flex-shrink: 0;
+            .user-name {
+                display: none;
             }
 
-            .nav-link {
-                padding: 12px 16px;
-                white-space: nowrap;
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-            }
-
-            .auth-container {
-                padding: 40px 20px;
-                margin: 40px auto;
-            }
-
-            .form-card {
-                padding: 30px 20px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .user-info-bar {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 15px;
-                padding: 20px;
-            }
-
-            .image-upload-container {
-                flex-direction: column;
-            }
-
-            .image-upload-preview {
-                width: 100%;
-                height: 150px;
-            }
-
-            .theme-preview {
-                grid-template-columns: 1fr;
-            }
-
-            .theme-demo-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .page-header h2 {
-                font-size: 28px;
-            }
-
-            .user-details {
-                flex-direction: column;
-                align-items: flex-start;
+            .festival-banner {
+                padding: 10px 15px;
+                font-size: 14px;
                 gap: 10px;
             }
 
-            .item-meta {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .item-actions {
-                flex-direction: column;
-            }
-
-            .item-actions button {
-                width: 100%;
+            .festival-banner i {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h1><i class="fas fa-crown"></i> Admin Panel</h1>
-            <p>Manage portfolio & site themes</p>
-        </div>
-        
-        <!-- User Info in Sidebar -->
-        <div class="user-info-sidebar" id="userInfoSidebar" style="display: none; padding: 0 30px 30px;">
-            <div class="user-details">
-                <img src="" alt="User" class="user-avatar" id="sidebarUserAvatar">
-                <div>
-                    <div class="user-name" id="sidebarUserName"></div>
-                    <div class="user-email" id="sidebarUserEmail"></div>
-                </div>
-            </div>
-        </div>
-
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#portfolio" class="nav-link active" data-tab="portfolio">
-                    <i class="fas fa-video"></i>
-                    Portfolio Items
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#themes" class="nav-link" data-tab="themes">
-                    <i class="fas fa-palette"></i>
-                    Theme Settings
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#reviews" class="nav-link" data-tab="reviews">
-                    <i class="fas fa-star"></i>
-                    Reviews
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#analytics" class="nav-link" data-tab="analytics">
-                    <i class="fas fa-chart-line"></i>
-                    Analytics
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#settings" class="nav-link" data-tab="settings">
-                    <i class="fas fa-cog"></i>
-                    Settings
-                </a>
-            </li>
-        </ul>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- User Info Bar (Top) -->
-        <div class="user-info-bar" id="userInfoBar">
-            <div class="user-details">
-                <img src="" alt="User" class="user-avatar" id="userAvatar">
-                <div>
-                    <div class="user-name" id="userName"></div>
-                    <div class="user-email" id="userEmail"></div>
-                </div>
-            </div>
-            <button class="signout-btn" id="signOutBtn">
-                <i class="fas fa-sign-out-alt"></i> Sign Out
-            </button>
-        </div>
-
-        <!-- Alerts -->
-        <div class="alert alert-success" id="successAlert">
-            <i class="fas fa-check-circle"></i>
-            <span id="successMessage"></span>
-        </div>
-
-        <div class="alert alert-error" id="errorAlert">
-            <i class="fas fa-exclamation-circle"></i>
-            <span id="errorMessage"></span>
-        </div>
-
-        <!-- Portfolio Tab -->
-        <div id="portfolioTab" class="tab-content active">
-            <div class="page-header">
-                <h2><i class="fas fa-video"></i> Portfolio Management</h2>
-                <p>Add and manage portfolio items for your website</p>
-            </div>
-
-            <!-- Add Item Form -->
-            <div class="form-card">
-                <h3>Add New Portfolio Item</h3>
-                <p class="subtitle">Fill in the details below to add a new item to your portfolio</p>
-
-                <form id="addItemForm">
-                    <div class="form-group">
-                        <label for="collectionType">
-                            <i class="fas fa-database"></i> Collection Type *
-                        </label>
-                        <select id="collectionType" required>
-                            <option value="">Choose collection...</option>
-                            <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
-                            <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
-                        </select>
-                        <small>Choose where this item should appear on your website</small>
+    <!-- Festival Banner (Will be added dynamically) -->
+    
+    <!-- Festival Decorations (Will be added dynamically) -->
+    
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">HP</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#work">Work</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="auth-section">
+                    <div class="user-info" id="userInfo">
+                        <img src="" alt="User Avatar" class="user-avatar" id="userAvatar">
+                        <span class="user-name" id="userName"></span>
+                        <button class="auth-button" id="signOutBtn">Sign Out</button>
                     </div>
-
-                    <div class="form-group" id="categoryGroup" style="display: none;">
-                        <label for="category">
-                            <i class="fas fa-tag"></i> Category *
-                        </label>
-                        <select id="category">
-                            <option value="">Choose category...</option>
-                            <option value="videos">Videos</option>
-                            <option value="thumbnails">Thumbnails</option>
-                            <option value="photos">Edited Photos</option>
-                            <option value="reddit">Reddit Marketing</option>
-                        </select>
-                        <small>Select the category for this item</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="title">
-                            <i class="fas fa-heading"></i> Title *
-                        </label>
-                        <input type="text" id="title" required placeholder="e.g., Cinematic Wedding Video">
-                        <small>Enter a descriptive title for your work</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description">
-                            <i class="fas fa-align-left"></i> Description *
-                        </label>
-                        <textarea id="description" required placeholder="Brief description of the work..."></textarea>
-                        <small>Describe the project in 1-2 sentences</small>
-                    </div>
-
-                    <div class="form-group" id="videoUrlGroup">
-                        <label for="videoUrl">
-                            <i class="fab fa-youtube"></i> Video URL (YouTube)
-                        </label>
-                        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=VIDEO_ID">
-                        <small>Paste YouTube video link (for videos category)</small>
-                    </div>
-
-                    <div class="form-group" id="imageUrlGroup" style="display: none;">
-                        <label for="imageUrl">
-                            <i class="fas fa-image"></i> Image URL
-                        </label>
-                        <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com/...">
-                        <small>Paste image URL from Firebase Storage</small>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="order">
-                                <i class="fas fa-sort-numeric-up"></i> Order Number *
-                            </label>
-                            <input type="number" id="order" required value="1" min="1">
-                            <small>Lower numbers appear first</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">
-                                <i class="fas fa-toggle-on"></i> Status
-                            </label>
-                            <select id="status">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                            <small>Set item visibility</small>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-plus-circle"></i>
-                        Add to Portfolio
+                    <button class="auth-button" id="signInBtn">
+                        <i class="fab fa-google"></i> Sign In
                     </button>
+                </div>
+                <div class="theme-toggle" id="themeToggle">
+                    <div class="theme-toggle-slider">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="animation-container">
+            <div class="floating-element camera">
+                <i class="fas fa-video"></i>
+            </div>
+            <div class="floating-element timeline">
+                <i class="fas fa-film"></i>
+            </div>
+            <div class="floating-element film-reel">
+                <i class="fas fa-circle-play"></i>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1>Harshit Pruthi</h1>
+            <p class="hero-tagline">Crafting Visual Stories that Inspire</p>
+            <a href="#services" class="cta-button">Explore My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <p class="section-subtitle">Passionate about bringing ideas to life</p>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3 years of editing experience</strong> and <strong>1 year of professional client work</strong>. I specialize in creating captivating content that resonates with audiences across all platforms.</p>
+                <br>
+                <p>My journey in editing began with a curiosity for visual storytelling and has evolved into a professional career helping creators, brands, and businesses elevate their content. From YouTube videos to marketing campaigns, I've worked across diverse fields and industries, delivering excellence in every frame.</p>
+                <br>
+                <p>Whether you need stunning video edits, eye-catching thumbnails, professional photo retouching, or Reddit marketing strategies, I bring creativity, technical expertise, and a commitment to making your vision a reality.</p>
+                <div class="experience-highlight">
+                    <div class="experience-card">
+                        <div class="experience-number">3+</div>
+                        <div class="experience-label">Years of Editing</div>
+                    </div>
+                    <div class="experience-card">
+                        <div class="experience-number">1+</div>
+                        <div class="experience-label">Year with Clients</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <i class="fas fa-clapperboard timeline-icon"></i>
+                <div class="timeline-visualization">
+                    <div class="timeline-track">
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="playhead"></div>
+                    </div>
+                    <div class="timeline-track">
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="playhead"></div>
+                    </div>
+                    <div class="timeline-track">
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="timeline-clip"></div>
+                        <div class="playhead"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Services</h2>
+        <p class="section-subtitle">Premium editing solutions tailored to your needs</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>Video Editing</h3>
+                <p>Professional video editing for any field - YouTube, marketing, weddings, corporate, music videos, and more. Includes color grading, transitions, effects, and expert storytelling.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Thumbnail Design</h3>
+                <p>Eye-catching, click-worthy thumbnails that boost your video's CTR. Custom designs tailored to your brand and content style.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <h3>Photo Editing</h3>
+                <p>Professional photo retouching, color correction, background removal, and enhancement for portraits, products, and events.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fab fa-reddit"></i>
+                </div>
+                <h3>Reddit Marketing</h3>
+                <p>Strategic Reddit marketing to grow your brand, engage communities, and drive traffic. Authentic engagement that gets results.</p>
+                <p class="service-price">Custom Pricing</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work Section -->
+    <section id="work">
+        <h2 class="section-title">Featured Work</h2>
+        <p class="section-subtitle">See my latest projects</p>
+        <div class="featured-videos" id="featuredVideos">
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Loading work...
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <a href="portfolio.html" class="view-more-btn">View Full Portfolio</a>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <h2 class="section-title">Client Reviews</h2>
+        <p class="section-subtitle">See what my clients say about working with me</p>
+
+        <div class="reviews-container">
+            <!-- Rating Summary -->
+            <div class="rating-summary">
+                <div class="overall-rating">
+                    <div class="rating-number" id="averageRating">5.0</div>
+                    <div class="rating-stars" id="averageStars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="rating-count" id="reviewCount">0 Reviews</div>
+                </div>
+            </div>
+
+            <!-- Review Form -->
+            <div class="review-form-container" id="reviewFormContainer">
+                <div class="sign-in-prompt" id="signInPrompt">
+                    <h3>Sign in to leave a review</h3>
+                    <p>Please sign in with your Google account to share your experience.</p>
+                    <button class="google-signin-btn" id="googleSignInBtn">
+                        <i class="fab fa-google"></i>
+                        Sign in with Google
+                    </button>
+                </div>
+
+                <div id="reviewFormSection" style="display: none;">
+                    <h3>Leave a Review</h3>
+                    <form id="reviewForm">
+                        <div class="form-group">
+                            <label>Your Rating</label>
+                            <div class="star-rating" id="starRating">
+                                <i class="fas fa-star" data-rating="1"></i>
+                                <i class="fas fa-star" data-rating="2"></i>
+                                <i class="fas fa-star" data-rating="3"></i>
+                                <i class="fas fa-star" data-rating="4"></i>
+                                <i class="fas fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText">Your Review</label>
+                            <textarea id="reviewText" required placeholder="Share your experience..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-button" id="reviewSubmitBtn">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reviews List -->
+            <div class="reviews-list" id="reviewsList">
+                <div class="loading-message">
+                    <i class="fas fa-spinner fa-spin"></i> Loading reviews...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <h2 class="section-title">Testimonials</h2>
+        <p class="section-subtitle">Featured client testimonials</p>
+        <div class="testimonials-container">
+            <div class="testimonial-card active" data-index="0">
+                <p class="testimonial-text">"Harshit's editing skills transformed our YouTube channel. The quality and attention to detail are exceptional. Our engagement has increased by 300% since working with him!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RK</div>
+                    <div class="author-info">
+                        <h4>Rajesh Kumar</h4>
+                        <p>YouTube Content Creator</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card" data-index="1">
+                <p class="testimonial-text">"Professional, creative, and always delivers on time. Harshit understands the vision and brings it to life perfectly. Highly recommend for any video project!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">PS</div>
+                    <div class="author-info">
+                        <h4>Priya Sharma</h4>
+                        <p>Digital Marketing Manager</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card" data-index="2">
+                <p class="testimonial-text">"The Reddit marketing strategy Harshit developed helped us reach our target audience authentically. Our community engagement tripled within a month!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AV</div>
+                    <div class="author-info">
+                        <h4>Aditya Verma</h4>
+                        <p>Startup Founder</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <span class="testimonial-dot active" data-index="0"></span>
+                <span class="testimonial-dot" data-index="1"></span>
+                <span class="testimonial-dot" data-index="2"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking">
+        <h2 class="section-title">Book a Service</h2>
+        <p class="section-subtitle">Let's work together on your next project</p>
+        <div class="booking-container">
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="service">Select Service</label>
+                    <select id="service" name="service" required>
+                        <option value="">Choose a service...</option>
+                        <option value="video-editing">Video Editing (Any Field)</option>
+                        <option value="thumbnail">Thumbnail Design</option>
+                        <option value="photo">Photo Editing</option>
+                        <option value="reddit">Reddit Marketing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Project Details</label>
+                    <textarea id="message" name="message" required placeholder="Tell me about your project..."></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit Booking Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-subtitle">Let's create something amazing together</p>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <strong>Email</strong><br>
+                        harshitpruthiorg@gmail.com
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <strong>Phone</strong><br>
+                        +91 XXXXX XXXXX
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <div class="contact-icon">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <strong>Location</strong><br>
+                        India
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Reddit">
+                        <i class="fab fa-reddit"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contact-name">Name</label>
+                        <input type="text" id="contact-name" required placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Email</label>
+                        <input type="email" id="contact-email" required placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" required placeholder="Your message..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send Message</button>
                 </form>
             </div>
-
-            <!-- Recent Items -->
-            <div class="items-list">
-                <h3><i class="fas fa-list"></i> Recent Portfolio Items</h3>
-                <div id="itemsList">
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Loading items...
-                    </div>
-                </div>
-            </div>
         </div>
+    </section>
 
-        <!-- Themes Tab -->
-        <div id="themesTab" class="tab-content">
-            <div class="page-header">
-                <h2><i class="fas fa-palette"></i> Theme Settings</h2>
-                <p>Customize the look and feel of your main website with festival themes</p>
-            </div>
-
-            <!-- Current Theme Status -->
-            <div class="form-card">
-                <h3>Current Theme Status</h3>
-                <p class="subtitle">Manage your active website theme</p>
-                
-                <div class="form-group">
-                    <label for="currentThemeStatus">Theme Status</label>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="themeEnabled" checked>
-                        <label for="themeEnabled">Enable Festival Theme</label>
-                    </div>
-                    <small>Toggle festival theme on/off for the main website</small>
-                </div>
-
-                <div class="form-group">
-                    <label>Active Theme</label>
-                    <div id="currentThemeInfo" class="theme-card active" style="cursor: default; pointer-events: none;">
-                        <div class="theme-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h4 id="currentThemeName">Default Theme</h4>
-                        <p id="currentThemeDescription">No festival theme active</p>
-                        <div class="theme-meta">
-                            <span class="theme-status status-inactive" id="currentThemeStatus">Inactive</span>
-                            <span id="currentThemeDates">Always active</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Festival Themes -->
-            <div class="form-card">
-                <h3>Festival Themes</h3>
-                <p class="subtitle">Select and customize festival themes for your website</p>
-
-                <div class="theme-preview" id="themePreview">
-                    <!-- Themes will be loaded here -->
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Loading themes...
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-top: 30px;">
-                    <button class="submit-btn" id="saveThemeBtn">
-                        <i class="fas fa-save"></i>
-                        Save Theme Settings
-                    </button>
-                </div>
-            </div>
-
-            <!-- Custom Theme Settings -->
-            <div class="form-card">
-                <h3>Custom Theme Settings</h3>
-                <p class="subtitle">Advanced customization for the selected theme</p>
-
-                <form id="customThemeForm">
-                    <div class="form-group">
-                        <label for="selectedFestival">Select Festival</label>
-                        <select id="selectedFestival">
-                            <option value="none">None (Default Theme)</option>
-                            <option value="diwali">Diwali</option>
-                            <option value="christmas">Christmas</option>
-                            <option value="eid">Eid</option>
-                            <option value="holi">Holi</option>
-                            <option value="newyear">New Year</option>
-                        </select>
-                        <small>Choose a festival to apply its theme to your website</small>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="primaryColor">
-                                <i class="fas fa-fill-drip"></i> Primary Color
-                            </label>
-                            <div class="color-picker-group">
-                                <input type="color" id="primaryColor" value="#0071e3" class="color-picker">
-                                <input type="text" id="primaryColorHex" value="#0071e3" placeholder="#0071e3" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="secondaryColor">
-                                <i class="fas fa-fill"></i> Secondary Color
-                            </label>
-                            <div class="color-picker-group">
-                                <input type="color" id="secondaryColor" value="#1d1d1f" class="color-picker">
-                                <input type="text" id="secondaryColorHex" value="#1d1d1f" placeholder="#1d1d1f" readonly>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="themeDuration">Theme Duration</label>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="startDate">Start Date</label>
-                                <input type="date" id="startDate">
-                            </div>
-                            <div class="form-group">
-                                <label for="endDate">End Date</label>
-                                <input type="date" id="endDate">
-                            </div>
-                        </div>
-                        <small>Set dates for automatic theme activation/deactivation</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="customMessage">Custom Festival Message</label>
-                        <textarea id="customMessage" placeholder="Enter a custom greeting message for your website visitors..." rows="3"></textarea>
-                        <small>This message will be displayed on your website during the festival</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="themeElements">Theme Elements</label>
-                        <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="enableDecorations" checked>
-                                <label for="enableDecorations">Enable Festival Decorations</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="enableSounds" checked>
-                                <label for="enableSounds">Enable Festival Sounds</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="enableAnimations" checked>
-                                <label for="enableAnimations">Enable Special Animations</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="showBanner" checked>
-                                <label for="showBanner">Show Festival Banner</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="bannerImage">Banner Image URL</label>
-                        <div class="image-upload-container">
-                            <div class="image-upload-preview" id="bannerPreview">
-                                <i class="fas fa-image"></i>
-                                <span>No banner image</span>
-                            </div>
-                            <div>
-                                <input type="url" id="bannerImage" placeholder="https://example.com/banner.jpg">
-                            </div>
-                        </div>
-                        <small>URL for festival banner image (optional)</small>
-                    </div>
-
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-magic"></i>
-                        Apply Theme Settings
-                    </button>
-                </form>
-            </div>
-
-            <!-- Theme Preview Section -->
-            <div class="form-card">
-                <h3>Theme Preview</h3>
-                <p class="subtitle">See how your theme will look on the main website</p>
-                
-                <div id="themeDemo" class="theme-demo-preview">
-                    <div class="theme-demo-header">
-                        <div class="theme-demo-title" id="demoFestivalName">Default Theme</div>
-                        <div style="display: flex; gap: 15px;">
-                            <span style="color: var(--text-secondary);">About</span>
-                            <span style="color: var(--accent-color); font-weight: 600;">Portfolio</span>
-                            <span style="color: var(--text-secondary);">Contact</span>
-                        </div>
-                    </div>
-                    
-                    <div style="background: linear-gradient(135deg, var(--accent-color) 20%, #667eea 100%); padding: 40px; border-radius: 12px; color: white; text-align: center; margin-bottom: 20px;">
-                        <h3 style="font-size: 32px; margin-bottom: 10px;" id="demoFestivalTitle">Festival Theme Preview</h3>
-                        <p id="demoFestivalMessage">Experience the magic of this festival with our special theme!</p>
-                    </div>
-                    
-                    <div class="theme-demo-content">
-                        <div class="theme-demo-item">
-                            <div class="theme-demo-color-box" style="background: var(--accent-color);"></div>
-                            <div style="font-weight: 600; margin-bottom: 5px;">Video Project</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">Festival Special</div>
-                        </div>
-                        <div class="theme-demo-item">
-                            <div class="theme-demo-color-box" style="background: var(--secondary-color);"></div>
-                            <div style="font-weight: 600; margin-bottom: 5px;">Thumbnail Design</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">Festival Edition</div>
-                        </div>
-                        <div class="theme-demo-item">
-                            <div class="theme-demo-color-box" style="background: linear-gradient(135deg, var(--accent-color) 0%, #667eea 100%);"></div>
-                            <div style="font-weight: 600; margin-bottom: 5px;">Photo Editing</div>
-                            <div style="font-size: 12px; color: var(--text-secondary);">Festival Style</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="submit-btn" onclick="updateThemePreview()" style="margin-top: 20px;">
-                    <i class="fas fa-sync-alt"></i>
-                    Refresh Preview
-                </button>
-            </div>
-        </div>
-
-        <!-- Other Tabs (Placeholder) -->
-        <div id="reviewsTab" class="tab-content">
-            <div class="page-header">
-                <h2><i class="fas fa-star"></i> Reviews Management</h2>
-                <p>Manage client reviews and ratings</p>
-            </div>
-            <div class="form-card">
-                <h3>Coming Soon</h3>
-                <p class="subtitle">Reviews management feature will be available soon</p>
-            </div>
-        </div>
-
-        <div id="analyticsTab" class="tab-content">
-            <div class="page-header">
-                <h2><i class="fas fa-chart-line"></i> Analytics Dashboard</h2>
-                <p>View website analytics and performance metrics</p>
-            </div>
-            <div class="form-card">
-                <h3>Coming Soon</h3>
-                <p class="subtitle">Analytics dashboard will be available soon</p>
-            </div>
-        </div>
-
-        <div id="settingsTab" class="tab-content">
-            <div class="page-header">
-                <h2><i class="fas fa-cog"></i> General Settings</h2>
-                <p>Configure general website settings</p>
-            </div>
-            <div class="form-card">
-                <h3>Coming Soon</h3>
-                <p class="subtitle">General settings will be available soon</p>
-            </div>
-        </div>
-    </main>
-
-    <!-- Auth Container -->
-    <div class="auth-container" id="authContainer">
-        <h2>Admin Access Required</h2>
-        <p>Please sign in with your Google account to access the admin panel</p>
-        <button class="google-signin-btn" id="signInBtn">
-            <i class="fab fa-google"></i>
-            Sign in with Google
-        </button>
-    </div>
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Harshit Pruthi. All rights reserved. | Crafted with passion for visual storytelling</p>
+    </footer>
 
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, setDoc, doc, getDoc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp, deleteDoc, doc, limit, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // Firebase Configuration
@@ -1408,764 +1814,726 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
+        // Initialize EmailJS
+        emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+
+        // Auth state management
         let currentUser = null;
         let currentTheme = null;
-
-        // Theme definitions with proper structure
-        const festivalThemes = {
-            diwali: {
-                name: "Diwali Festival",
-                description: "Festival of Lights - Gold and orange theme with lamp decorations",
-                colors: {
-                    primary: "#FF9800",
-                    secondary: "#FF5722",
-                    accent: "#FFD700",
-                    background: "#FFF8E1"
-                },
-                icon: "fas fa-oil-can",
-                active: false
-            },
-            christmas: {
-                name: "Christmas",
-                description: "Christmas celebration - Red and green theme with snow effects",
-                colors: {
-                    primary: "#D32F2F",
-                    secondary: "#388E3C",
-                    accent: "#C62828",
-                    background: "#F5F5F5"
-                },
-                icon: "fas fa-tree",
-                active: false
-            },
-            eid: {
-                name: "Eid Celebration",
-                description: "Eid Mubarak - Green and gold theme with moon and star decorations",
-                colors: {
-                    primary: "#4CAF50",
-                    secondary: "#8BC34A",
-                    accent: "#CDDC39",
-                    background: "#F1F8E9"
-                },
-                icon: "fas fa-moon",
-                active: false
-            },
-            holi: {
-                name: "Holi Festival",
-                description: "Festival of Colors - Vibrant rainbow theme with color splashes",
-                colors: {
-                    primary: "#E91E63",
-                    secondary: "#9C27B0",
-                    accent: "#2196F3",
-                    background: "#FFF3E0"
-                },
-                icon: "fas fa-paint-brush",
-                active: false
-            },
-            newyear: {
-                name: "New Year",
-                description: "New Year Celebration - Blue and silver theme with fireworks",
-                colors: {
-                    primary: "#2196F3",
-                    secondary: "#03A9F4",
-                    accent: "#00BCD4",
-                    background: "#E3F2FD"
-                },
-                icon: "fas fa-glass-cheers",
-                active: false
-            }
-        };
-
-        // Default theme structure
-        const defaultTheme = {
-            enabled: true,
-            festival: "none",
-            colors: {
-                primary: "#0071e3",
-                secondary: "#1d1d1f",
-                accent: "#0071e3",
-                background: "#ffffff"
-            },
-            message: "",
-            startDate: null,
-            endDate: null,
-            decorations: true,
-            sounds: true,
-            animations: true,
-            banner: true,
-            bannerImage: "",
-            updatedAt: Timestamp.now(),
-            updatedBy: ""
-        };
 
         // Auth state observer
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             updateUIForAuthState(user);
-            if (user) {
-                loadCurrentTheme();
-                loadRecentItems();
-                loadThemes();
-            }
+            console.log('Auth state changed:', user ? user.email : 'No user');
         });
 
         function updateUIForAuthState(user) {
-            const authContainer = document.getElementById('authContainer');
-            const userInfoBar = document.getElementById('userInfoBar');
-            const userInfoSidebar = document.getElementById('userInfoSidebar');
-            const mainContent = document.querySelector('.main-content');
-            const sidebar = document.getElementById('sidebar');
+            const signInBtn = document.getElementById('signInBtn');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+            const userAvatar = document.getElementById('userAvatar');
+            const signInPrompt = document.getElementById('signInPrompt');
+            const reviewFormSection = document.getElementById('reviewFormSection');
 
             if (user) {
-                authContainer.classList.remove('show');
-                userInfoBar.classList.add('show');
-                userInfoSidebar.style.display = 'block';
-                mainContent.style.display = 'block';
-                sidebar.style.display = 'block';
-
-                // Update user info in both places
-                document.getElementById('userName').textContent = user.displayName || 'Admin User';
-                document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('userAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Admin');
-                
-                document.getElementById('sidebarUserName').textContent = user.displayName || 'Admin User';
-                document.getElementById('sidebarUserEmail').textContent = user.email;
-                document.getElementById('sidebarUserAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Admin');
+                signInBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userName.textContent = user.displayName || 'User';
+                userAvatar.src = user.photoURL || '';
+                signInPrompt.style.display = 'none';
+                reviewFormSection.style.display = 'block';
             } else {
-                authContainer.classList.add('show');
-                userInfoBar.classList.remove('show');
-                userInfoSidebar.style.display = 'none';
-                mainContent.style.display = 'none';
-                sidebar.style.display = 'none';
+                signInBtn.style.display = 'flex';
+                userInfo.style.display = 'none';
+                signInPrompt.style.display = 'block';
+                reviewFormSection.style.display = 'none';
             }
         }
 
-        // Tab Navigation
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Update active tab in sidebar
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
-                // Show corresponding tab content
-                const tab = link.getAttribute('data-tab');
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(`${tab}Tab`).classList.add('active');
-            });
-        });
-
-        // Sign in
-        document.getElementById('signInBtn').addEventListener('click', async () => {
+        // Sign in function
+        async function signInWithGoogle() {
             try {
-                await signInWithPopup(auth, provider);
+                const result = await signInWithPopup(auth, provider);
+                console.log('User signed in:', result.user);
             } catch (error) {
                 console.error('Error signing in:', error);
-                showError('Failed to sign in. Please try again.');
+                alert('Error signing in. Please try again.');
             }
-        });
+        }
 
-        // Sign out
-        document.getElementById('signOutBtn').addEventListener('click', async () => {
+        // Sign out function
+        async function signOutUser() {
             try {
                 await signOut(auth);
+                console.log('User signed out');
             } catch (error) {
                 console.error('Error signing out:', error);
             }
-        });
-
-        // Collection type change handler
-        document.getElementById('collectionType').addEventListener('change', (e) => {
-            const categoryGroup = document.getElementById('categoryGroup');
-            const imageUrlGroup = document.getElementById('imageUrlGroup');
-            const videoUrlGroup = document.getElementById('videoUrlGroup');
-
-            if (e.target.value === 'portfolioItems') {
-                categoryGroup.style.display = 'block';
-                document.getElementById('category').required = true;
-            } else {
-                categoryGroup.style.display = 'none';
-                document.getElementById('category').required = false;
-                // For featuredWork, always show video URL
-                videoUrlGroup.style.display = 'block';
-                imageUrlGroup.style.display = 'none';
-            }
-        });
-
-        // Category change handler
-        document.getElementById('category').addEventListener('change', (e) => {
-            const videoUrlGroup = document.getElementById('videoUrlGroup');
-            const imageUrlGroup = document.getElementById('imageUrlGroup');
-            const videoUrlInput = document.getElementById('videoUrl');
-            const imageUrlInput = document.getElementById('imageUrl');
-
-            if (e.target.value === 'videos') {
-                videoUrlGroup.style.display = 'block';
-                imageUrlGroup.style.display = 'none';
-                videoUrlInput.required = true;
-                imageUrlInput.required = false;
-            } else if (e.target.value && e.target.value !== 'videos') {
-                videoUrlGroup.style.display = 'none';
-                imageUrlGroup.style.display = 'block';
-                videoUrlInput.required = false;
-                imageUrlInput.required = true;
-            } else {
-                videoUrlGroup.style.display = 'none';
-                imageUrlGroup.style.display = 'none';
-                videoUrlInput.required = false;
-                imageUrlInput.required = false;
-            }
-        });
-
-        // Form submission for portfolio items
-        document.getElementById('addItemForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            if (!currentUser) {
-                showError('Please sign in first');
-                return;
-            }
-
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
-
-            try {
-                const collectionType = document.getElementById('collectionType').value;
-                const title = document.getElementById('title').value;
-                const description = document.getElementById('description').value;
-                const order = parseInt(document.getElementById('order').value);
-                const status = document.getElementById('status').value;
-
-                const itemData = {
-                    title: title,
-                    description: description,
-                    order: order,
-                    status: status,
-                    createdAt: Timestamp.now(),
-                    addedBy: currentUser.email,
-                    updatedAt: Timestamp.now()
-                };
-
-                if (collectionType === 'portfolioItems') {
-                    const category = document.getElementById('category').value;
-                    if (!category) {
-                        throw new Error('Category is required for portfolio items');
-                    }
-                    itemData.category = category;
-
-                    if (category === 'videos') {
-                        const videoUrl = document.getElementById('videoUrl').value;
-                        if (!videoUrl) {
-                            throw new Error('Video URL is required for videos category');
-                        }
-                        itemData.videoUrl = videoUrl;
-                    } else {
-                        const imageUrl = document.getElementById('imageUrl').value;
-                        if (!imageUrl) {
-                            throw new Error('Image URL is required for non-video categories');
-                        }
-                        itemData.imageUrl = imageUrl;
-                    }
-                } else {
-                    // featuredWork always has videoUrl
-                    const videoUrl = document.getElementById('videoUrl').value;
-                    if (!videoUrl) {
-                        throw new Error('Video URL is required for featured work');
-                    }
-                    itemData.videoUrl = videoUrl;
-                }
-
-                await addDoc(collection(db, collectionType), itemData);
-
-                showSuccess(`Item added successfully to ${collectionType}!`);
-                document.getElementById('addItemForm').reset();
-                loadRecentItems();
-            } catch (error) {
-                console.error('Error adding item:', error);
-                showError(`Error: ${error.message}`);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Portfolio';
-            }
-        });
-
-        // Load recent items
-        async function loadRecentItems() {
-            const itemsList = document.getElementById('itemsList');
-            itemsList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading items...</div>';
-
-            try {
-                const allItems = [];
-
-                // Load from portfolioItems
-                const portfolioQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(10));
-                const portfolioSnapshot = await getDocs(portfolioQuery);
-                portfolioSnapshot.forEach((doc) => {
-                    allItems.push({
-                        id: doc.id,
-                        collection: 'portfolioItems',
-                        ...doc.data()
-                    });
-                });
-
-                // Load from featuredWork
-                const featuredQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(5));
-                const featuredSnapshot = await getDocs(featuredQuery);
-                featuredSnapshot.forEach((doc) => {
-                    allItems.push({
-                        id: doc.id,
-                        collection: 'featuredWork',
-                        ...doc.data()
-                    });
-                });
-
-                // Sort by creation date
-                allItems.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
-
-                if (allItems.length === 0) {
-                    itemsList.innerHTML = '<div class="loading">No items added yet</div>';
-                    return;
-                }
-
-                itemsList.innerHTML = '';
-                allItems.forEach((item) => {
-                    const itemCard = document.createElement('div');
-                    itemCard.className = 'item-card';
-
-                    const badgeClass = item.collection === 'featuredWork' 
-                        ? 'badge-featured' 
-                        : `badge-${item.category || 'videos'}`;
-
-                    const badgeText = item.collection === 'featuredWork' 
-                        ? 'Featured' 
-                        : item.category || 'Video';
-
-                    const date = new Date(item.createdAt.seconds * 1000).toLocaleDateString();
-                    const status = item.status || 'active';
-                    const statusClass = status === 'active' ? 'badge-active' : 'badge-inactive';
-
-                    itemCard.innerHTML = `
-                        <div class="item-header">
-                            <div class="item-title">${item.title}</div>
-                            <div style="display: flex; gap: 8px;">
-                                <div class="item-badge ${badgeClass}">${badgeText}</div>
-                                <div class="item-badge ${statusClass}">${status}</div>
-                            </div>
-                        </div>
-                        <div class="item-description">${item.description}</div>
-                        <div class="item-meta">
-                            <span><i class="fas fa-calendar"></i> ${date}</span>
-                            <span><i class="fas fa-sort"></i> Order: ${item.order}</span>
-                            <span><i class="fas fa-database"></i> ${item.collection}</span>
-                        </div>
-                        <div class="item-actions">
-                            <button class="edit-btn" onclick="editItem('${item.id}', '${item.collection}')">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="delete-btn" onclick="deleteItem('${item.id}', '${item.collection}')">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    `;
-
-                    itemsList.appendChild(itemCard);
-                });
-            } catch (error) {
-                console.error('Error loading items:', error);
-                itemsList.innerHTML = '<div class="loading">Error loading items</div>';
-            }
         }
 
-        // Load current theme - FIXED VERSION
-        async function loadCurrentTheme() {
+        // Event listeners for auth buttons
+        document.getElementById('signInBtn').addEventListener('click', signInWithGoogle);
+        document.getElementById('googleSignInBtn').addEventListener('click', signInWithGoogle);
+        document.getElementById('signOutBtn').addEventListener('click', signOutUser);
+
+        // Load and apply theme settings
+        async function loadThemeSettings() {
             try {
-                const themeRef = doc(db, 'themeSettings', 'currentTheme');
+                const themeRef = doc(db, 'siteSettings', 'currentTheme');
                 const themeSnap = await getDoc(themeRef);
                 
                 if (themeSnap.exists()) {
                     currentTheme = themeSnap.data();
-                    console.log('Theme loaded successfully:', currentTheme);
-                    updateThemeUI(currentTheme);
-                } else {
-                    // Create default theme settings
-                    console.log('No theme found, creating default...');
-                    currentTheme = {
-                        ...defaultTheme,
-                        updatedBy: currentUser ? currentUser.email : 'system'
-                    };
+                    console.log('Loaded theme:', currentTheme);
                     
-                    try {
-                        await setDoc(themeRef, currentTheme);
-                        console.log('Default theme created successfully');
-                        updateThemeUI(currentTheme);
-                    } catch (createError) {
-                        console.error('Error creating default theme:', createError);
-                        showError('Failed to create default theme settings. Please try again.');
-                        // Still update UI with default theme even if save fails
-                        updateThemeUI(currentTheme);
+                    if (currentTheme.enabled && currentTheme.festival && currentTheme.festival !== 'none') {
+                        applyFestivalTheme(currentTheme);
+                    } else {
+                        removeFestivalTheme();
                     }
+                } else {
+                    console.log('No theme settings found');
+                    removeFestivalTheme();
                 }
             } catch (error) {
                 console.error('Error loading theme:', error);
-                // Don't show error to user, just use default theme
-                currentTheme = { ...defaultTheme };
-                updateThemeUI(currentTheme);
-                showWarning('Using default theme settings. You can create a new theme.');
+                removeFestivalTheme();
             }
         }
 
-        // Load themes for preview
-        async function loadThemes() {
-            const themePreview = document.getElementById('themePreview');
-            themePreview.innerHTML = '';
+        // Apply festival theme
+        function applyFestivalTheme(theme) {
+            const body = document.body;
             
-            // Add "None" option
-            const noneCard = document.createElement('div');
-            noneCard.className = `theme-card ${(!currentTheme || currentTheme.festival === 'none') ? 'active' : ''}`;
-            noneCard.setAttribute('data-festival', 'none');
-            noneCard.onclick = () => selectTheme('none');
+            // Remove any existing festival classes
+            body.classList.remove('festival-theme', 'diwali', 'christmas', 'eid', 'holi', 'newyear');
             
-            noneCard.innerHTML = `
-                <div class="theme-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <h4>No Festival Theme</h4>
-                <p>Default website theme without festival decorations</p>
-                <div class="theme-meta">
-                    <span class="theme-status ${(!currentTheme || currentTheme.festival === 'none') ? 'status-active' : 'status-inactive'}">
-                        ${(!currentTheme || currentTheme.festival === 'none') ? 'Active' : 'Inactive'}
-                    </span>
-                    <span>Click to select</span>
-                </div>
+            // Add festival theme class and specific festival class
+            body.classList.add('festival-theme');
+            if (theme.festival) {
+                body.classList.add(theme.festival);
+            }
+            
+            // Apply theme colors as CSS variables
+            const root = document.documentElement;
+            if (theme.colors) {
+                root.style.setProperty('--festival-primary', theme.colors.primary || '#0071e3');
+                root.style.setProperty('--festival-secondary', theme.colors.secondary || '#1d1d1f');
+                root.style.setProperty('--festival-accent', theme.colors.primary || '#0071e3');
+            }
+            
+            // Add festival banner if enabled
+            if (theme.banner && theme.message) {
+                addFestivalBanner(theme);
+            }
+            
+            // Add decorations if enabled
+            if (theme.decorations) {
+                addFestivalDecorations(theme);
+            }
+            
+            // Add sparkle effects if animations enabled
+            if (theme.animations) {
+                addSparkleEffects(theme);
+            }
+            
+            console.log('Applied festival theme:', theme.festival);
+        }
+
+        // Remove festival theme
+        function removeFestivalTheme() {
+            const body = document.body;
+            body.classList.remove('festival-theme', 'diwali', 'christmas', 'eid', 'holi', 'newyear');
+            
+            // Remove banner if exists
+            const existingBanner = document.querySelector('.festival-banner');
+            if (existingBanner) {
+                existingBanner.remove();
+                document.body.style.paddingTop = '0';
+                document.querySelector('nav').style.top = '0';
+            }
+            
+            // Remove decorations
+            const decorations = document.querySelector('.festival-decorations');
+            if (decorations) {
+                decorations.remove();
+            }
+            
+            console.log('Removed festival theme');
+        }
+
+        // Add festival banner
+        function addFestivalBanner(theme) {
+            // Remove existing banner first
+            const existingBanner = document.querySelector('.festival-banner');
+            if (existingBanner) {
+                existingBanner.remove();
+            }
+            
+            const banner = document.createElement('div');
+            banner.className = 'festival-banner';
+            
+            // Get festival icon based on festival type
+            let festivalIcon = 'fas fa-palette';
+            switch(theme.festival) {
+                case 'diwali':
+                    festivalIcon = 'fas fa-oil-can';
+                    break;
+                case 'christmas':
+                    festivalIcon = 'fas fa-tree';
+                    break;
+                case 'eid':
+                    festivalIcon = 'fas fa-moon';
+                    break;
+                case 'holi':
+                    festivalIcon = 'fas fa-paint-brush';
+                    break;
+                case 'newyear':
+                    festivalIcon = 'fas fa-glass-cheers';
+                    break;
+            }
+            
+            banner.innerHTML = `
+                <i class="${festivalIcon}"></i>
+                <span>${theme.message || 'Happy Festival!'}</span>
+                <button class="close-btn" onclick="this.parentElement.remove(); document.body.style.paddingTop='0'; document.querySelector('nav').style.top='0';">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
             
-            themePreview.appendChild(noneCard);
+            // Adjust page content to account for banner
+            document.body.style.paddingTop = '44px';
+            document.querySelector('nav').style.top = '44px';
             
-            // Add festival themes
-            Object.entries(festivalThemes).forEach(([key, theme]) => {
-                const themeCard = document.createElement('div');
-                themeCard.className = `theme-card ${currentTheme && currentTheme.festival === key ? 'active' : ''}`;
-                themeCard.setAttribute('data-festival', key);
-                themeCard.onclick = () => selectTheme(key);
-                
-                themeCard.innerHTML = `
-                    <div class="theme-icon">
-                        <i class="${theme.icon}"></i>
-                    </div>
-                    <h4>${theme.name}</h4>
-                    <p>${theme.description}</p>
-                    <div class="theme-meta">
-                        <span class="theme-status ${currentTheme && currentTheme.festival === key ? 'status-active' : 'status-inactive'}">
-                            ${currentTheme && currentTheme.festival === key ? 'Active' : 'Inactive'}
-                        </span>
-                        <span>Click to select</span>
-                    </div>
-                `;
-                
-                themePreview.appendChild(themeCard);
+            document.body.prepend(banner);
+        }
+
+        // Add festival decorations
+        function addFestivalDecorations(theme) {
+            // Remove existing decorations first
+            const existingDecorations = document.querySelector('.festival-decorations');
+            if (existingDecorations) {
+                existingDecorations.remove();
+            }
+            
+            const decorations = document.createElement('div');
+            decorations.className = 'festival-decorations';
+            
+            // Add different decorations based on festival type
+            let decorationClass = '';
+            let count = 20;
+            
+            switch(theme.festival) {
+                case 'diwali':
+                    decorationClass = 'diwali-decoration';
+                    count = 30;
+                    break;
+                case 'christmas':
+                    decorationClass = 'christmas-decoration';
+                    count = 25;
+                    break;
+                case 'eid':
+                    decorationClass = 'eid-decoration';
+                    count = 20;
+                    break;
+                case 'holi':
+                    decorationClass = 'holi-decoration';
+                    count = 35;
+                    break;
+                case 'newyear':
+                    decorationClass = 'newyear-decoration';
+                    count = 20;
+                    break;
+                default:
+                    decorationClass = 'diwali-decoration';
+            }
+            
+            for (let i = 0; i < count; i++) {
+                const decor = document.createElement('div');
+                decor.className = `festival-decoration ${decorationClass}`;
+                decor.style.left = `${Math.random() * 100}%`;
+                decor.style.animationDelay = `${Math.random() * 15}s`;
+                decorations.appendChild(decor);
+            }
+            
+            document.body.appendChild(decorations);
+        }
+
+        // Add sparkle effects
+        function addSparkleEffects(theme) {
+            // Add random sparkles
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'festival-sparkle';
+                    sparkle.style.left = `${Math.random() * 100}%`;
+                    sparkle.style.top = `${Math.random() * 100}%`;
+                    sparkle.style.animationDelay = `${Math.random() * 2}s`;
+                    document.body.appendChild(sparkle);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.parentNode.removeChild(sparkle);
+                        }
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        // Set up real-time theme listener
+        function setupThemeListener() {
+            const themeRef = doc(db, 'siteSettings', 'currentTheme');
+            
+            onSnapshot(themeRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    currentTheme = docSnap.data();
+                    console.log('Theme updated:', currentTheme);
+                    
+                    if (currentTheme.enabled && currentTheme.festival && currentTheme.festival !== 'none') {
+                        applyFestivalTheme(currentTheme);
+                    } else {
+                        removeFestivalTheme();
+                    }
+                }
+            }, (error) => {
+                console.error('Theme listener error:', error);
             });
         }
 
-        // Select theme
-        function selectTheme(festival) {
-            if (!currentTheme) {
-                currentTheme = { ...defaultTheme };
-            }
-            
-            currentTheme.festival = festival;
-            currentTheme.enabled = festival !== 'none';
-            
-            // Update theme colors based on selection
-            if (festival !== 'none' && festivalThemes[festival]) {
-                const theme = festivalThemes[festival];
-                currentTheme.colors = { ...theme.colors };
-                currentTheme.message = `Happy ${theme.name}! Enjoy our special theme.`;
-            } else {
-                currentTheme.colors = defaultTheme.colors;
-                currentTheme.message = '';
-            }
-            
-            updateThemeUI(currentTheme);
-            loadThemes();
-        }
-
-        // Update theme UI
-        function updateThemeUI(theme) {
-            if (!theme) return;
-            
-            console.log('Updating UI with theme:', theme);
-            
-            // Update form values
-            document.getElementById('themeEnabled').checked = theme.enabled !== false;
-            document.getElementById('selectedFestival').value = theme.festival || 'none';
-            document.getElementById('primaryColor').value = theme.colors?.primary || '#0071e3';
-            document.getElementById('primaryColorHex').value = theme.colors?.primary || '#0071e3';
-            document.getElementById('secondaryColor').value = theme.colors?.secondary || '#1d1d1f';
-            document.getElementById('secondaryColorHex').value = theme.colors?.secondary || '#1d1d1f';
-            document.getElementById('startDate').value = theme.startDate || '';
-            document.getElementById('endDate').value = theme.endDate || '';
-            document.getElementById('customMessage').value = theme.message || '';
-            document.getElementById('enableDecorations').checked = theme.decorations !== false;
-            document.getElementById('enableSounds').checked = theme.sounds !== false;
-            document.getElementById('enableAnimations').checked = theme.animations !== false;
-            document.getElementById('showBanner').checked = theme.banner !== false;
-            document.getElementById('bannerImage').value = theme.bannerImage || '';
-            
-            // Update banner preview
-            const bannerPreview = document.getElementById('bannerPreview');
-            if (theme.bannerImage) {
-                bannerPreview.innerHTML = `<img src="${theme.bannerImage}" alt="Banner Preview" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\'></i><span>Error loading image</span>'">`;
-            } else {
-                bannerPreview.innerHTML = '<i class="fas fa-image"></i><span>No banner image</span>';
-            }
-            
-            // Update current theme info
-            const themeInfo = document.getElementById('currentThemeInfo');
-            const themeName = document.getElementById('currentThemeName');
-            const themeDesc = document.getElementById('currentThemeDescription');
-            const themeStatus = document.getElementById('currentThemeStatus');
-            const themeDates = document.getElementById('currentThemeDates');
-            
-            if (theme.enabled && theme.festival && theme.festival !== 'none' && festivalThemes[theme.festival]) {
-                const festivalTheme = festivalThemes[theme.festival];
-                themeName.textContent = festivalTheme.name;
-                themeDesc.textContent = festivalTheme.description;
-                themeStatus.textContent = 'Active';
-                themeStatus.className = 'theme-status status-active';
-                themeDates.textContent = theme.startDate && theme.endDate 
-                    ? `${theme.startDate} to ${theme.endDate}`
-                    : 'Always active';
-                
-                // Update theme icon
-                const themeIcon = themeInfo.querySelector('.theme-icon');
-                themeIcon.innerHTML = `<i class="${festivalTheme.icon}"></i>`;
-                themeIcon.style.background = `linear-gradient(135deg, ${theme.colors?.primary || '#0071e3'} 0%, ${theme.colors?.secondary || '#1d1d1f'} 100%)`;
-            } else {
-                themeName.textContent = 'Default Theme';
-                themeDesc.textContent = 'No festival theme active';
-                themeStatus.textContent = 'Inactive';
-                themeStatus.className = 'theme-status status-inactive';
-                themeDates.textContent = 'Always active';
-                
-                // Reset icon
-                const themeIcon = themeInfo.querySelector('.theme-icon');
-                themeIcon.innerHTML = `<i class="fas fa-palette"></i>`;
-                themeIcon.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            }
-            
-            // Update demo
-            updateThemePreview();
-        }
-
-        // Save theme settings
-        document.getElementById('saveThemeBtn').addEventListener('click', async () => {
-            if (!currentUser) {
-                showError('Please sign in first');
-                return;
-            }
-
-            const saveBtn = document.getElementById('saveThemeBtn');
-            saveBtn.disabled = true;
-            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
+        // Load featured videos (top 3)
+        async function loadFeaturedVideos() {
             try {
-                const themeRef = doc(db, 'themeSettings', 'currentTheme');
-                
-                // Update theme from form values
-                if (!currentTheme) {
-                    currentTheme = { ...defaultTheme };
+                const videosQuery = query(collection(db, 'featuredWork'), orderBy('order'), limit(3));
+                const videosSnapshot = await getDocs(videosQuery);
+                const featuredVideos = document.getElementById('featuredVideos');
+
+                if (videosSnapshot.empty) {
+                    featuredVideos.innerHTML = '<div class="loading-message">No featured work available yet. Check back soon!</div>';
+                    return;
                 }
-                
-                currentTheme.enabled = document.getElementById('themeEnabled').checked;
-                currentTheme.festival = document.getElementById('selectedFestival').value;
-                currentTheme.colors = {
-                    primary: document.getElementById('primaryColor').value,
-                    secondary: document.getElementById('secondaryColor').value,
-                    accent: document.getElementById('primaryColor').value,
-                    background: '#ffffff'
-                };
-                currentTheme.startDate = document.getElementById('startDate').value || null;
-                currentTheme.endDate = document.getElementById('endDate').value || null;
-                currentTheme.message = document.getElementById('customMessage').value;
-                currentTheme.decorations = document.getElementById('enableDecorations').checked;
-                currentTheme.sounds = document.getElementById('enableSounds').checked;
-                currentTheme.animations = document.getElementById('enableAnimations').checked;
-                currentTheme.banner = document.getElementById('showBanner').checked;
-                currentTheme.bannerImage = document.getElementById('bannerImage').value;
-                currentTheme.updatedAt = Timestamp.now();
-                currentTheme.updatedBy = currentUser.email;
 
-                console.log('Saving theme:', currentTheme);
-                
-                await setDoc(themeRef, currentTheme, { merge: true });
-                
-                showSuccess('Theme settings saved successfully!');
-                loadThemes();
-                updateThemeUI(currentTheme);
+                featuredVideos.innerHTML = '';
+
+                videosSnapshot.forEach((doc) => {
+                    const work = doc.data();
+                    const workCard = document.createElement('div');
+                    workCard.className = 'video-card';
+
+                    let videoId = '';
+                    if (work.videoUrl && work.videoUrl.includes('youtube.com/watch?v=')) {
+                        videoId = work.videoUrl.split('v=')[1].split('&')[0];
+                    } else if (work.videoUrl && work.videoUrl.includes('youtu.be/')) {
+                        videoId = work.videoUrl.split('youtu.be/')[1].split('?')[0];
+                    }
+
+                    if (videoId) {
+                        workCard.innerHTML = `
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/${videoId}" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="video-info">
+                                <h3>${work.title}</h3>
+                                <p>${work.description || ''}</p>
+                            </div>
+                        `;
+                    }
+
+                    featuredVideos.appendChild(workCard);
+                });
             } catch (error) {
-                console.error('Error saving theme:', error);
-                showError(`Failed to save theme: ${error.message}`);
-            } finally {
-                saveBtn.disabled = false;
-                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Theme Settings';
+                console.error('Error loading featured videos:', error);
+                document.getElementById('featuredVideos').innerHTML = 
+                    '<div class="loading-message">Error loading work. Please try again later.</div>';
             }
-        });
-
-        // Custom theme form submission
-        document.getElementById('customThemeForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            document.getElementById('saveThemeBtn').click();
-        });
-
-        // Color picker sync
-        document.getElementById('primaryColor').addEventListener('input', (e) => {
-            document.getElementById('primaryColorHex').value = e.target.value;
-        });
-
-        document.getElementById('secondaryColor').addEventListener('input', (e) => {
-            document.getElementById('secondaryColorHex').value = e.target.value;
-        });
-
-        document.getElementById('primaryColorHex').addEventListener('input', (e) => {
-            document.getElementById('primaryColor').value = e.target.value;
-        });
-
-        document.getElementById('secondaryColorHex').addEventListener('input', (e) => {
-            document.getElementById('secondaryColor').value = e.target.value;
-        });
-
-        // Festival selection change
-        document.getElementById('selectedFestival').addEventListener('change', (e) => {
-            selectTheme(e.target.value);
-        });
-
-        // Theme enabled toggle
-        document.getElementById('themeEnabled').addEventListener('change', (e) => {
-            if (!currentTheme) {
-                currentTheme = { ...defaultTheme };
-            }
-            currentTheme.enabled = e.target.checked;
-            updateThemeUI(currentTheme);
-        });
-
-        // Show success message
-        function showSuccess(message) {
-            const alert = document.getElementById('successAlert');
-            document.getElementById('successMessage').textContent = message;
-            alert.classList.add('show');
-
-            setTimeout(() => {
-                alert.classList.remove('show');
-            }, 5000);
         }
 
-        // Show error message
-        function showError(message) {
-            const alert = document.getElementById('errorAlert');
-            document.getElementById('errorMessage').textContent = message;
-            alert.classList.add('show');
+        // Load reviews from Firestore
+        async function loadReviews() {
+            try {
+                const reviewsQuery = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
+                const reviewsSnapshot = await getDocs(reviewsQuery);
+                const reviewsList = document.getElementById('reviewsList');
 
-            setTimeout(() => {
-                alert.classList.remove('show');
-            }, 5000);
-        }
+                if (reviewsSnapshot.empty) {
+                    reviewsList.innerHTML = '<div class="loading-message">No reviews yet. Be the first to leave a review!</div>';
+                    updateRatingSummary([]);
+                    return;
+                }
 
-        // Show warning message
-        function showWarning(message) {
-            // Create warning alert if it doesn't exist
-            let warningAlert = document.getElementById('warningAlert');
-            if (!warningAlert) {
-                warningAlert = document.createElement('div');
-                warningAlert.className = 'alert alert-warning';
-                warningAlert.id = 'warningAlert';
-                warningAlert.innerHTML = '<i class="fas fa-exclamation-triangle"></i><span id="warningMessage"></span>';
-                document.querySelector('.main-content').insertBefore(warningAlert, document.querySelector('.tab-content'));
+                reviewsList.innerHTML = '';
+                const reviews = [];
+
+                reviewsSnapshot.forEach((docSnap) => {
+                    const review = docSnap.data();
+                    const reviewId = docSnap.id;
+                    reviews.push(review);
+
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = 'review-card';
+                    reviewCard.dataset.reviewId = reviewId;
+                    reviewCard.dataset.userId = review.userId;
+
+                    const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                    const date = review.createdAt ? new Date(review.createdAt.seconds * 1000).toLocaleDateString() : 'Recently';
+
+                    const avatarContent = review.userPhoto 
+                        ? `<img src="${review.userPhoto}" alt="${review.name}">` 
+                        : review.name.charAt(0).toUpperCase();
+
+                    const deleteButton = currentUser && review.userId === currentUser.uid 
+                        ? `<button class="delete-review-btn" onclick="deleteReview('${reviewId}')" style="display: inline-block;"><i class="fas fa-trash"></i> Delete</button>`
+                        : '';
+
+                    reviewCard.innerHTML = `
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">${avatarContent}</div>
+                                <div>
+                                    <div class="reviewer-name">${review.name}</div>
+                                    <div class="review-date">${date}</div>
+                                </div>
+                            </div>
+                            <div class="review-actions">
+                                <div class="review-stars">${stars}</div>
+                                ${deleteButton}
+                            </div>
+                        </div>
+                        <p class="review-text">${review.text}</p>
+                    `;
+
+                    reviewsList.appendChild(reviewCard);
+                });
+
+                updateRatingSummary(reviews);
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                document.getElementById('reviewsList').innerHTML = 
+                    '<div class="loading-message">Error loading reviews. Please try again later.</div>';
             }
-            
-            document.getElementById('warningMessage').textContent = message;
-            warningAlert.classList.add('show');
-
-            setTimeout(() => {
-                warningAlert.classList.remove('show');
-            }, 5000);
         }
 
-        // Global functions for item actions
-        window.editItem = function(id, collection) {
-            alert(`Edit functionality for item ${id} in ${collection} will be implemented soon.`);
-        };
+        // Delete review function
+        window.deleteReview = async function(reviewId) {
+            if (!currentUser) {
+                alert('You must be signed in to delete reviews.');
+                return;
+            }
 
-        window.deleteItem = async function(id, collection) {
-            if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+            if (!confirm('Are you sure you want to delete this review? This action cannot be undone.')) {
                 return;
             }
 
             try {
-                await deleteDoc(doc(db, collection, id));
-                showSuccess('Item deleted successfully!');
-                loadRecentItems();
+                await deleteDoc(doc(db, 'reviews', reviewId));
+                alert('Review deleted successfully!');
+                await loadReviews();
             } catch (error) {
-                console.error('Error deleting item:', error);
-                showError('Failed to delete item. Please try again.');
+                console.error('Error deleting review:', error);
+                alert('Error deleting review. Please try again.');
             }
         };
 
-        // Theme preview update
-        window.updateThemePreview = function() {
-            const demo = document.getElementById('themeDemo');
-            const festivalName = document.getElementById('demoFestivalName');
-            const festivalTitle = document.getElementById('demoFestivalTitle');
-            const festivalMessage = document.getElementById('demoFestivalMessage');
-            
-            if (currentTheme && currentTheme.enabled && currentTheme.festival && currentTheme.festival !== 'none' && festivalThemes[currentTheme.festival]) {
-                const theme = festivalThemes[currentTheme.festival];
-                festivalName.textContent = theme.name;
-                festivalTitle.textContent = `${theme.name} Theme`;
-                festivalMessage.textContent = currentTheme.message || `Enjoy our ${theme.name} theme!`;
-                
-                // Apply theme colors to demo
-                demo.style.setProperty('--accent-color', currentTheme.colors?.primary || theme.colors.primary);
-                demo.style.setProperty('--secondary-color', currentTheme.colors?.secondary || theme.colors.secondary);
-                demo.style.setProperty('--bg-primary', theme.colors.background || '#ffffff');
-                demo.style.setProperty('--text-primary', currentTheme.colors?.primary || theme.colors.primary);
-                
-                // Update demo colors
-                document.querySelectorAll('.theme-demo-color-box')[0].style.background = currentTheme.colors?.primary || theme.colors.primary;
-                document.querySelectorAll('.theme-demo-color-box')[1].style.background = currentTheme.colors?.secondary || theme.colors.secondary;
-                document.querySelectorAll('.theme-demo-color-box')[2].style.background = `linear-gradient(135deg, ${currentTheme.colors?.primary || theme.colors.primary} 0%, ${currentTheme.colors?.secondary || theme.colors.secondary} 100%)`;
-            } else {
-                festivalName.textContent = 'Default Theme';
-                festivalTitle.textContent = 'Default Theme';
-                festivalMessage.textContent = 'This is how your website looks without a festival theme.';
-                demo.style.setProperty('--accent-color', '#0071e3');
-                demo.style.setProperty('--secondary-color', '#1d1d1f');
-                demo.style.setProperty('--bg-primary', '#ffffff');
-                demo.style.setProperty('--text-primary', '#1d1d1f');
-                
-                // Reset demo colors
-                document.querySelectorAll('.theme-demo-color-box')[0].style.background = '#0071e3';
-                document.querySelectorAll('.theme-demo-color-box')[1].style.background = '#1d1d1f';
-                document.querySelectorAll('.theme-demo-color-box')[2].style.background = 'linear-gradient(135deg, #0071e3 0%, #1d1d1f 100%)';
-            }
-        };
+        // Update rating summary
+        function updateRatingSummary(reviews) {
+            const reviewCount = reviews.length;
+            const averageRating = reviewCount > 0 
+                ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
+                : '5.0';
 
-        // Banner image preview
-        document.getElementById('bannerImage').addEventListener('input', (e) => {
-            const bannerPreview = document.getElementById('bannerPreview');
-            if (e.target.value) {
-                bannerPreview.innerHTML = `<img src="${e.target.value}" alt="Banner Preview" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\'></i><span>Invalid image URL</span>'">`;
-            } else {
-                bannerPreview.innerHTML = '<i class="fas fa-image"></i><span>No banner image</span>';
+            document.getElementById('averageRating').textContent = averageRating;
+            document.getElementById('reviewCount').textContent = `${reviewCount} Review${reviewCount !== 1 ? 's' : ''}`;
+
+            const starsContainer = document.getElementById('averageStars');
+            const fullStars = Math.floor(averageRating);
+            const hasHalfStar = averageRating % 1 >= 0.5;
+
+            starsContainer.innerHTML = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsContainer.innerHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++) {
+                starsContainer.innerHTML += '<i class="far fa-star"></i>';
+            }
+        }
+
+        // Star rating interaction
+        let selectedRating = 5;
+        const stars = document.querySelectorAll('#starRating i');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.getAttribute('data-rating'));
+                updateStarDisplay(selectedRating);
+            });
+
+            star.addEventListener('mouseenter', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                updateStarDisplay(rating);
+            });
+        });
+
+        document.getElementById('starRating').addEventListener('mouseleave', () => {
+            updateStarDisplay(selectedRating);
+        });
+
+        function updateStarDisplay(rating) {
+            stars.forEach(star => {
+                const starRating = parseInt(star.getAttribute('data-rating'));
+                if (starRating <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        updateStarDisplay(5);
+
+        // Submit review
+        document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert('Please sign in to submit a review.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('reviewSubmitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const reviewData = {
+                    name: currentUser.displayName || 'Anonymous User',
+                    text: document.getElementById('reviewText').value,
+                    rating: selectedRating,
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email,
+                    userPhoto: currentUser.photoURL || '',
+                    createdAt: Timestamp.now()
+                };
+
+                console.log('Submitting review:', reviewData);
+
+                await addDoc(collection(db, 'reviews'), reviewData);
+
+                alert('Thank you for your review! It has been submitted successfully.');
+                document.getElementById('reviewForm').reset();
+                selectedRating = 5;
+                updateStarDisplay(5);
+                await loadReviews();
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                alert(`Error submitting review: ${error.message}`);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
             }
         });
 
-        // Initialize theme preview
-        if (currentTheme) {
-            updateThemePreview();
+        // Booking form submission with email
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('.submit-button');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                service: document.getElementById('service').options[document.getElementById('service').selectedIndex].text,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                    to_email: 'harshitpruthiorg@gmail.com',
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    service: formData.service,
+                    date: formData.date,
+                    time: formData.time,
+                    message: formData.message,
+                    subject: 'New Booking Request - ' + formData.service
+                });
+
+                alert('Thank you for your booking request! I will get back to you within 24 hours.');
+                e.target.reset();
+            } catch (error) {
+                console.error('Email error:', error);
+                alert('Your booking request has been received. I will contact you soon!');
+                e.target.reset();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Booking Request';
+            }
+        });
+
+        // Contact form submission with email
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('.submit-button');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            const formData = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                message: document.getElementById('contact-message').value
+            };
+
+            try {
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_CONTACT_TEMPLATE_ID', {
+                    to_email: 'harshitpruthiorg@gmail.com',
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    message: formData.message,
+                    subject: 'New Contact Message from Portfolio'
+                });
+
+                alert('Thank you for your message! I will respond to you shortly.');
+                e.target.reset();
+            } catch (error) {
+                console.error('Email error:', error);
+                alert('Your message has been received. I will get back to you soon!');
+                e.target.reset();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        // Load data on page load
+        loadFeaturedVideos();
+        loadReviews();
+        loadThemeSettings();
+        setupThemeListener();
+    </script>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
         }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for section titles
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-title').forEach(title => {
+            observer.observe(title);
+        });
+
+        // Testimonial carousel
+        let currentTestimonial = 0;
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+
+        function showTestimonial(index) {
+            testimonialCards.forEach(card => card.classList.remove('active'));
+            testimonialDots.forEach(dot => dot.classList.remove('active'));
+
+            testimonialCards[index].classList.add('active');
+            testimonialDots[index].classList.add('active');
+        }
+
+        testimonialDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const index = parseInt(dot.getAttribute('data-index'));
+                currentTestimonial = index;
+                showTestimonial(index);
+            });
+        });
+
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
+            showTestimonial(currentTestimonial);
+        }, 5000);
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for floating elements
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            document.querySelectorAll('.floating-element').forEach((el, index) => {
+                const speed = (index + 1) * 20;
+                const x = (mouseX * speed) - (speed / 2);
+                const y = (mouseY * speed) - (speed / 2);
+
+                el.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Set minimum date for booking
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
     </script>
 </body>
 </html>
