@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Add Portfolio Items</title>
+    <title>Admin Panel - Portfolio Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         :root {
             --primary-color: #1d1d1f;
             --accent-color: #0071e3;
@@ -27,7 +27,7 @@
             --error-color: #ff3b30;
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
-
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-secondary);
@@ -35,18 +35,18 @@
             line-height: 1.6;
             padding: 20px;
         }
-
+        
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-
+        
         .header {
             text-align: center;
             margin-bottom: 40px;
             padding: 40px 0;
         }
-
+        
         .header h1 {
             font-size: 48px;
             font-weight: 800;
@@ -56,12 +56,62 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
+        
         .header p {
             color: var(--text-secondary);
             font-size: 18px;
         }
-
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            gap: 8px;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+        
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 113, 227, 0.3);
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         /* Auth Section */
         .auth-container {
             background: var(--card-bg);
@@ -71,21 +121,21 @@
             text-align: center;
             display: none;
         }
-
+        
         .auth-container.show {
             display: block;
         }
-
+        
         .auth-container h2 {
             font-size: 28px;
             margin-bottom: 20px;
         }
-
+        
         .auth-container p {
             color: var(--text-secondary);
             margin-bottom: 30px;
         }
-
+        
         .google-signin-btn {
             background: #4285f4;
             color: white;
@@ -100,13 +150,13 @@
             gap: 12px;
             transition: all 0.3s ease;
         }
-
+        
         .google-signin-btn:hover {
             background: #3367d6;
             transform: translateY(-2px);
         }
-
-        /* User Info */
+        
+        /* User Info Bar */
         .user-info-bar {
             background: var(--card-bg);
             padding: 20px 30px;
@@ -117,33 +167,33 @@
             align-items: center;
             justify-content: space-between;
         }
-
+        
         .user-info-bar.show {
             display: flex;
         }
-
+        
         .user-details {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
+        
         .user-avatar {
             width: 48px;
             height: 48px;
             border-radius: 50%;
         }
-
+        
         .user-name {
             font-weight: 600;
             font-size: 16px;
         }
-
+        
         .user-email {
             font-size: 14px;
             color: var(--text-secondary);
         }
-
+        
         .signout-btn {
             padding: 10px 20px;
             background: var(--error-color);
@@ -155,20 +205,12 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
+        
         .signout-btn:hover {
             background: #d32f2f;
         }
-
-        /* Admin Panel */
-        .admin-panel {
-            display: none;
-        }
-
-        .admin-panel.show {
-            display: block;
-        }
-
+        
+        /* Form Cards */
         .form-card {
             background: var(--card-bg);
             padding: 40px;
@@ -176,29 +218,29 @@
             box-shadow: var(--shadow);
             margin-bottom: 30px;
         }
-
+        
         .form-card h2 {
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 10px;
         }
-
+        
         .form-card .subtitle {
             color: var(--text-secondary);
             margin-bottom: 30px;
         }
-
+        
         .form-group {
             margin-bottom: 25px;
         }
-
+        
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 15px;
         }
-
+        
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -211,32 +253,32 @@
             transition: all 0.3s ease;
             background: var(--bg-primary);
         }
-
+        
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--accent-color);
         }
-
+        
         .form-group textarea {
             resize: vertical;
             min-height: 100px;
         }
-
+        
         .form-group small {
             display: block;
             color: var(--text-secondary);
             font-size: 13px;
             margin-top: 6px;
         }
-
+        
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-
+        
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -253,17 +295,68 @@
             justify-content: center;
             gap: 10px;
         }
-
+        
         .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
         }
-
-        .submit-btn:disabled {
+        
+        .submit-btn.disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
-
+        
+        /* Festival Theme Styles */
+        .festival-themes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .theme-option {
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+        
+        .theme-option:hover,
+        .theme-option.active {
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+        
+        .theme-option.active::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .theme-color {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
         /* Alerts */
         .alert {
             padding: 16px 20px;
@@ -274,23 +367,23 @@
             gap: 12px;
             font-weight: 500;
         }
-
+        
         .alert.show {
             display: flex;
         }
-
+        
         .alert-success {
             background: #d1f4e0;
             color: #0d6832;
             border: 2px solid #34c759;
         }
-
+        
         .alert-error {
             background: #ffe5e5;
             color: #c41e3a;
             border: 2px solid #ff3b30;
         }
-
+        
         /* Items List */
         .items-list {
             background: var(--card-bg);
@@ -298,13 +391,13 @@
             border-radius: 20px;
             box-shadow: var(--shadow);
         }
-
+        
         .items-list h2 {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 20px;
         }
-
+        
         .item-card {
             background: var(--bg-secondary);
             padding: 20px;
@@ -312,19 +405,19 @@
             margin-bottom: 15px;
             border: 2px solid var(--border-color);
         }
-
+        
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: start;
             margin-bottom: 10px;
         }
-
+        
         .item-title {
             font-weight: 600;
             font-size: 16px;
         }
-
+        
         .item-badge {
             padding: 4px 12px;
             border-radius: 20px;
@@ -332,70 +425,41 @@
             font-weight: 600;
             color: white;
         }
-
-        .badge-videos {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .badge-thumbnails {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .badge-photos {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .badge-reddit {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .badge-featured {
-            background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-        }
-
+        
+        .badge-videos { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .badge-thumbnails { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .badge-photos { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .badge-reddit { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .badge-featured { background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); }
+        .badge-theme { background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%); }
+        
         .item-description {
             color: var(--text-secondary);
             font-size: 14px;
             margin-bottom: 8px;
         }
-
+        
         .item-meta {
             display: flex;
             gap: 20px;
             font-size: 13px;
             color: var(--text-secondary);
         }
-
+        
         .loading {
             text-align: center;
             padding: 40px;
             color: var(--text-secondary);
         }
-
+        
         /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .form-card,
-            .auth-container {
-                padding: 30px 20px;
-            }
-
-            .header h1 {
-                font-size: 32px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .user-info-bar {
-                flex-direction: column;
-                align-items: start;
-                gap: 15px;
-            }
+            body { padding: 10px; }
+            .form-card, .auth-container { padding: 30px 20px; }
+            .header h1 { font-size: 32px; }
+            .form-row { grid-template-columns: 1fr; }
+            .user-info-bar { flex-direction: column; align-items: start; gap: 15px; }
+            .tab-nav { flex-direction: column; }
         }
     </style>
 </head>
@@ -403,7 +467,7 @@
     <div class="container">
         <div class="header">
             <h1><i class="fas fa-crown"></i> Admin Panel</h1>
-            <p>Add portfolio items to Firestore</p>
+            <p>Manage portfolio items and site themes</p>
         </div>
 
         <!-- Auth Container -->
@@ -432,113 +496,165 @@
 
         <!-- Admin Panel -->
         <div class="admin-panel" id="adminPanel">
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="video-upload">
+                    <i class="fas fa-video"></i> Video Upload
+                </button>
+                <button class="tab-btn" data-tab="site-theme">
+                    <i class="fas fa-palette"></i> Site Theme
+                </button>
+            </div>
+
             <!-- Alerts -->
             <div class="alert alert-success" id="successAlert">
                 <i class="fas fa-check-circle"></i>
                 <span id="successMessage"></span>
             </div>
-
             <div class="alert alert-error" id="errorAlert">
                 <i class="fas fa-exclamation-circle"></i>
                 <span id="errorMessage"></span>
             </div>
 
-            <!-- Add Item Form -->
-            <div class="form-card">
-                <h2>Add New Portfolio Item</h2>
-                <p class="subtitle">Fill in the details below to add a new item</p>
-
-                <form id="addItemForm">
-                    <!-- Collection Type -->
-                    <div class="form-group">
-                        <label for="collectionType">
-                            <i class="fas fa-database"></i> Collection Type *
-                        </label>
-                        <select id="collectionType" required>
-                            <option value="">Choose collection...</option>
-                            <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
-                            <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
-                        </select>
-                        <small>Choose where this item should appear</small>
-                    </div>
-
-                    <!-- Category (for portfolioItems) -->
-                    <div class="form-group" id="categoryGroup" style="display: none;">
-                        <label for="category">
-                            <i class="fas fa-tag"></i> Category *
-                        </label>
-                        <select id="category">
-                            <option value="">Choose category...</option>
-                            <option value="videos">Videos</option>
-                            <option value="thumbnails">Thumbnails</option>
-                            <option value="photos">Edited Photos</option>
-                            <option value="reddit">Reddit Marketing</option>
-                        </select>
-                        <small>Select the category for this item</small>
-                    </div>
-
-                    <!-- Title -->
-                    <div class="form-group">
-                        <label for="title">
-                            <i class="fas fa-heading"></i> Title *
-                        </label>
-                        <input type="text" id="title" required placeholder="e.g., Cinematic Wedding Video">
-                        <small>Enter a descriptive title</small>
-                    </div>
-
-                    <!-- Description -->
-                    <div class="form-group">
-                        <label for="description">
-                            <i class="fas fa-align-left"></i> Description *
-                        </label>
-                        <textarea id="description" required placeholder="Brief description of the work..."></textarea>
-                        <small>Describe the project in 1-2 sentences</small>
-                    </div>
-
-                    <!-- Video URL -->
-                    <div class="form-group" id="videoUrlGroup">
-                        <label for="videoUrl">
-                            <i class="fab fa-youtube"></i> Video URL (YouTube)
-                        </label>
-                        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=VIDEO_ID">
-                        <small>Paste YouTube video link (for videos category)</small>
-                    </div>
-
-                    <!-- Image URL -->
-                    <div class="form-group" id="imageUrlGroup" style="display: none;">
-                        <label for="imageUrl">
-                            <i class="fas fa-image"></i> Image URL
-                        </label>
-                        <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com/...">
-                        <small>Paste image URL from Firebase Storage</small>
-                    </div>
-
-                    <!-- Order Number -->
-                    <div class="form-row">
+            <!-- Video Upload Tab -->
+            <div class="tab-content active" id="videoUploadTab">
+                <!-- Add Item Form (Existing) -->
+                <div class="form-card">
+                    <h2>Add New Portfolio Item</h2>
+                    <p class="subtitle">Fill in the details below to add a new item</p>
+                    <form id="addItemForm">
+                        <!-- Collection Type -->
                         <div class="form-group">
-                            <label for="order">
-                                <i class="fas fa-sort-numeric-up"></i> Order Number *
+                            <label for="collectionType">
+                                <i class="fas fa-database"></i> Collection Type
                             </label>
-                            <input type="number" id="order" required value="1" min="1">
-                            <small>Lower numbers appear first</small>
+                            <select id="collectionType" required>
+                                <option value="">Choose collection...</option>
+                                <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
+                                <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
+                            </select>
+                            <small>Choose where this item should appear</small>
+                        </div>
+
+                        <!-- Category for portfolioItems -->
+                        <div class="form-group" id="categoryGroup" style="display: none">
+                            <label for="category">
+                                <i class="fas fa-tag"></i> Category
+                            </label>
+                            <select id="category">
+                                <option value="">Choose category...</option>
+                                <option value="videos">Videos</option>
+                                <option value="thumbnails">Thumbnails</option>
+                                <option value="photos">Edited Photos</option>
+                                <option value="reddit">Reddit Marketing</option>
+                            </select>
+                            <small>Select the category for this item</small>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="form-group">
+                            <label for="title">
+                                <i class="fas fa-heading"></i> Title
+                            </label>
+                            <input type="text" id="title" required placeholder="e.g., Cinematic Wedding Video">
+                            <small>Enter a descriptive title</small>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label for="description">
+                                <i class="fas fa-align-left"></i> Description
+                            </label>
+                            <textarea id="description" required placeholder="Brief description of the work..."></textarea>
+                            <small>Describe the project in 1-2 sentences</small>
+                        </div>
+
+                        <!-- Video URL -->
+                        <div class="form-group" id="videoUrlGroup">
+                            <label for="videoUrl">
+                                <i class="fab fa-youtube"></i> Video URL (YouTube)
+                            </label>
+                            <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=VIDEOID">
+                            <small>Paste YouTube video link for videos category</small>
+                        </div>
+
+                        <!-- Image URL -->
+                        <div class="form-group" id="imageUrlGroup" style="display: none">
+                            <label for="imageUrl">
+                                <i class="fas fa-image"></i> Image URL
+                            </label>
+                            <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com...">
+                            <small>Paste image URL from Firebase Storage</small>
+                        </div>
+
+                        <!-- Order Number -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="order">
+                                    <i class="fas fa-sort-numeric-up"></i> Order Number
+                                </label>
+                                <input type="number" id="order" required value="1" min="1">
+                                <small>Lower numbers appear first</small>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <i class="fas fa-plus-circle"></i>
+                            Add to Firestore
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recent Items -->
+                <div class="items-list">
+                    <h2><i class="fas fa-list"></i> Recent Items</h2>
+                    <div id="itemsList">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading items...
                         </div>
                     </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-plus-circle"></i>
-                        Add to Firestore
-                    </button>
-                </form>
+                </div>
             </div>
 
-            <!-- Recent Items -->
-            <div class="items-list">
-                <h2><i class="fas fa-list"></i> Recent Items</h2>
-                <div id="itemsList">
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Loading items...
+            <!-- Site Theme Tab -->
+            <div class="tab-content" id="siteThemeTab">
+                <div class="form-card">
+                    <h2>Site Theme Settings</h2>
+                    <p class="subtitle">Select a festival theme for the main site (index.html)</p>
+                    
+                    <div class="form-group">
+                        <label>Enable Festival Theme</label>
+                        <select id="themeEnabled">
+                            <option value="false">Disabled (Default Theme)</option>
+                            <option value="true">Enabled</option>
+                        </select>
+                        <small>When enabled, the selected festival theme will apply to the main site</small>
                     </div>
+
+                    <div class="form-group">
+                        <label>Festival Name</label>
+                        <select id="festivalName">
+                            <option value="diwali">Diwali</option>
+                            <option value="holi">Holi</option>
+                            <option value="navratri">Navratri</option>
+                            <option value="christmas">Christmas</option>
+                            <option value="easter">Easter</option>
+                            <option value="new-year">New Year</option>
+                        </select>
+                        <small>Select the festival for themed decorations</small>
+                    </div>
+
+                    <div id="currentThemePreview" style="margin-top: 20px; padding: 20px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 10px;">Current Theme Preview</div>
+                        <div id="themePreviewColors" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;"></div>
+                        <div id="themeStatus" style="margin-top: 15px; font-weight: 600;"></div>
+                    </div>
+
+                    <button class="submit-btn" id="saveThemeBtn" style="margin-top: 30px;">
+                        <i class="fas fa-save"></i>
+                        Save Theme Settings
+                    </button>
                 </div>
             </div>
         </div>
@@ -547,7 +663,7 @@
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // Firebase Configuration
@@ -584,12 +700,11 @@
                 authContainer.classList.remove('show');
                 userInfoBar.classList.add('show');
                 adminPanel.classList.add('show');
-
-                document.getElementById('userName').textContent = user.displayName || 'Admin User';
+                document.getElementById('userName').textContent = `${user.displayName} (Admin User)`;
                 document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('userAvatar').src = user.photoURL || '';
-
+                document.getElementById('userAvatar').src = user.photoURL;
                 loadRecentItems();
+                loadCurrentTheme();
             } else {
                 authContainer.classList.add('show');
                 userInfoBar.classList.remove('show');
@@ -616,6 +731,21 @@
             }
         });
 
+        // Tab Navigation
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                // Update active tab button
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update active tab content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(tab + 'Tab').classList.add('active');
+            });
+        });
+
         // Collection type change handler
         document.getElementById('collectionType').addEventListener('change', (e) => {
             const categoryGroup = document.getElementById('categoryGroup');
@@ -628,7 +758,10 @@
             } else {
                 categoryGroup.style.display = 'none';
                 document.getElementById('category').required = false;
-                // For featuredWork, always show video URL
+            }
+
+            // For featuredWork, always show video URL
+            if (e.target.value === 'featuredWork') {
                 videoUrlGroup.style.display = 'block';
                 imageUrlGroup.style.display = 'none';
             }
@@ -659,7 +792,7 @@
             }
         });
 
-        // Form submission
+        // Form submission (Video Upload)
         document.getElementById('addItemForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -679,9 +812,9 @@
                 const order = parseInt(document.getElementById('order').value);
 
                 const itemData = {
-                    title: title,
-                    description: description,
-                    order: order,
+                    title,
+                    description,
+                    order,
                     createdAt: Timestamp.now(),
                     addedBy: currentUser.email
                 };
@@ -689,7 +822,6 @@
                 if (collectionType === 'portfolioItems') {
                     const category = document.getElementById('category').value;
                     itemData.category = category;
-
                     if (category === 'videos') {
                         itemData.videoUrl = document.getElementById('videoUrl').value;
                     } else {
@@ -701,16 +833,92 @@
                 }
 
                 await addDoc(collection(db, collectionType), itemData);
-
                 showSuccess(`Item added successfully to ${collectionType}!`);
                 document.getElementById('addItemForm').reset();
                 loadRecentItems();
             } catch (error) {
                 console.error('Error adding item:', error);
-                showError(`Error: ${error.message}`);
+                showError('Error: ' + error.message);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
+            }
+        });
+
+        // Theme Management
+        const festivalThemes = {
+            diwali: { name: 'Diwali', color: '#ff6b35', gradient: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)' },
+            holi: { name: 'Holi', color: '#ff0080', gradient: 'linear-gradient(135deg, #ff0080 0%, #ff8e53 100%)' },
+            navratri: { name: 'Navratri', color: '#d4a017', gradient: 'linear-gradient(135deg, #d4a017 0%, #ff6b35 100%)' },
+            christmas: { name: 'Christmas', color: '#d63031', gradient: 'linear-gradient(135deg, #d63031 0%, #00b894 100%)' },
+            easter: { name: 'Easter', color: '#feca57', gradient: 'linear-gradient(135deg, #feca57 0%, #ff9ff3 100%)' },
+            'new-year': { name: 'New Year', color: '#00d2d3', gradient: 'linear-gradient(135deg, #00d2d3 0%, #5f27cd 100%)' }
+        };
+
+        // Load current theme
+        async function loadCurrentTheme() {
+            try {
+                const themeDoc = await getDoc(doc(db, 'siteSettings', 'mainTheme'));
+                if (themeDoc.exists()) {
+                    const themeData = themeDoc.data();
+                    document.getElementById('themeEnabled').value = themeData.enabled || 'false';
+                    document.getElementById('festivalName').value = themeData.festival || 'diwali';
+                    updateThemePreview();
+                }
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        }
+
+        // Update theme preview
+        function updateThemePreview() {
+            const enabled = document.getElementById('themeEnabled').value === 'true';
+            const festival = document.getElementById('festivalName').value;
+            const theme = festivalThemes[festival];
+            const preview = document.getElementById('themePreviewColors');
+            const status = document.getElementById('themeStatus');
+
+            preview.innerHTML = `
+                <div style="width: 50px; height: 50px; background: ${theme.gradient}; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"></div>
+                <div style="font-weight: 600; color: var(--text-primary);">${theme.name}</div>
+            `;
+
+            status.textContent = enabled ? `✓ ${theme.name} theme ${status.textContent.includes('Active') ? 'Active' : 'will be Active on main site'}` : 'Theme Disabled';
+            status.style.color = enabled ? 'var(--success-color)' : 'var(--text-secondary)';
+        }
+
+        // Theme settings change
+        document.getElementById('themeEnabled').addEventListener('change', updateThemePreview);
+        document.getElementById('festivalName').addEventListener('change', updateThemePreview);
+
+        // Save theme settings
+        document.getElementById('saveThemeBtn').addEventListener('click', async () => {
+            if (!currentUser) {
+                showError('Please sign in first');
+                return;
+            }
+
+            const submitBtn = document.getElementById('saveThemeBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const themeData = {
+                    enabled: document.getElementById('themeEnabled').value === 'true',
+                    festival: document.getElementById('festivalName').value,
+                    updatedAt: Timestamp.now(),
+                    updatedBy: currentUser.email
+                };
+
+                await setDoc(doc(db, 'siteSettings', 'mainTheme'), themeData);
+                showSuccess('Theme settings saved! Main site will now show the selected festival theme.');
+            } catch (error) {
+                console.error('Error saving theme:', error);
+                showError('Error: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
         });
 
@@ -726,22 +934,14 @@
                 const portfolioQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(5));
                 const portfolioSnapshot = await getDocs(portfolioQuery);
                 portfolioSnapshot.forEach((doc) => {
-                    allItems.push({
-                        id: doc.id,
-                        collection: 'portfolioItems',
-                        ...doc.data()
-                    });
+                    allItems.push({ id: doc.id, collection: 'portfolioItems', ...doc.data() });
                 });
 
                 // Load from featuredWork
                 const featuredQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(3));
                 const featuredSnapshot = await getDocs(featuredQuery);
                 featuredSnapshot.forEach((doc) => {
-                    allItems.push({
-                        id: doc.id,
-                        collection: 'featuredWork',
-                        ...doc.data()
-                    });
+                    allItems.push({ id: doc.id, collection: 'featuredWork', ...doc.data() });
                 });
 
                 // Sort by creation date
@@ -756,15 +956,8 @@
                 allItems.slice(0, 10).forEach((item) => {
                     const itemCard = document.createElement('div');
                     itemCard.className = 'item-card';
-
-                    const badgeClass = item.collection === 'featuredWork' 
-                        ? 'badge-featured' 
-                        : `badge-${item.category || 'videos'}`;
-
-                    const badgeText = item.collection === 'featuredWork' 
-                        ? 'Featured' 
-                        : item.category || 'Video';
-
+                    const badgeClass = item.collection === 'featuredWork' ? 'badge-featured' : `badge-${item.category}`;
+                    const badgeText = item.collection === 'featuredWork' ? 'Featured' : (item.category || 'Video');
                     const date = new Date(item.createdAt.seconds * 1000).toLocaleDateString();
 
                     itemCard.innerHTML = `
@@ -775,11 +968,10 @@
                         <div class="item-description">${item.description}</div>
                         <div class="item-meta">
                             <span><i class="fas fa-calendar"></i> ${date}</span>
-                            <span><i class="fas fa-sort"></i> Order: ${item.order}</span>
+                            <span><i class="fas fa-sort"></i> Order ${item.order}</span>
                             <span><i class="fas fa-database"></i> ${item.collection}</span>
                         </div>
                     `;
-
                     itemsList.appendChild(itemCard);
                 });
             } catch (error) {
@@ -793,10 +985,7 @@
             const alert = document.getElementById('successAlert');
             document.getElementById('successMessage').textContent = message;
             alert.classList.add('show');
-
-            setTimeout(() => {
-                alert.classList.remove('show');
-            }, 5000);
+            setTimeout(() => alert.classList.remove('show'), 5000);
         }
 
         // Show error message
@@ -804,10 +993,7 @@
             const alert = document.getElementById('errorAlert');
             document.getElementById('errorMessage').textContent = message;
             alert.classList.add('show');
-
-            setTimeout(() => {
-                alert.classList.remove('show');
-            }, 5000);
+            setTimeout(() => alert.classList.remove('show'), 5000);
         }
     </script>
 </body>
