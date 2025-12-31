@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harshit Pruthi - Video Editor & Visual Storyteller</title>
+    <title>Harshit Pruthi - Video Editor | Visual Storyteller</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-browser@3/dist/email.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         :root {
             --primary-color: #1d1d1f;
             --secondary-color: #f5f5f7;
@@ -24,23 +24,15 @@
             --white: #ffffff;
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f7;
-            --border-color: #e5e5e5;
+            --border-color: #e5e5ea;
             --card-bg: #ffffff;
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --gradient-3: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             --gradient-4: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            
-            /* Festival Theme Variables */
-            --festival-primary: #0071e3;
-            --festival-secondary: #1d1d1f;
-            --festival-accent: #0071e3;
-            --festival-bg: #ffffff;
-            --festival-text: #1d1d1f;
-            --festival-banner-bg: linear-gradient(135deg, #0071e3 0%, #667eea 100%);
         }
-
+        
         [data-theme="dark"] {
             --primary-color: #ffffff;
             --secondary-color: #1d1d1f;
@@ -53,200 +45,50 @@
             --card-bg: #1d1d1f;
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
-
-        /* Festival Theme Classes */
-        .festival-theme {
-            --accent-color: var(--festival-accent);
-            --primary-color: var(--festival-primary);
-            --text-primary: var(--festival-text);
-            --bg-primary: var(--festival-bg);
-            --gradient-1: linear-gradient(135deg, var(--festival-primary) 0%, var(--festival-secondary) 100%);
+        
+        /* FESTIVAL THEMES */
+        [data-festival="diwali"] {
+            --festival-bg: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffd23f 100%);
+            --festival-text: #1a1a1a;
+            --festival-accent: #ff1744;
         }
-
-        .festival-theme.diwali {
-            --festival-primary: #FF9800;
-            --festival-secondary: #FF5722;
-            --festival-accent: #FFD700;
-            --festival-bg: #FFF8E1;
-            --festival-text: #5D4037;
-            --festival-banner-bg: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+        
+        [data-festival="christmas"] {
+            --festival-bg: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #e74c3c 100%);
+            --festival-text: #ffffff;
+            --festival-accent: #27ae60;
         }
-
-        .festival-theme.christmas {
-            --festival-primary: #D32F2F;
-            --festival-secondary: #388E3C;
-            --festival-accent: #C62828;
-            --festival-bg: #F5F5F5;
-            --festival-text: #2E7D32;
-            --festival-banner-bg: linear-gradient(135deg, #D32F2F 0%, #388E3C 100%);
+        
+        [data-festival="holi"] {
+            --festival-bg: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #f18f01 100%);
+            --festival-text: #ffffff;
+            --festival-accent: #8338ec;
         }
-
-        .festival-theme.eid {
-            --festival-primary: #4CAF50;
-            --festival-secondary: #8BC34A;
-            --festival-accent: #CDDC39;
-            --festival-bg: #F1F8E9;
-            --festival-text: #2E7D32;
-            --festival-banner-bg: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+        
+        [data-festival="new-year"] {
+            --festival-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --festival-text: #ffffff;
+            --festival-accent: #ffd700;
         }
-
-        .festival-theme.holi {
-            --festival-primary: #E91E63;
-            --festival-secondary: #9C27B0;
-            --festival-accent: #2196F3;
-            --festival-bg: #FFF3E0;
-            --festival-text: #7B1FA2;
-            --festival-banner-bg: linear-gradient(135deg, #E91E63 0%, #9C27B0 100%);
+        
+        [data-festival="navratri"] {
+            --festival-bg: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            --festival-text: #8b4513;
+            --festival-accent: #ff4500;
         }
-
-        .festival-theme.newyear {
-            --festival-primary: #2196F3;
-            --festival-secondary: #03A9F4;
-            --festival-accent: #00BCD4;
-            --festival-bg: #E3F2FD;
-            --festival-text: #1565C0;
-            --festival-banner-bg: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%);
+        
+        [data-festival="eid"] {
+            --festival-bg: linear-gradient(135deg, #4ecdc4 0%, #44a08d 50%, #2d7d68 100%);
+            --festival-text: #ffffff;
+            --festival-accent: #ffd700;
         }
-
-        /* Festival Banner */
-        .festival-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--festival-banner-bg);
-            color: white;
-            padding: 12px 20px;
-            text-align: center;
-            font-weight: 600;
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            animation: slideDown 0.5s ease-out;
+        
+        [data-festival="dussehra"] {
+            --festival-bg: linear-gradient(135deg, #ff416c 0%, #ff4b2b 50%, #ff1744 100%);
+            --festival-text: #ffffff;
+            --festival-accent: #ffd700;
         }
-
-        .festival-banner i {
-            font-size: 20px;
-        }
-
-        .festival-banner .close-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .festival-banner .close-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
-        /* Festival Decorations */
-        .festival-decorations {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .festival-decoration {
-            position: absolute;
-            opacity: 0.3;
-            animation: float 15s linear infinite;
-        }
-
-        .diwali-decoration {
-            width: 20px;
-            height: 20px;
-            background: #FFD700;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #FF9800;
-        }
-
-        .christmas-decoration {
-            width: 15px;
-            height: 15px;
-            background: #D32F2F;
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-        }
-
-        .eid-decoration {
-            width: 20px;
-            height: 10px;
-            background: #4CAF50;
-            border-radius: 50%;
-            transform: rotate(45deg);
-        }
-
-        .holi-decoration {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, #E91E63, #9C27B0, #2196F3, #4CAF50, #E91E63);
-        }
-
-        .newyear-decoration {
-            width: 20px;
-            height: 20px;
-            background: #2196F3;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        }
-
-        /* Special Festival Effects */
-        .festival-sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            animation: sparkle 2s infinite;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px) rotate(360deg);
-            }
-        }
-
-        @keyframes sparkle {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
@@ -255,11 +97,52 @@
             line-height: 1.6;
             transition: background 0.3s ease, color 0.3s ease;
         }
-
-        html {
-            scroll-behavior: smooth;
+        
+        /* FESTIVAL DECORATIONS */
+        .festival-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
         }
-
+        
+        .festival-particle {
+            position: absolute;
+            animation: festivalFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes festivalFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+        
+        .festival-banner {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--festival-bg, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+            color: var(--festival-text, #ffffff);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            animation: bannerSlide 1s ease-out;
+        }
+        
+        @keyframes bannerSlide {
+            from { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        html { scroll-behavior: smooth; }
+        
         /* Navigation */
         nav {
             position: fixed;
@@ -272,20 +155,14 @@
             padding: 20px 0;
             transition: all 0.3s ease;
         }
-
-        [data-theme="dark"] nav {
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        nav.scrolled {
-            background: rgba(255, 255, 255, 0.95);
+        
+        [data-theme="dark"] nav { background: rgba(0, 0, 0, 0.8); }
+        nav.scrolled { 
+            background: rgba(255, 255, 255, 0.95) !important;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
-
-        [data-theme="dark"] nav.scrolled {
-            background: rgba(0, 0, 0, 0.95);
-        }
-
+        [data-theme="dark"] nav.scrolled { background: rgba(0, 0, 0, 0.95) !important; }
+        
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -294,26 +171,20 @@
             align-items: center;
             padding: 0 40px;
         }
-
+        
         .logo {
             font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
         }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-
+        
+        .nav-right { display: flex; align-items: center; gap: 40px; }
         .nav-links {
             display: flex;
             gap: 40px;
             list-style: none;
         }
-
         .nav-links a {
             color: var(--text-primary);
             text-decoration: none;
@@ -321,11 +192,8 @@
             font-weight: 500;
             transition: color 0.3s ease;
         }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
+        .nav-links a:hover { color: var(--accent-color); }
+        
         .theme-toggle {
             width: 50px;
             height: 28px;
@@ -335,11 +203,7 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-
-        .theme-toggle:hover {
-            background: var(--accent-color);
-        }
-
+        .theme-toggle:hover { background: var(--accent-color); }
         .theme-toggle-slider {
             position: absolute;
             width: 22px;
@@ -354,38 +218,26 @@
             justify-content: center;
             font-size: 12px;
         }
-
-        [data-theme="dark"] .theme-toggle-slider {
-            transform: translateX(22px);
-        }
-
-        /* Auth Section */
-        .auth-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
+        [data-theme="dark"] .theme-toggle-slider { transform: translateX(22px); }
+        
+        .auth-section { display: flex; align-items: center; gap: 15px; }
         .user-info {
             display: flex;
             align-items: center;
             gap: 10px;
             display: none;
         }
-
         .user-avatar {
             width: 32px;
             height: 32px;
             border-radius: 50%;
             object-fit: cover;
         }
-
         .user-name {
             font-size: 14px;
             font-weight: 500;
             color: var(--text-primary);
         }
-
         .auth-button {
             padding: 8px 16px;
             background: var(--accent-color);
@@ -401,51 +253,11 @@
             align-items: center;
             gap: 8px;
         }
-
         .auth-button:hover {
             background: #005bb5;
             transform: translateY(-1px);
         }
-
-        .sign-in-prompt {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            border: 2px solid var(--border-color);
-            margin-bottom: 40px;
-        }
-
-        .sign-in-prompt h3 {
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
-        .sign-in-prompt p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .google-signin-btn {
-            background: #4285f4;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .google-signin-btn:hover {
-            background: #3367d6;
-            transform: translateY(-2px);
-        }
-
+        
         /* Hero Section */
         .hero {
             height: 100vh;
@@ -458,13 +270,14 @@
             overflow: hidden;
             padding: 0 20px;
             margin-top: 60px;
+            background: var(--festival-bg, var(--bg-primary));
+            color: var(--festival-text, var(--text-primary));
         }
-
+        
         .hero-content {
             z-index: 2;
             max-width: 900px;
         }
-
         .hero h1 {
             font-size: 72px;
             font-weight: 800;
@@ -475,7 +288,6 @@
             background-clip: text;
             animation: fadeInUp 1s ease;
         }
-
         .hero-tagline {
             font-size: 28px;
             color: var(--text-secondary);
@@ -483,7 +295,6 @@
             margin-bottom: 40px;
             animation: fadeInUp 1.2s ease;
         }
-
         .cta-button {
             display: inline-block;
             padding: 16px 40px;
@@ -496,12 +307,11 @@
             transition: all 0.3s ease;
             animation: fadeInUp 1.4s ease;
         }
-
         .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.3);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
         }
-
+        
         .animation-container {
             position: absolute;
             width: 100%;
@@ -511,12 +321,10 @@
             z-index: 1;
             pointer-events: none;
         }
-
         .floating-element {
             position: absolute;
             animation: float 6s ease-in-out infinite;
         }
-
         .camera {
             width: 120px;
             height: 120px;
@@ -532,7 +340,6 @@
             font-size: 50px;
             color: white;
         }
-
         .timeline {
             width: 200px;
             height: 40px;
@@ -547,7 +354,6 @@
             font-size: 24px;
             color: white;
         }
-
         .film-reel {
             width: 100px;
             height: 100px;
@@ -562,14 +368,13 @@
             font-size: 40px;
             color: white;
         }
-
+        
         /* Sections */
         section {
             padding: 120px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
-
         .section-title {
             font-size: 56px;
             font-weight: 800;
@@ -579,19 +384,17 @@
             transform: translateY(30px);
             transition: all 0.8s ease;
         }
-
         .section-title.visible {
             opacity: 1;
             transform: translateY(0);
         }
-
         .section-subtitle {
             text-align: center;
             color: var(--text-secondary);
             font-size: 20px;
             margin-bottom: 80px;
         }
-
+        
         /* About Section */
         .about-content {
             display: grid;
@@ -599,19 +402,16 @@
             gap: 60px;
             align-items: center;
         }
-
         .about-text {
             font-size: 18px;
             line-height: 1.8;
             color: var(--text-secondary);
         }
-
         .experience-highlight {
             display: flex;
             gap: 30px;
             margin-top: 30px;
         }
-
         .experience-card {
             flex: 1;
             padding: 20px;
@@ -620,7 +420,6 @@
             border-radius: 16px;
             text-align: center;
         }
-
         .experience-number {
             font-size: 48px;
             font-weight: 800;
@@ -630,13 +429,11 @@
             background-clip: text;
             margin-bottom: 10px;
         }
-
         .experience-label {
             font-size: 14px;
             color: var(--text-secondary);
             font-weight: 600;
         }
-
         .about-image {
             width: 100%;
             height: 500px;
@@ -649,66 +446,7 @@
             position: relative;
             overflow: hidden;
         }
-
-        .timeline-visualization {
-            width: 90%;
-            height: 80%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        .timeline-track {
-            width: 100%;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            position: relative;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            gap: 10px;
-        }
-
-        .timeline-clip {
-            height: 40px;
-            background: var(--gradient-2);
-            border-radius: 8px;
-            flex: 1;
-            box-shadow: 0 4px 15px rgba(var(--accent-color-rgb), 0.4);
-        }
-
-        .timeline-clip:nth-child(2) {
-            background: var(--gradient-1);
-            flex: 0.7;
-        }
-
-        .timeline-clip:nth-child(3) {
-            background: var(--gradient-3);
-            flex: 1.2;
-        }
-
-        .playhead {
-            position: absolute;
-            width: 3px;
-            height: 100%;
-            background: white;
-            left: 30%;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            animation: playheadMove 3s ease-in-out infinite;
-        }
-
-        .timeline-icon {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 40px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
+        
         /* Services Grid */
         .services-grid {
             display: grid;
@@ -716,7 +454,6 @@
             gap: 30px;
             margin-top: 60px;
         }
-
         .service-card {
             background: var(--card-bg);
             padding: 40px;
@@ -726,13 +463,11 @@
             border: 2px solid var(--border-color);
             cursor: pointer;
         }
-
         .service-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow);
             border-color: var(--accent-color);
         }
-
         .service-icon {
             width: 100px;
             height: 100px;
@@ -746,7 +481,6 @@
             color: #ffffff;
             position: relative;
         }
-
         .service-icon::after {
             content: '';
             position: absolute;
@@ -758,47 +492,34 @@
             filter: blur(20px);
             z-index: -1;
         }
-
-        .service-card:nth-child(2) .service-icon {
-            background: var(--gradient-2);
-        }
-
-        .service-card:nth-child(3) .service-icon {
-            background: var(--gradient-3);
-        }
-
-        .service-card:nth-child(4) .service-icon {
-            background: var(--gradient-4);
-        }
-
+        .service-card:nth-child(2) .service-icon { background: var(--gradient-2); }
+        .service-card:nth-child(3) .service-icon { background: var(--gradient-3); }
+        .service-card:nth-child(4) .service-icon { background: var(--gradient-4); }
         .service-card h3 {
             font-size: 26px;
             font-weight: 700;
             margin-bottom: 15px;
             color: var(--text-primary);
         }
-
         .service-card p {
             color: var(--text-secondary);
             font-size: 16px;
             line-height: 1.7;
         }
-
         .service-price {
             margin-top: 20px;
             font-size: 20px;
             font-weight: 700;
             color: var(--accent-color);
         }
-
-        /* Featured Work Section */
+        
+        /* Featured Work */
         .featured-videos {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin-top: 60px;
         }
-
         .video-card {
             background: var(--card-bg);
             border-radius: 24px;
@@ -807,19 +528,16 @@
             transition: all 0.4s ease;
             border: 2px solid var(--border-color);
         }
-
         .video-card:hover {
             transform: translateY(-10px);
             border-color: var(--accent-color);
         }
-
         .video-wrapper {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%;
             background: var(--bg-secondary);
         }
-
         .video-wrapper iframe {
             position: absolute;
             top: 0;
@@ -827,23 +545,19 @@
             width: 100%;
             height: 100%;
         }
-
         .video-info {
             padding: 20px;
         }
-
         .video-info h3 {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 10px;
             color: var(--text-primary);
         }
-
         .video-info p {
             color: var(--text-secondary);
             font-size: 15px;
         }
-
         .view-more-btn {
             display: inline-block;
             margin-top: 40px;
@@ -857,566 +571,49 @@
             transition: all 0.3s ease;
             text-align: center;
         }
-
         .view-more-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.3);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
         }
-
+        
         .loading-message {
             text-align: center;
             padding: 60px 20px;
             color: var(--text-secondary);
             font-size: 18px;
         }
-
-        /* Reviews Section */
-        .reviews-container {
-            max-width: 1000px;
-            margin: 0 auto;
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 42px; }
+            .hero-tagline { font-size: 20px; }
+            .section-title { font-size: 36px; }
+            .about-content, .contact-container { grid-template-columns: 1fr; }
+            .services-grid, .featured-videos { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            section { padding: 80px 20px; }
         }
-
-        .rating-summary {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            margin-bottom: 60px;
-            border: 2px solid var(--border-color);
-        }
-
-        .overall-rating {
-            text-align: center;
-        }
-
-        .rating-number {
-            font-size: 64px;
-            font-weight: 800;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-
-        .rating-stars {
-            font-size: 24px;
-            color: #ffa500;
-            margin-bottom: 10px;
-        }
-
-        .rating-count {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .review-form-container {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            margin-bottom: 60px;
-            border: 2px solid var(--border-color);
-        }
-
-        .review-form-container h3 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--text-primary);
-        }
-
-        .star-rating {
-            display: flex;
-            gap: 10px;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-
-        .star-rating i {
-            cursor: pointer;
-            color: var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .star-rating i.active,
-        .star-rating i:hover {
-            color: #ffa500;
-        }
-
-        .reviews-list {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .review-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--border-color);
-            position: relative;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .reviewer-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .reviewer-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-            font-weight: 700;
-            overflow: hidden;
-        }
-
-        .reviewer-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .reviewer-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .review-date {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .review-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .review-stars {
-            font-size: 16px;
-            color: #ffa500;
-        }
-
-        .delete-review-btn {
-            padding: 6px 12px;
-            background: #ff3b30;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: none;
-        }
-
-        .delete-review-btn:hover {
-            background: #d32f2f;
-            transform: scale(1.05);
-        }
-
-        .review-text {
-            color: var(--text-secondary);
-            font-size: 16px;
-            line-height: 1.7;
-        }
-
-        /* Testimonials */
-        .testimonials-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            background: var(--card-bg);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            display: none;
-        }
-
-        .testimonial-card.active {
-            display: block;
-            animation: fadeIn 0.6s ease;
-        }
-
-        .testimonial-text {
-            font-size: 20px;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--gradient-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .author-info h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: var(--text-primary);
-        }
-
-        .author-info p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .testimonial-nav {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .testimonial-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--border-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-dot.active {
-            background: var(--accent-color);
-            width: 30px;
-            border-radius: 6px;
-        }
-
-        /* Booking Form */
-        .booking-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 60px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        .form-group {
-            margin-bottom: 30px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 18px;
-            background: var(--accent-color);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(var(--accent-color-rgb), 0.3);
-        }
-
-        .submit-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Contact Section */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .contact-info {
-            font-size: 18px;
-            line-height: 1.8;
-        }
-
-        .contact-info h3 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        .contact-method {
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient-1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 20px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .social-link {
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-size: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: var(--accent-color);
-            color: #ffffff;
-            border-color: var(--accent-color);
-            transform: translateY(-3px);
-        }
-
-        .contact-form {
-            background: var(--card-bg);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: var(--shadow);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--primary-color);
-            color: var(--bg-primary);
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        [data-theme="dark"] footer {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        footer p {
-            opacity: 0.7;
-        }
-
+        
         /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-30px) translateX(10px);
-            }
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-30px) translateX(10px); }
         }
-
         @keyframes rotate3d {
-            0% {
-                transform: rotateX(0deg) rotateY(0deg);
-            }
-            100% {
-                transform: rotateX(360deg) rotateY(360deg);
-            }
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
         }
-
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes playheadMove {
-            0% {
-                left: 10%;
-            }
-            50% {
-                left: 80%;
-            }
-            100% {
-                left: 10%;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 42px;
-            }
-
-            .hero-tagline {
-                font-size: 20px;
-            }
-
-            .section-title {
-                font-size: 36px;
-            }
-
-            .about-content,
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-
-            .services-grid,
-            .featured-videos {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            section {
-                padding: 80px 20px;
-            }
-
-            .booking-container,
-            .contact-form,
-            .review-form-container {
-                padding: 40px 30px;
-            }
-
-            .experience-highlight {
-                flex-direction: column;
-            }
-
-            .rating-summary {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .auth-section {
-                gap: 10px;
-            }
-
-            .user-name {
-                display: none;
-            }
-
-            .festival-banner {
-                padding: 10px 15px;
-                font-size: 14px;
-                gap: 10px;
-            }
-
-            .festival-banner i {
-                font-size: 16px;
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Festival Banner (Will be added dynamically) -->
-    
-    <!-- Festival Decorations (Will be added dynamically) -->
-    
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
@@ -1434,11 +631,11 @@
                     <div class="user-info" id="userInfo">
                         <img src="" alt="User Avatar" class="user-avatar" id="userAvatar">
                         <span class="user-name" id="userName"></span>
-                        <button class="auth-button" id="signOutBtn">Sign Out</button>
                     </div>
                     <button class="auth-button" id="signInBtn">
                         <i class="fab fa-google"></i> Sign In
                     </button>
+                    <button class="auth-button" id="signOutBtn" style="display: none;">Sign Out</button>
                 </div>
                 <div class="theme-toggle" id="themeToggle">
                     <div class="theme-toggle-slider">
@@ -1449,18 +646,15 @@
         </div>
     </nav>
 
+    <!-- FESTIVAL DECORATIONS (Hidden by default) -->
+    <div class="festival-decoration" id="festivalDecoration" style="display: none;"></div>
+
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="hero">
         <div class="animation-container">
-            <div class="floating-element camera">
-                <i class="fas fa-video"></i>
-            </div>
-            <div class="floating-element timeline">
-                <i class="fas fa-film"></i>
-            </div>
-            <div class="floating-element film-reel">
-                <i class="fas fa-circle-play"></i>
-            </div>
+            <div class="floating-element camera"><i class="fas fa-video"></i></div>
+            <div class="floating-element timeline"><i class="fas fa-film"></i></div>
+            <div class="floating-element film-reel"><i class="fas fa-circle-play"></i></div>
         </div>
         <div class="hero-content">
             <h1>Harshit Pruthi</h1>
@@ -1475,43 +669,24 @@
         <p class="section-subtitle">Passionate about bringing ideas to life</p>
         <div class="about-content">
             <div class="about-text">
-                <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3 years of editing experience</strong> and <strong>1 year of professional client work</strong>. I specialize in creating captivating content that resonates with audiences across all platforms.</p>
+                <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3+ years of editing experience</strong> and <strong>1+ year of professional client work</strong>. I specialize in creating captivating content that resonates with audiences across all platforms.</p>
                 <br>
                 <p>My journey in editing began with a curiosity for visual storytelling and has evolved into a professional career helping creators, brands, and businesses elevate their content. From YouTube videos to marketing campaigns, I've worked across diverse fields and industries, delivering excellence in every frame.</p>
                 <br>
                 <p>Whether you need stunning video edits, eye-catching thumbnails, professional photo retouching, or Reddit marketing strategies, I bring creativity, technical expertise, and a commitment to making your vision a reality.</p>
                 <div class="experience-highlight">
                     <div class="experience-card">
-                        <div class="experience-number">3+</div>
+                        <div class="experience-number">3</div>
                         <div class="experience-label">Years of Editing</div>
                     </div>
                     <div class="experience-card">
-                        <div class="experience-number">1+</div>
+                        <div class="experience-number">1</div>
                         <div class="experience-label">Year with Clients</div>
                     </div>
                 </div>
             </div>
             <div class="about-image">
-                <i class="fas fa-clapperboard timeline-icon"></i>
-                <div class="timeline-visualization">
-                    <div class="timeline-track">
-                        <div class="timeline-clip"></div>
-                        <div class="timeline-clip"></div>
-                        <div class="timeline-clip"></div>
-                        <div class="playhead"></div>
-                    </div>
-                    <div class="timeline-track">
-                        <div class="timeline-clip"></div>
-                        <div class="timeline-clip"></div>
-                        <div class="playhead"></div>
-                    </div>
-                    <div class="timeline-track">
-                        <div class="timeline-clip"></div>
-                        <div class="timeline-clip"></div>
-                        <div class="timeline-clip"></div>
-                        <div class="playhead"></div>
-                    </div>
-                </div>
+                <i class="fas fa-clapperboard" style="font-size: 100px; color: white;"></i>
             </div>
         </div>
     </section>
@@ -1522,33 +697,25 @@
         <p class="section-subtitle">Premium editing solutions tailored to your needs</p>
         <div class="services-grid">
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-film"></i>
-                </div>
+                <div class="service-icon"><i class="fas fa-film"></i></div>
                 <h3>Video Editing</h3>
                 <p>Professional video editing for any field - YouTube, marketing, weddings, corporate, music videos, and more. Includes color grading, transitions, effects, and expert storytelling.</p>
                 <p class="service-price">Custom Pricing</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-image"></i>
-                </div>
+                <div class="service-icon"><i class="fas fa-image"></i></div>
                 <h3>Thumbnail Design</h3>
-                <p>Eye-catching, click-worthy thumbnails that boost your video's CTR. Custom designs tailored to your brand and content style.</p>
+                <p>Eye-catching, click-worthy thumbnails that boost your videos CTR. Custom designs tailored to your brand and content style.</p>
                 <p class="service-price">Custom Pricing</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-wand-magic-sparkles"></i>
-                </div>
+                <div class="service-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
                 <h3>Photo Editing</h3>
                 <p>Professional photo retouching, color correction, background removal, and enhancement for portraits, products, and events.</p>
                 <p class="service-price">Custom Pricing</p>
             </div>
             <div class="service-card">
-                <div class="service-icon">
-                    <i class="fab fa-reddit"></i>
-                </div>
+                <div class="service-icon"><i class="fab fa-reddit"></i></div>
                 <h3>Reddit Marketing</h3>
                 <p>Strategic Reddit marketing to grow your brand, engage communities, and drive traffic. Authentic engagement that gets results.</p>
                 <p class="service-price">Custom Pricing</p>
@@ -1570,231 +737,10 @@
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="reviews">
-        <h2 class="section-title">Client Reviews</h2>
-        <p class="section-subtitle">See what my clients say about working with me</p>
-
-        <div class="reviews-container">
-            <!-- Rating Summary -->
-            <div class="rating-summary">
-                <div class="overall-rating">
-                    <div class="rating-number" id="averageRating">5.0</div>
-                    <div class="rating-stars" id="averageStars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="rating-count" id="reviewCount">0 Reviews</div>
-                </div>
-            </div>
-
-            <!-- Review Form -->
-            <div class="review-form-container" id="reviewFormContainer">
-                <div class="sign-in-prompt" id="signInPrompt">
-                    <h3>Sign in to leave a review</h3>
-                    <p>Please sign in with your Google account to share your experience.</p>
-                    <button class="google-signin-btn" id="googleSignInBtn">
-                        <i class="fab fa-google"></i>
-                        Sign in with Google
-                    </button>
-                </div>
-
-                <div id="reviewFormSection" style="display: none;">
-                    <h3>Leave a Review</h3>
-                    <form id="reviewForm">
-                        <div class="form-group">
-                            <label>Your Rating</label>
-                            <div class="star-rating" id="starRating">
-                                <i class="fas fa-star" data-rating="1"></i>
-                                <i class="fas fa-star" data-rating="2"></i>
-                                <i class="fas fa-star" data-rating="3"></i>
-                                <i class="fas fa-star" data-rating="4"></i>
-                                <i class="fas fa-star" data-rating="5"></i>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="reviewText">Your Review</label>
-                            <textarea id="reviewText" required placeholder="Share your experience..."></textarea>
-                        </div>
-                        <button type="submit" class="submit-button" id="reviewSubmitBtn">Submit Review</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Reviews List -->
-            <div class="reviews-list" id="reviewsList">
-                <div class="loading-message">
-                    <i class="fas fa-spinner fa-spin"></i> Loading reviews...
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials">
-        <h2 class="section-title">Testimonials</h2>
-        <p class="section-subtitle">Featured client testimonials</p>
-        <div class="testimonials-container">
-            <div class="testimonial-card active" data-index="0">
-                <p class="testimonial-text">"Harshit's editing skills transformed our YouTube channel. The quality and attention to detail are exceptional. Our engagement has increased by 300% since working with him!"</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">RK</div>
-                    <div class="author-info">
-                        <h4>Rajesh Kumar</h4>
-                        <p>YouTube Content Creator</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card" data-index="1">
-                <p class="testimonial-text">"Professional, creative, and always delivers on time. Harshit understands the vision and brings it to life perfectly. Highly recommend for any video project!"</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">PS</div>
-                    <div class="author-info">
-                        <h4>Priya Sharma</h4>
-                        <p>Digital Marketing Manager</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-card" data-index="2">
-                <p class="testimonial-text">"The Reddit marketing strategy Harshit developed helped us reach our target audience authentically. Our community engagement tripled within a month!"</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">AV</div>
-                    <div class="author-info">
-                        <h4>Aditya Verma</h4>
-                        <p>Startup Founder</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-nav">
-                <span class="testimonial-dot active" data-index="0"></span>
-                <span class="testimonial-dot" data-index="1"></span>
-                <span class="testimonial-dot" data-index="2"></span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section id="booking">
-        <h2 class="section-title">Book a Service</h2>
-        <p class="section-subtitle">Let's work together on your next project</p>
-        <div class="booking-container">
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="your@email.com">
-                </div>
-                <div class="form-group">
-                    <label for="service">Select Service</label>
-                    <select id="service" name="service" required>
-                        <option value="">Choose a service...</option>
-                        <option value="video-editing">Video Editing (Any Field)</option>
-                        <option value="thumbnail">Thumbnail Design</option>
-                        <option value="photo">Photo Editing</option>
-                        <option value="reddit">Reddit Marketing</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="date">Preferred Date</label>
-                    <input type="date" id="date" name="date" required>
-                </div>
-                <div class="form-group">
-                    <label for="time">Preferred Time</label>
-                    <input type="time" id="time" name="time" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Project Details</label>
-                    <textarea id="message" name="message" required placeholder="Tell me about your project..."></textarea>
-                </div>
-                <button type="submit" class="submit-button">Submit Booking Request</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2 class="section-title">Get in Touch</h2>
-        <p class="section-subtitle">Let's create something amazing together</p>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Contact Information</h3>
-                <div class="contact-method">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div>
-                        <strong>Email</strong><br>
-                        harshitpruthiorg@gmail.com
-                    </div>
-                </div>
-                <div class="contact-method">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div>
-                        <strong>Phone</strong><br>
-                        +91 XXXXX XXXXX
-                    </div>
-                </div>
-                <div class="contact-method">
-                    <div class="contact-icon">
-                        <i class="fas fa-location-dot"></i>
-                    </div>
-                    <div>
-                        <strong>Location</strong><br>
-                        India
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-link" title="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="social-link" title="YouTube">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="#" class="social-link" title="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link" title="Reddit">
-                        <i class="fab fa-reddit"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="contact-form">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="contact-name">Name</label>
-                        <input type="text" id="contact-name" required placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact-email">Email</label>
-                        <input type="email" id="contact-email" required placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact-message">Message</label>
-                        <textarea id="contact-message" required placeholder="Your message..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-button">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Harshit Pruthi. All rights reserved. | Crafted with passion for visual storytelling</p>
-    </footer>
-
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp, deleteDoc, doc, limit, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, getDocs, query, orderBy, limit, Timestamp, doc, getDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // Firebase Configuration
@@ -1814,18 +760,63 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // Initialize EmailJS
-        emailjs.init("YOUR_EMAILJS_USER_ID"); // Replace with your EmailJS user ID
+        let currentUser = null;
+
+        // LOAD FESTIVAL THEME (NEW!)
+        async function loadFestivalTheme() {
+            try {
+                const themeDoc = await getDoc(doc(db, 'siteSettings', 'mainTheme'));
+                const festivalDecoration = document.getElementById('festivalDecoration');
+                
+                if (themeDoc.exists()) {
+                    const theme = themeDoc.data();
+                    console.log('Loaded theme:', theme);
+                    
+                    if (theme.enableDecoration === 'yes' && theme.festivalName) {
+                        // Apply festival theme
+                        document.documentElement.setAttribute('data-festival', theme.festivalName);
+                        festivalDecoration.style.display = 'block';
+                        
+                        // Add festival banner
+                        const banner = document.createElement('div');
+                        banner.className = 'festival-banner';
+                        banner.textContent = `🎉 ${theme.festivalName.toUpperCase()} Special! 🎉`;
+                        festivalDecoration.appendChild(banner);
+                        
+                        // Add floating particles
+                        for (let i = 0; i < 20; i++) {
+                            const particle = document.createElement('div');
+                            particle.className = 'festival-particle';
+                            particle.innerHTML = getFestivalEmoji(theme.festivalName);
+                            particle.style.left = Math.random() * 100 + '%';
+                            particle.style.animationDelay = Math.random() * 6 + 's';
+                            particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+                            festivalDecoration.appendChild(particle);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        }
+
+        function getFestivalEmoji(festival) {
+            const emojis = {
+                diwali: '🪔✨',
+                christmas: '🎄🎅',
+                holi: '🌈🎉',
+                'new-year': '🎆✨',
+                navratri: '🪔⚔️',
+                eid: '🕌🌙',
+                dussehra: '🏹🔥'
+            };
+            return emojis[festival] || '🎉';
+        }
 
         // Auth state management
-        let currentUser = null;
-        let currentTheme = null;
-
-        // Auth state observer
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             updateUIForAuthState(user);
-            console.log('Auth state changed:', user ? user.email : 'No user');
         });
 
         function updateUIForAuthState(user) {
@@ -1833,276 +824,44 @@
             const userInfo = document.getElementById('userInfo');
             const userName = document.getElementById('userName');
             const userAvatar = document.getElementById('userAvatar');
-            const signInPrompt = document.getElementById('signInPrompt');
-            const reviewFormSection = document.getElementById('reviewFormSection');
+            const signOutBtn = document.getElementById('signOutBtn');
 
             if (user) {
                 signInBtn.style.display = 'none';
                 userInfo.style.display = 'flex';
                 userName.textContent = user.displayName || 'User';
                 userAvatar.src = user.photoURL || '';
-                signInPrompt.style.display = 'none';
-                reviewFormSection.style.display = 'block';
+                signOutBtn.style.display = 'inline-flex';
             } else {
-                signInBtn.style.display = 'flex';
+                signInBtn.style.display = 'inline-flex';
                 userInfo.style.display = 'none';
-                signInPrompt.style.display = 'block';
-                reviewFormSection.style.display = 'none';
+                signOutBtn.style.display = 'none';
             }
         }
 
-        // Sign in function
+        // Auth functions
         async function signInWithGoogle() {
             try {
-                const result = await signInWithPopup(auth, provider);
-                console.log('User signed in:', result.user);
+                await signInWithPopup(auth, provider);
             } catch (error) {
                 console.error('Error signing in:', error);
                 alert('Error signing in. Please try again.');
             }
         }
 
-        // Sign out function
         async function signOutUser() {
             try {
                 await signOut(auth);
-                console.log('User signed out');
             } catch (error) {
                 console.error('Error signing out:', error);
             }
         }
 
-        // Event listeners for auth buttons
+        // Event listeners
         document.getElementById('signInBtn').addEventListener('click', signInWithGoogle);
-        document.getElementById('googleSignInBtn').addEventListener('click', signInWithGoogle);
         document.getElementById('signOutBtn').addEventListener('click', signOutUser);
 
-        // Load and apply theme settings
-        async function loadThemeSettings() {
-            try {
-                const themeRef = doc(db, 'siteSettings', 'currentTheme');
-                const themeSnap = await getDoc(themeRef);
-                
-                if (themeSnap.exists()) {
-                    currentTheme = themeSnap.data();
-                    console.log('Loaded theme:', currentTheme);
-                    
-                    if (currentTheme.enabled && currentTheme.festival && currentTheme.festival !== 'none') {
-                        applyFestivalTheme(currentTheme);
-                    } else {
-                        removeFestivalTheme();
-                    }
-                } else {
-                    console.log('No theme settings found');
-                    removeFestivalTheme();
-                }
-            } catch (error) {
-                console.error('Error loading theme:', error);
-                removeFestivalTheme();
-            }
-        }
-
-        // Apply festival theme
-        function applyFestivalTheme(theme) {
-            const body = document.body;
-            
-            // Remove any existing festival classes
-            body.classList.remove('festival-theme', 'diwali', 'christmas', 'eid', 'holi', 'newyear');
-            
-            // Add festival theme class and specific festival class
-            body.classList.add('festival-theme');
-            if (theme.festival) {
-                body.classList.add(theme.festival);
-            }
-            
-            // Apply theme colors as CSS variables
-            const root = document.documentElement;
-            if (theme.colors) {
-                root.style.setProperty('--festival-primary', theme.colors.primary || '#0071e3');
-                root.style.setProperty('--festival-secondary', theme.colors.secondary || '#1d1d1f');
-                root.style.setProperty('--festival-accent', theme.colors.primary || '#0071e3');
-            }
-            
-            // Add festival banner if enabled
-            if (theme.banner && theme.message) {
-                addFestivalBanner(theme);
-            }
-            
-            // Add decorations if enabled
-            if (theme.decorations) {
-                addFestivalDecorations(theme);
-            }
-            
-            // Add sparkle effects if animations enabled
-            if (theme.animations) {
-                addSparkleEffects(theme);
-            }
-            
-            console.log('Applied festival theme:', theme.festival);
-        }
-
-        // Remove festival theme
-        function removeFestivalTheme() {
-            const body = document.body;
-            body.classList.remove('festival-theme', 'diwali', 'christmas', 'eid', 'holi', 'newyear');
-            
-            // Remove banner if exists
-            const existingBanner = document.querySelector('.festival-banner');
-            if (existingBanner) {
-                existingBanner.remove();
-                document.body.style.paddingTop = '0';
-                document.querySelector('nav').style.top = '0';
-            }
-            
-            // Remove decorations
-            const decorations = document.querySelector('.festival-decorations');
-            if (decorations) {
-                decorations.remove();
-            }
-            
-            console.log('Removed festival theme');
-        }
-
-        // Add festival banner
-        function addFestivalBanner(theme) {
-            // Remove existing banner first
-            const existingBanner = document.querySelector('.festival-banner');
-            if (existingBanner) {
-                existingBanner.remove();
-            }
-            
-            const banner = document.createElement('div');
-            banner.className = 'festival-banner';
-            
-            // Get festival icon based on festival type
-            let festivalIcon = 'fas fa-palette';
-            switch(theme.festival) {
-                case 'diwali':
-                    festivalIcon = 'fas fa-oil-can';
-                    break;
-                case 'christmas':
-                    festivalIcon = 'fas fa-tree';
-                    break;
-                case 'eid':
-                    festivalIcon = 'fas fa-moon';
-                    break;
-                case 'holi':
-                    festivalIcon = 'fas fa-paint-brush';
-                    break;
-                case 'newyear':
-                    festivalIcon = 'fas fa-glass-cheers';
-                    break;
-            }
-            
-            banner.innerHTML = `
-                <i class="${festivalIcon}"></i>
-                <span>${theme.message || 'Happy Festival!'}</span>
-                <button class="close-btn" onclick="this.parentElement.remove(); document.body.style.paddingTop='0'; document.querySelector('nav').style.top='0';">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            // Adjust page content to account for banner
-            document.body.style.paddingTop = '44px';
-            document.querySelector('nav').style.top = '44px';
-            
-            document.body.prepend(banner);
-        }
-
-        // Add festival decorations
-        function addFestivalDecorations(theme) {
-            // Remove existing decorations first
-            const existingDecorations = document.querySelector('.festival-decorations');
-            if (existingDecorations) {
-                existingDecorations.remove();
-            }
-            
-            const decorations = document.createElement('div');
-            decorations.className = 'festival-decorations';
-            
-            // Add different decorations based on festival type
-            let decorationClass = '';
-            let count = 20;
-            
-            switch(theme.festival) {
-                case 'diwali':
-                    decorationClass = 'diwali-decoration';
-                    count = 30;
-                    break;
-                case 'christmas':
-                    decorationClass = 'christmas-decoration';
-                    count = 25;
-                    break;
-                case 'eid':
-                    decorationClass = 'eid-decoration';
-                    count = 20;
-                    break;
-                case 'holi':
-                    decorationClass = 'holi-decoration';
-                    count = 35;
-                    break;
-                case 'newyear':
-                    decorationClass = 'newyear-decoration';
-                    count = 20;
-                    break;
-                default:
-                    decorationClass = 'diwali-decoration';
-            }
-            
-            for (let i = 0; i < count; i++) {
-                const decor = document.createElement('div');
-                decor.className = `festival-decoration ${decorationClass}`;
-                decor.style.left = `${Math.random() * 100}%`;
-                decor.style.animationDelay = `${Math.random() * 15}s`;
-                decorations.appendChild(decor);
-            }
-            
-            document.body.appendChild(decorations);
-        }
-
-        // Add sparkle effects
-        function addSparkleEffects(theme) {
-            // Add random sparkles
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const sparkle = document.createElement('div');
-                    sparkle.className = 'festival-sparkle';
-                    sparkle.style.left = `${Math.random() * 100}%`;
-                    sparkle.style.top = `${Math.random() * 100}%`;
-                    sparkle.style.animationDelay = `${Math.random() * 2}s`;
-                    document.body.appendChild(sparkle);
-                    
-                    // Remove after animation
-                    setTimeout(() => {
-                        if (sparkle.parentNode) {
-                            sparkle.parentNode.removeChild(sparkle);
-                        }
-                    }, 2000);
-                }, i * 100);
-            }
-        }
-
-        // Set up real-time theme listener
-        function setupThemeListener() {
-            const themeRef = doc(db, 'siteSettings', 'currentTheme');
-            
-            onSnapshot(themeRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    currentTheme = docSnap.data();
-                    console.log('Theme updated:', currentTheme);
-                    
-                    if (currentTheme.enabled && currentTheme.festival && currentTheme.festival !== 'none') {
-                        applyFestivalTheme(currentTheme);
-                    } else {
-                        removeFestivalTheme();
-                    }
-                }
-            }, (error) => {
-                console.error('Theme listener error:', error);
-            });
-        }
-
-        // Load featured videos (top 3)
+        // Load featured videos
         async function loadFeaturedVideos() {
             try {
                 const videosQuery = query(collection(db, 'featuredWork'), orderBy('order'), limit(3));
@@ -2115,31 +874,36 @@
                 }
 
                 featuredVideos.innerHTML = '';
-
                 videosSnapshot.forEach((doc) => {
                     const work = doc.data();
                     const workCard = document.createElement('div');
                     workCard.className = 'video-card';
 
                     let videoId = '';
-                    if (work.videoUrl && work.videoUrl.includes('youtube.com/watch?v=')) {
-                        videoId = work.videoUrl.split('v=')[1].split('&')[0];
-                    } else if (work.videoUrl && work.videoUrl.includes('youtu.be/')) {
-                        videoId = work.videoUrl.split('youtu.be/')[1].split('?')[0];
+                    if (work.videoUrl) {
+                        if (work.videoUrl.includes('youtube.com/watch?v')) {
+                            videoId = work.videoUrl.split('v=')[1].split('&')[0];
+                        } else if (work.videoUrl.includes('youtu.be/')) {
+                            videoId = work.videoUrl.split('youtu.be/')[1].split('?')[0];
+                        }
                     }
 
                     if (videoId) {
                         workCard.innerHTML = `
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/${videoId}" 
-                                        frameborder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        allowfullscreen>
-                                </iframe>
+                                <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
                             </div>
                             <div class="video-info">
                                 <h3>${work.title}</h3>
-                                <p>${work.description || ''}</p>
+                                <p>${work.description}</p>
+                            </div>
+                        `;
+                    } else {
+                        workCard.innerHTML = `
+                            <div class="video-info" style="padding: 40px; text-align: center;">
+                                <h3>${work.title}</h3>
+                                <p>${work.description}</p>
+                                <p style="color: #ff6b6b;">Video URL not available</p>
                             </div>
                         `;
                     }
@@ -2148,305 +912,15 @@
                 });
             } catch (error) {
                 console.error('Error loading featured videos:', error);
-                document.getElementById('featuredVideos').innerHTML = 
-                    '<div class="loading-message">Error loading work. Please try again later.</div>';
+                document.getElementById('featuredVideos').innerHTML = '<div class="loading-message">Error loading work. Please try again later.</div>';
             }
         }
 
-        // Load reviews from Firestore
-        async function loadReviews() {
-            try {
-                const reviewsQuery = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
-                const reviewsSnapshot = await getDocs(reviewsQuery);
-                const reviewsList = document.getElementById('reviewsList');
-
-                if (reviewsSnapshot.empty) {
-                    reviewsList.innerHTML = '<div class="loading-message">No reviews yet. Be the first to leave a review!</div>';
-                    updateRatingSummary([]);
-                    return;
-                }
-
-                reviewsList.innerHTML = '';
-                const reviews = [];
-
-                reviewsSnapshot.forEach((docSnap) => {
-                    const review = docSnap.data();
-                    const reviewId = docSnap.id;
-                    reviews.push(review);
-
-                    const reviewCard = document.createElement('div');
-                    reviewCard.className = 'review-card';
-                    reviewCard.dataset.reviewId = reviewId;
-                    reviewCard.dataset.userId = review.userId;
-
-                    const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-                    const date = review.createdAt ? new Date(review.createdAt.seconds * 1000).toLocaleDateString() : 'Recently';
-
-                    const avatarContent = review.userPhoto 
-                        ? `<img src="${review.userPhoto}" alt="${review.name}">` 
-                        : review.name.charAt(0).toUpperCase();
-
-                    const deleteButton = currentUser && review.userId === currentUser.uid 
-                        ? `<button class="delete-review-btn" onclick="deleteReview('${reviewId}')" style="display: inline-block;"><i class="fas fa-trash"></i> Delete</button>`
-                        : '';
-
-                    reviewCard.innerHTML = `
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <div class="reviewer-avatar">${avatarContent}</div>
-                                <div>
-                                    <div class="reviewer-name">${review.name}</div>
-                                    <div class="review-date">${date}</div>
-                                </div>
-                            </div>
-                            <div class="review-actions">
-                                <div class="review-stars">${stars}</div>
-                                ${deleteButton}
-                            </div>
-                        </div>
-                        <p class="review-text">${review.text}</p>
-                    `;
-
-                    reviewsList.appendChild(reviewCard);
-                });
-
-                updateRatingSummary(reviews);
-            } catch (error) {
-                console.error('Error loading reviews:', error);
-                document.getElementById('reviewsList').innerHTML = 
-                    '<div class="loading-message">Error loading reviews. Please try again later.</div>';
-            }
-        }
-
-        // Delete review function
-        window.deleteReview = async function(reviewId) {
-            if (!currentUser) {
-                alert('You must be signed in to delete reviews.');
-                return;
-            }
-
-            if (!confirm('Are you sure you want to delete this review? This action cannot be undone.')) {
-                return;
-            }
-
-            try {
-                await deleteDoc(doc(db, 'reviews', reviewId));
-                alert('Review deleted successfully!');
-                await loadReviews();
-            } catch (error) {
-                console.error('Error deleting review:', error);
-                alert('Error deleting review. Please try again.');
-            }
-        };
-
-        // Update rating summary
-        function updateRatingSummary(reviews) {
-            const reviewCount = reviews.length;
-            const averageRating = reviewCount > 0 
-                ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount).toFixed(1)
-                : '5.0';
-
-            document.getElementById('averageRating').textContent = averageRating;
-            document.getElementById('reviewCount').textContent = `${reviewCount} Review${reviewCount !== 1 ? 's' : ''}`;
-
-            const starsContainer = document.getElementById('averageStars');
-            const fullStars = Math.floor(averageRating);
-            const hasHalfStar = averageRating % 1 >= 0.5;
-
-            starsContainer.innerHTML = '';
-            for (let i = 0; i < fullStars; i++) {
-                starsContainer.innerHTML += '<i class="fas fa-star"></i>';
-            }
-            if (hasHalfStar) {
-                starsContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            for (let i = fullStars + (hasHalfStar ? 1 : 0); i < 5; i++) {
-                starsContainer.innerHTML += '<i class="far fa-star"></i>';
-            }
-        }
-
-        // Star rating interaction
-        let selectedRating = 5;
-        const stars = document.querySelectorAll('#starRating i');
-
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                selectedRating = parseInt(star.getAttribute('data-rating'));
-                updateStarDisplay(selectedRating);
-            });
-
-            star.addEventListener('mouseenter', () => {
-                const rating = parseInt(star.getAttribute('data-rating'));
-                updateStarDisplay(rating);
-            });
+        // Page load
+        window.addEventListener('load', async () => {
+            await loadFestivalTheme(); // Load theme FIRST
+            await loadFeaturedVideos();
         });
-
-        document.getElementById('starRating').addEventListener('mouseleave', () => {
-            updateStarDisplay(selectedRating);
-        });
-
-        function updateStarDisplay(rating) {
-            stars.forEach(star => {
-                const starRating = parseInt(star.getAttribute('data-rating'));
-                if (starRating <= rating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
-            });
-        }
-
-        updateStarDisplay(5);
-
-        // Submit review
-        document.getElementById('reviewForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            if (!currentUser) {
-                alert('Please sign in to submit a review.');
-                return;
-            }
-
-            const submitBtn = document.getElementById('reviewSubmitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-
-            try {
-                const reviewData = {
-                    name: currentUser.displayName || 'Anonymous User',
-                    text: document.getElementById('reviewText').value,
-                    rating: selectedRating,
-                    userId: currentUser.uid,
-                    userEmail: currentUser.email,
-                    userPhoto: currentUser.photoURL || '',
-                    createdAt: Timestamp.now()
-                };
-
-                console.log('Submitting review:', reviewData);
-
-                await addDoc(collection(db, 'reviews'), reviewData);
-
-                alert('Thank you for your review! It has been submitted successfully.');
-                document.getElementById('reviewForm').reset();
-                selectedRating = 5;
-                updateStarDisplay(5);
-                await loadReviews();
-            } catch (error) {
-                console.error('Error submitting review:', error);
-                alert(`Error submitting review: ${error.message}`);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Review';
-            }
-        });
-
-        // Booking form submission with email
-        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('.submit-button');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                service: document.getElementById('service').options[document.getElementById('service').selectedIndex].text,
-                date: document.getElementById('date').value,
-                time: document.getElementById('time').value,
-                message: document.getElementById('message').value
-            };
-
-            try {
-                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
-                    to_email: 'harshitpruthiorg@gmail.com',
-                    from_name: formData.name,
-                    from_email: formData.email,
-                    service: formData.service,
-                    date: formData.date,
-                    time: formData.time,
-                    message: formData.message,
-                    subject: 'New Booking Request - ' + formData.service
-                });
-
-                alert('Thank you for your booking request! I will get back to you within 24 hours.');
-                e.target.reset();
-            } catch (error) {
-                console.error('Email error:', error);
-                alert('Your booking request has been received. I will contact you soon!');
-                e.target.reset();
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Booking Request';
-            }
-        });
-
-        // Contact form submission with email
-        document.getElementById('contactForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('.submit-button');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-
-            const formData = {
-                name: document.getElementById('contact-name').value,
-                email: document.getElementById('contact-email').value,
-                message: document.getElementById('contact-message').value
-            };
-
-            try {
-                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_CONTACT_TEMPLATE_ID', {
-                    to_email: 'harshitpruthiorg@gmail.com',
-                    from_name: formData.name,
-                    from_email: formData.email,
-                    message: formData.message,
-                    subject: 'New Contact Message from Portfolio'
-                });
-
-                alert('Thank you for your message! I will respond to you shortly.');
-                e.target.reset();
-            } catch (error) {
-                console.error('Email error:', error);
-                alert('Your message has been received. I will get back to you soon!');
-                e.target.reset();
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            }
-        });
-
-        // Load data on page load
-        loadFeaturedVideos();
-        loadReviews();
-        loadThemeSettings();
-        setupThemeListener();
-    </script>
-
-    <script>
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const body = document.body;
-
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        body.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme);
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
-
-        function updateThemeIcon(theme) {
-            if (theme === 'dark') {
-                themeIcon.className = 'fas fa-moon';
-            } else {
-                themeIcon.className = 'fas fa-sun';
-            }
-        }
 
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
@@ -2458,12 +932,19 @@
             }
         });
 
-        // Intersection Observer for section titles
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
 
+        // Intersection Observer
+        const observerOptions = { threshold: 0.2, rootMargin: '0px 0px -100px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -2475,65 +956,6 @@
         document.querySelectorAll('.section-title').forEach(title => {
             observer.observe(title);
         });
-
-        // Testimonial carousel
-        let currentTestimonial = 0;
-        const testimonialCards = document.querySelectorAll('.testimonial-card');
-        const testimonialDots = document.querySelectorAll('.testimonial-dot');
-
-        function showTestimonial(index) {
-            testimonialCards.forEach(card => card.classList.remove('active'));
-            testimonialDots.forEach(dot => dot.classList.remove('active'));
-
-            testimonialCards[index].classList.add('active');
-            testimonialDots[index].classList.add('active');
-        }
-
-        testimonialDots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const index = parseInt(dot.getAttribute('data-index'));
-                currentTestimonial = index;
-                showTestimonial(index);
-            });
-        });
-
-        setInterval(() => {
-            currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
-            showTestimonial(currentTestimonial);
-        }, 5000);
-
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Parallax effect for floating elements
-        window.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-
-            document.querySelectorAll('.floating-element').forEach((el, index) => {
-                const speed = (index + 1) * 20;
-                const x = (mouseX * speed) - (speed / 2);
-                const y = (mouseY * speed) - (speed / 2);
-
-                el.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
-
-        // Set minimum date for booking
-        const dateInput = document.getElementById('date');
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
     </script>
 </body>
 </html>
