@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Portfolio Management</title>
+    <title>Admin Panel - Portfolio & Theme Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --primary-color: #1d1d1f;
             --accent-color: #0071e3;
@@ -25,121 +25,133 @@
             --card-bg: #ffffff;
             --success-color: #34c759;
             --error-color: #ff3b30;
+            --warning-color: #ff9500;
+            --info-color: #5ac8fa;
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 280px;
         }
-        
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-secondary);
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 20px;
+            display: flex;
+            min-height: 100vh;
         }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-primary);
+            border-right: 1px solid var(--border-color);
+            padding: 30px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            z-index: 100;
         }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 0;
+
+        .sidebar-header {
+            padding: 0 30px 30px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
         }
-        
-        .header h1 {
-            font-size: 48px;
+
+        .sidebar-header h1 {
+            font-size: 32px;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .header p {
+
+        .sidebar-header p {
             color: var(--text-secondary);
-            font-size: 18px;
+            font-size: 14px;
         }
-        
-        /* Tab Navigation */
-        .tab-nav {
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
             display: flex;
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 8px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            gap: 8px;
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            background: transparent;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
             color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
-        
-        .tab-btn.active {
-            background: var(--accent-color);
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 113, 227, 0.3);
-        }
-        
-        .tab-btn:hover:not(.active) {
+
+        .nav-link:hover {
             background: var(--bg-secondary);
             color: var(--text-primary);
         }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
+
+        .nav-link.active {
+            background: var(--accent-color);
+            color: white;
         }
-        
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
         }
-        
-        /* Auth Section */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Auth Container */
         .auth-container {
             background: var(--card-bg);
-            padding: 60px;
-            border-radius: 20px;
+            padding: 80px;
+            border-radius: 24px;
             box-shadow: var(--shadow);
             text-align: center;
             display: none;
+            max-width: 500px;
+            margin: 100px auto;
         }
-        
+
         .auth-container.show {
             display: block;
         }
-        
+
         .auth-container h2 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 20px;
         }
-        
+
         .auth-container p {
             color: var(--text-secondary);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            font-size: 16px;
         }
-        
+
         .google-signin-btn {
             background: #4285f4;
             color: white;
-            padding: 14px 32px;
+            padding: 16px 40px;
             border: none;
             border-radius: 12px;
             font-size: 16px;
@@ -150,12 +162,13 @@
             gap: 12px;
             transition: all 0.3s ease;
         }
-        
+
         .google-signin-btn:hover {
             background: #3367d6;
             transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(66, 133, 244, 0.3);
         }
-        
+
         /* User Info Bar */
         .user-info-bar {
             background: var(--card-bg);
@@ -166,34 +179,36 @@
             display: none;
             align-items: center;
             justify-content: space-between;
+            border: 2px solid var(--border-color);
         }
-        
+
         .user-info-bar.show {
             display: flex;
         }
-        
+
         .user-details {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        
+
         .user-avatar {
             width: 48px;
             height: 48px;
             border-radius: 50%;
+            object-fit: cover;
         }
-        
+
         .user-name {
             font-weight: 600;
             font-size: 16px;
         }
-        
+
         .user-email {
             font-size: 14px;
             color: var(--text-secondary);
         }
-        
+
         .signout-btn {
             padding: 10px 20px;
             background: var(--error-color);
@@ -204,43 +219,75 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
+
         .signout-btn:hover {
             background: #d32f2f;
         }
-        
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
         /* Form Cards */
         .form-card {
             background: var(--card-bg);
             padding: 40px;
             border-radius: 20px;
             box-shadow: var(--shadow);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            border: 2px solid var(--border-color);
         }
-        
-        .form-card h2 {
-            font-size: 28px;
+
+        .form-card h3 {
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
+            color: var(--text-primary);
         }
-        
+
         .form-card .subtitle {
             color: var(--text-secondary);
             margin-bottom: 30px;
+            font-size: 15px;
         }
-        
+
         .form-group {
             margin-bottom: 25px;
         }
-        
+
         .form-group label {
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 15px;
+            color: var(--text-primary);
         }
-        
+
         .form-group input,
         .form-group select,
         .form-group textarea {
@@ -252,33 +299,131 @@
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             background: var(--bg-primary);
+            color: var(--text-primary);
         }
-        
+
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
         }
-        
+
         .form-group textarea {
             resize: vertical;
             min-height: 100px;
         }
-        
+
         .form-group small {
             display: block;
             color: var(--text-secondary);
             font-size: 13px;
             margin-top: 6px;
         }
-        
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        
+
+        .form-row .form-group:last-child {
+            margin-bottom: 25px;
+        }
+
+        /* Checkbox and Radio */
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input,
+        .radio-item input {
+            width: auto;
+            margin: 0;
+        }
+
+        /* Color Picker */
+        .color-picker-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-picker {
+            width: 60px;
+            height: 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .color-picker::-webkit-color-swatch {
+            border: none;
+            border-radius: 6px;
+        }
+
+        .color-picker::-moz-color-swatch {
+            border: none;
+            border-radius: 6px;
+        }
+
+        /* Image Upload Preview */
+        .image-upload-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .image-upload-preview {
+            width: 200px;
+            height: 150px;
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            overflow: hidden;
+        }
+
+        .image-upload-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .upload-btn {
+            padding: 12px 24px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #005bb5;
+        }
+
+        /* Submit Buttons */
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -286,7 +431,7 @@
             color: white;
             border: none;
             border-radius: 12px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -295,68 +440,26 @@
             justify-content: center;
             gap: 10px;
         }
-        
+
         .submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 113, 227, 0.3);
         }
-        
-        .submit-btn.disabled {
+
+        .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
-        
-        /* Festival Theme Styles */
-        .festival-themes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+
+        .btn-secondary {
+            background: var(--text-secondary);
         }
-        
-        .theme-option {
-            padding: 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            position: relative;
+
+        .btn-secondary:hover {
+            background: #5a5a5f;
+            box-shadow: 0 10px 30px rgba(110, 110, 115, 0.3);
         }
-        
-        .theme-option:hover,
-        .theme-option.active {
-            border-color: var(--accent-color);
-            box-shadow: var(--shadow);
-            transform: translateY(-2px);
-        }
-        
-        .theme-option.active::after {
-            content: '✓';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--success-color);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .theme-color {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            border: 3px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
+
         /* Alerts */
         .alert {
             padding: 16px 20px;
@@ -366,121 +469,485 @@
             align-items: center;
             gap: 12px;
             font-weight: 500;
+            border: 2px solid transparent;
         }
-        
+
         .alert.show {
             display: flex;
+            animation: slideDown 0.3s ease;
         }
-        
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .alert-success {
             background: #d1f4e0;
             color: #0d6832;
-            border: 2px solid #34c759;
+            border-color: #34c759;
         }
-        
+
         .alert-error {
             background: #ffe5e5;
             color: #c41e3a;
-            border: 2px solid #ff3b30;
+            border-color: #ff3b30;
         }
-        
+
+        .alert-warning {
+            background: #fff4e5;
+            color: #b35900;
+            border-color: #ff9500;
+        }
+
+        .alert-info {
+            background: #e5f7ff;
+            color: #00698c;
+            border-color: #5ac8fa;
+        }
+
         /* Items List */
         .items-list {
             background: var(--card-bg);
             padding: 30px;
             border-radius: 20px;
             box-shadow: var(--shadow);
+            border: 2px solid var(--border-color);
         }
-        
-        .items-list h2 {
+
+        .items-list h3 {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 20px;
+            color: var(--text-primary);
         }
-        
+
         .item-card {
             background: var(--bg-secondary);
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 15px;
             border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
         }
-        
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: start;
             margin-bottom: 10px;
         }
-        
+
         .item-title {
             font-weight: 600;
             font-size: 16px;
+            color: var(--text-primary);
         }
-        
+
         .item-badge {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
             color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        
-        .badge-videos { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .badge-thumbnails { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .badge-photos { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .badge-reddit { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .badge-featured { background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); }
-        .badge-theme { background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%); }
-        
+
+        .badge-videos {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .badge-thumbnails {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .badge-photos {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .badge-reddit {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .badge-featured {
+            background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+        }
+
+        .badge-theme {
+            background: linear-gradient(135deg, #8bc34a 0%, #4caf50 100%);
+        }
+
+        .badge-active {
+            background: linear-gradient(135deg, #34c759 0%, #2ecc71 100%);
+        }
+
+        .badge-inactive {
+            background: linear-gradient(135deg, #8e8e93 0%, #6e6e73 100%);
+        }
+
         .item-description {
             color: var(--text-secondary);
             font-size: 14px;
             margin-bottom: 8px;
+            line-height: 1.5;
         }
-        
+
         .item-meta {
             display: flex;
             gap: 20px;
             font-size: 13px;
             color: var(--text-secondary);
+            margin-top: 10px;
         }
-        
+
+        .item-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .item-actions button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item-actions .edit-btn {
+            background: var(--info-color);
+            color: white;
+        }
+
+        .item-actions .edit-btn:hover {
+            background: #2bb0e6;
+        }
+
+        .item-actions .delete-btn {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .item-actions .delete-btn:hover {
+            background: #d32f2f;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
             color: var(--text-secondary);
+            font-size: 16px;
         }
-        
+
+        .loading i {
+            margin-right: 10px;
+        }
+
+        /* Theme Preview */
+        .theme-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .theme-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-card.active {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+        }
+
+        .theme-card.active::after {
+            content: '✓ Active';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .theme-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .theme-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .theme-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .theme-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .theme-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .status-active {
+            background: #d1f4e0;
+            color: #0d6832;
+        }
+
+        .status-inactive {
+            background: #f2f2f7;
+            color: #6e6e73;
+        }
+
+        /* Festival Theme Styles */
+        .festival-theme {
+            background: var(--festival-bg, var(--bg-primary));
+            color: var(--festival-text, var(--text-primary));
+        }
+
+        /* Festival-specific preview colors */
+        .theme-card[data-festival="diwali"] .theme-icon {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+
+        .theme-card[data-festival="christmas"] .theme-icon {
+            background: linear-gradient(135deg, #FF0000 0%, #008000 100%);
+        }
+
+        .theme-card[data-festival="eid"] .theme-icon {
+            background: linear-gradient(135deg, #009688 0%, #4CAF50 100%);
+        }
+
+        .theme-card[data-festival="holi"] .theme-icon {
+            background: linear-gradient(135deg, #FF4081 0%, #9C27B0 100%);
+        }
+
+        .theme-card[data-festival="newyear"] .theme-icon {
+            background: linear-gradient(135deg, #2196F3 0%, #3F51B5 100%);
+        }
+
         /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .main-content {
+                margin-left: 240px;
+                padding: 30px;
+            }
+        }
+
         @media (max-width: 768px) {
-            body { padding: 10px; }
-            .form-card, .auth-container { padding: 30px 20px; }
-            .header h1 { font-size: 32px; }
-            .form-row { grid-template-columns: 1fr; }
-            .user-info-bar { flex-direction: column; align-items: start; gap: 15px; }
-            .tab-nav { flex-direction: column; }
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                padding: 20px 0;
+            }
+
+            .sidebar-header {
+                padding: 0 20px 20px;
+            }
+
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding: 0 20px;
+                gap: 10px;
+            }
+
+            .nav-item {
+                flex-shrink: 0;
+            }
+
+            .nav-link {
+                padding: 12px 16px;
+                white-space: nowrap;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .auth-container {
+                padding: 40px 20px;
+                margin: 40px auto;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .image-upload-container {
+                flex-direction: column;
+            }
+
+            .image-upload-preview {
+                width: 100%;
+                height: 150px;
+            }
+
+            .theme-preview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h2 {
+                font-size: 28px;
+            }
+
+            .user-details {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .item-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .item-actions {
+                flex-direction: column;
+            }
+
+            .item-actions button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
             <h1><i class="fas fa-crown"></i> Admin Panel</h1>
-            <p>Manage portfolio items and site themes</p>
+            <p>Manage portfolio & site themes</p>
+        </div>
+        
+        <!-- User Info in Sidebar -->
+        <div class="user-info-sidebar" id="userInfoSidebar" style="display: none; padding: 0 30px 30px;">
+            <div class="user-details">
+                <img src="" alt="User" class="user-avatar" id="sidebarUserAvatar">
+                <div>
+                    <div class="user-name" id="sidebarUserName"></div>
+                    <div class="user-email" id="sidebarUserEmail"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- Auth Container -->
-        <div class="auth-container" id="authContainer">
-            <h2>Admin Access Required</h2>
-            <p>Please sign in with your Google account to access the admin panel</p>
-            <button class="google-signin-btn" id="signInBtn">
-                <i class="fab fa-google"></i>
-                Sign in with Google
-            </button>
-        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#portfolio" class="nav-link active" data-tab="portfolio">
+                    <i class="fas fa-video"></i>
+                    Portfolio Items
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#themes" class="nav-link" data-tab="themes">
+                    <i class="fas fa-palette"></i>
+                    Theme Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#reviews" class="nav-link" data-tab="reviews">
+                    <i class="fas fa-star"></i>
+                    Reviews
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#analytics" class="nav-link" data-tab="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#settings" class="nav-link" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+            </li>
+        </ul>
+    </aside>
 
-        <!-- User Info Bar -->
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- User Info Bar (Top) -->
         <div class="user-info-bar" id="userInfoBar">
             <div class="user-details">
                 <img src="" alt="User" class="user-avatar" id="userAvatar">
@@ -494,176 +961,386 @@
             </button>
         </div>
 
-        <!-- Admin Panel -->
-        <div class="admin-panel" id="adminPanel">
-            <!-- Tab Navigation -->
-            <div class="tab-nav">
-                <button class="tab-btn active" data-tab="video-upload">
-                    <i class="fas fa-video"></i> Video Upload
-                </button>
-                <button class="tab-btn" data-tab="site-theme">
-                    <i class="fas fa-palette"></i> Site Theme
-                </button>
+        <!-- Alerts -->
+        <div class="alert alert-success" id="successAlert">
+            <i class="fas fa-check-circle"></i>
+            <span id="successMessage"></span>
+        </div>
+
+        <div class="alert alert-error" id="errorAlert">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorMessage"></span>
+        </div>
+
+        <!-- Portfolio Tab -->
+        <div id="portfolioTab" class="tab-content active">
+            <div class="page-header">
+                <h2><i class="fas fa-video"></i> Portfolio Management</h2>
+                <p>Add and manage portfolio items for your website</p>
             </div>
 
-            <!-- Alerts -->
-            <div class="alert alert-success" id="successAlert">
-                <i class="fas fa-check-circle"></i>
-                <span id="successMessage"></span>
-            </div>
-            <div class="alert alert-error" id="errorAlert">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorMessage"></span>
-            </div>
+            <!-- Add Item Form -->
+            <div class="form-card">
+                <h3>Add New Portfolio Item</h3>
+                <p class="subtitle">Fill in the details below to add a new item to your portfolio</p>
 
-            <!-- Video Upload Tab -->
-            <div class="tab-content active" id="videoUploadTab">
-                <!-- Add Item Form (Existing) -->
-                <div class="form-card">
-                    <h2>Add New Portfolio Item</h2>
-                    <p class="subtitle">Fill in the details below to add a new item</p>
-                    <form id="addItemForm">
-                        <!-- Collection Type -->
-                        <div class="form-group">
-                            <label for="collectionType">
-                                <i class="fas fa-database"></i> Collection Type
-                            </label>
-                            <select id="collectionType" required>
-                                <option value="">Choose collection...</option>
-                                <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
-                                <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
-                            </select>
-                            <small>Choose where this item should appear</small>
-                        </div>
-
-                        <!-- Category for portfolioItems -->
-                        <div class="form-group" id="categoryGroup" style="display: none">
-                            <label for="category">
-                                <i class="fas fa-tag"></i> Category
-                            </label>
-                            <select id="category">
-                                <option value="">Choose category...</option>
-                                <option value="videos">Videos</option>
-                                <option value="thumbnails">Thumbnails</option>
-                                <option value="photos">Edited Photos</option>
-                                <option value="reddit">Reddit Marketing</option>
-                            </select>
-                            <small>Select the category for this item</small>
-                        </div>
-
-                        <!-- Title -->
-                        <div class="form-group">
-                            <label for="title">
-                                <i class="fas fa-heading"></i> Title
-                            </label>
-                            <input type="text" id="title" required placeholder="e.g., Cinematic Wedding Video">
-                            <small>Enter a descriptive title</small>
-                        </div>
-
-                        <!-- Description -->
-                        <div class="form-group">
-                            <label for="description">
-                                <i class="fas fa-align-left"></i> Description
-                            </label>
-                            <textarea id="description" required placeholder="Brief description of the work..."></textarea>
-                            <small>Describe the project in 1-2 sentences</small>
-                        </div>
-
-                        <!-- Video URL -->
-                        <div class="form-group" id="videoUrlGroup">
-                            <label for="videoUrl">
-                                <i class="fab fa-youtube"></i> Video URL (YouTube)
-                            </label>
-                            <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=VIDEOID">
-                            <small>Paste YouTube video link for videos category</small>
-                        </div>
-
-                        <!-- Image URL -->
-                        <div class="form-group" id="imageUrlGroup" style="display: none">
-                            <label for="imageUrl">
-                                <i class="fas fa-image"></i> Image URL
-                            </label>
-                            <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com...">
-                            <small>Paste image URL from Firebase Storage</small>
-                        </div>
-
-                        <!-- Order Number -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="order">
-                                    <i class="fas fa-sort-numeric-up"></i> Order Number
-                                </label>
-                                <input type="number" id="order" required value="1" min="1">
-                                <small>Lower numbers appear first</small>
-                            </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <button type="submit" class="submit-btn" id="submitBtn">
-                            <i class="fas fa-plus-circle"></i>
-                            Add to Firestore
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Recent Items -->
-                <div class="items-list">
-                    <h2><i class="fas fa-list"></i> Recent Items</h2>
-                    <div id="itemsList">
-                        <div class="loading">
-                            <i class="fas fa-spinner fa-spin"></i> Loading items...
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Site Theme Tab -->
-            <div class="tab-content" id="siteThemeTab">
-                <div class="form-card">
-                    <h2>Site Theme Settings</h2>
-                    <p class="subtitle">Select a festival theme for the main site (index.html)</p>
-                    
+                <form id="addItemForm">
                     <div class="form-group">
-                        <label>Enable Festival Theme</label>
-                        <select id="themeEnabled">
-                            <option value="false">Disabled (Default Theme)</option>
-                            <option value="true">Enabled</option>
+                        <label for="collectionType">
+                            <i class="fas fa-database"></i> Collection Type *
+                        </label>
+                        <select id="collectionType" required>
+                            <option value="">Choose collection...</option>
+                            <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
+                            <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
                         </select>
-                        <small>When enabled, the selected festival theme will apply to the main site</small>
+                        <small>Choose where this item should appear on your website</small>
+                    </div>
+
+                    <div class="form-group" id="categoryGroup" style="display: none;">
+                        <label for="category">
+                            <i class="fas fa-tag"></i> Category *
+                        </label>
+                        <select id="category">
+                            <option value="">Choose category...</option>
+                            <option value="videos">Videos</option>
+                            <option value="thumbnails">Thumbnails</option>
+                            <option value="photos">Edited Photos</option>
+                            <option value="reddit">Reddit Marketing</option>
+                        </select>
+                        <small>Select the category for this item</small>
                     </div>
 
                     <div class="form-group">
-                        <label>Festival Name</label>
-                        <select id="festivalName">
-                            <option value="diwali">Diwali</option>
-                            <option value="holi">Holi</option>
-                            <option value="navratri">Navratri</option>
-                            <option value="christmas">Christmas</option>
-                            <option value="easter">Easter</option>
-                            <option value="new-year">New Year</option>
-                        </select>
-                        <small>Select the festival for themed decorations</small>
+                        <label for="title">
+                            <i class="fas fa-heading"></i> Title *
+                        </label>
+                        <input type="text" id="title" required placeholder="e.g., Cinematic Wedding Video">
+                        <small>Enter a descriptive title for your work</small>
                     </div>
 
-                    <div id="currentThemePreview" style="margin-top: 20px; padding: 20px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
-                        <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 10px;">Current Theme Preview</div>
-                        <div id="themePreviewColors" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;"></div>
-                        <div id="themeStatus" style="margin-top: 15px; font-weight: 600;"></div>
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fas fa-align-left"></i> Description *
+                        </label>
+                        <textarea id="description" required placeholder="Brief description of the work..."></textarea>
+                        <small>Describe the project in 1-2 sentences</small>
                     </div>
 
-                    <button class="submit-btn" id="saveThemeBtn" style="margin-top: 30px;">
+                    <div class="form-group" id="videoUrlGroup">
+                        <label for="videoUrl">
+                            <i class="fab fa-youtube"></i> Video URL (YouTube)
+                        </label>
+                        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=VIDEO_ID">
+                        <small>Paste YouTube video link (for videos category)</small>
+                    </div>
+
+                    <div class="form-group" id="imageUrlGroup" style="display: none;">
+                        <label for="imageUrl">
+                            <i class="fas fa-image"></i> Image URL
+                        </label>
+                        <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com/...">
+                        <small>Paste image URL from Firebase Storage</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="order">
+                                <i class="fas fa-sort-numeric-up"></i> Order Number *
+                            </label>
+                            <input type="number" id="order" required value="1" min="1">
+                            <small>Lower numbers appear first</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">
+                                <i class="fas fa-toggle-on"></i> Status
+                            </label>
+                            <select id="status">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                            <small>Set item visibility</small>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-plus-circle"></i>
+                        Add to Portfolio
+                    </button>
+                </form>
+            </div>
+
+            <!-- Recent Items -->
+            <div class="items-list">
+                <h3><i class="fas fa-list"></i> Recent Portfolio Items</h3>
+                <div id="itemsList">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading items...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Themes Tab -->
+        <div id="themesTab" class="tab-content">
+            <div class="page-header">
+                <h2><i class="fas fa-palette"></i> Theme Settings</h2>
+                <p>Customize the look and feel of your main website with festival themes</p>
+            </div>
+
+            <!-- Current Theme Status -->
+            <div class="form-card">
+                <h3>Current Theme Status</h3>
+                <p class="subtitle">Manage your active website theme</p>
+                
+                <div class="form-group">
+                    <label for="currentThemeStatus">Theme Status</label>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="themeEnabled" checked>
+                        <label for="themeEnabled">Enable Festival Theme</label>
+                    </div>
+                    <small>Toggle festival theme on/off for the main website</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Active Theme</label>
+                    <div id="currentThemeInfo" class="theme-card active" style="cursor: default; pointer-events: none;">
+                        <div class="theme-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4 id="currentThemeName">Default Theme</h4>
+                        <p id="currentThemeDescription">No festival theme active</p>
+                        <div class="theme-meta">
+                            <span class="theme-status status-inactive" id="currentThemeStatus">Inactive</span>
+                            <span id="currentThemeDates">Always active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Festival Themes -->
+            <div class="form-card">
+                <h3>Festival Themes</h3>
+                <p class="subtitle">Select and customize festival themes for your website</p>
+
+                <div class="theme-preview" id="themePreview">
+                    <!-- Themes will be loaded here -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading themes...
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 30px;">
+                    <button class="submit-btn btn-secondary" id="saveThemeBtn">
                         <i class="fas fa-save"></i>
                         Save Theme Settings
                     </button>
                 </div>
             </div>
+
+            <!-- Custom Theme Settings -->
+            <div class="form-card">
+                <h3>Custom Theme Settings</h3>
+                <p class="subtitle">Advanced customization for the selected theme</p>
+
+                <form id="customThemeForm">
+                    <div class="form-group">
+                        <label for="selectedFestival">Select Festival</label>
+                        <select id="selectedFestival">
+                            <option value="none">None (Default Theme)</option>
+                            <option value="diwali">Diwali</option>
+                            <option value="christmas">Christmas</option>
+                            <option value="eid">Eid</option>
+                            <option value="holi">Holi</option>
+                            <option value="newyear">New Year</option>
+                            <option value="custom">Custom Theme</option>
+                        </select>
+                        <small>Choose a festival to apply its theme to your website</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="primaryColor">
+                                <i class="fas fa-fill-drip"></i> Primary Color
+                            </label>
+                            <div class="color-picker-group">
+                                <input type="color" id="primaryColor" value="#0071e3" class="color-picker">
+                                <input type="text" id="primaryColorHex" value="#0071e3" placeholder="#0071e3" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="secondaryColor">
+                                <i class="fas fa-fill"></i> Secondary Color
+                            </label>
+                            <div class="color-picker-group">
+                                <input type="color" id="secondaryColor" value="#1d1d1f" class="color-picker">
+                                <input type="text" id="secondaryColorHex" value="#1d1d1f" placeholder="#1d1d1f" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="themeDuration">Theme Duration</label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="date" id="startDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" id="endDate">
+                            </div>
+                        </div>
+                        <small>Set dates for automatic theme activation/deactivation</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customMessage">Custom Festival Message</label>
+                        <textarea id="customMessage" placeholder="Enter a custom greeting message for your website visitors..." rows="3"></textarea>
+                        <small>This message will be displayed on your website during the festival</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="themeElements">Theme Elements</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="enableDecorations" checked>
+                                <label for="enableDecorations">Enable Festival Decorations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="enableSounds" checked>
+                                <label for="enableSounds">Enable Festival Sounds</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="enableAnimations" checked>
+                                <label for="enableAnimations">Enable Special Animations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="showBanner" checked>
+                                <label for="showBanner">Show Festival Banner</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bannerImage">Banner Image URL</label>
+                        <div class="image-upload-container">
+                            <div class="image-upload-preview" id="bannerPreview">
+                                <i class="fas fa-image"></i>
+                                <span>No banner image</span>
+                            </div>
+                            <div>
+                                <input type="url" id="bannerImage" placeholder="https://example.com/banner.jpg">
+                                <button type="button" class="upload-btn" onclick="document.getElementById('bannerImage').value = 'https://example.com/festival-banner.jpg'">
+                                    <i class="fas fa-upload"></i> Set Demo Banner
+                                </button>
+                            </div>
+                        </div>
+                        <small>URL for festival banner image (optional)</small>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-magic"></i>
+                        Apply Theme Settings
+                    </button>
+                </form>
+            </div>
+
+            <!-- Theme Preview Section -->
+            <div class="form-card">
+                <h3>Theme Preview</h3>
+                <p class="subtitle">See how your theme will look on the main website</p>
+                
+                <div id="themeDemo" style="background: var(--bg-primary); border: 2px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
+                        <div style="font-size: 24px; font-weight: 700; background: linear-gradient(135deg, var(--accent-color) 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Harshit Pruthi</div>
+                        <div style="display: flex; gap: 15px;">
+                            <span style="color: var(--text-secondary);">About</span>
+                            <span style="color: var(--accent-color); font-weight: 600;">Portfolio</span>
+                            <span style="color: var(--text-secondary);">Contact</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, var(--accent-color) 20%, #667eea 100%); padding: 40px; border-radius: 12px; color: white; text-align: center; margin-bottom: 20px;">
+                        <h3 style="font-size: 32px; margin-bottom: 10px;" id="demoFestivalName">Festival Theme Preview</h3>
+                        <p id="demoFestivalMessage">Experience the magic of this festival with our special theme!</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                        <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <div style="width: 100%; height: 100px; background: var(--accent-color); border-radius: 6px; margin-bottom: 10px;"></div>
+                            <div style="font-weight: 600; margin-bottom: 5px;">Video Project</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Festival Special</div>
+                        </div>
+                        <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <div style="width: 100%; height: 100px; background: var(--secondary-color, #f5f5f7); border-radius: 6px; margin-bottom: 10px;"></div>
+                            <div style="font-weight: 600; margin-bottom: 5px;">Thumbnail Design</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Festival Edition</div>
+                        </div>
+                        <div style="background: var(--card-bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                            <div style="width: 100%; height: 100px; background: linear-gradient(135deg, var(--accent-color) 0%, #667eea 100%); border-radius: 6px; margin-bottom: 10px;"></div>
+                            <div style="font-weight: 600; margin-bottom: 5px;">Photo Editing</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Festival Style</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="updateThemePreview()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Preview
+                </button>
+            </div>
         </div>
+
+        <!-- Other Tabs (Placeholder) -->
+        <div id="reviewsTab" class="tab-content">
+            <div class="page-header">
+                <h2><i class="fas fa-star"></i> Reviews Management</h2>
+                <p>Manage client reviews and ratings</p>
+            </div>
+            <div class="form-card">
+                <h3>Coming Soon</h3>
+                <p class="subtitle">Reviews management feature will be available soon</p>
+            </div>
+        </div>
+
+        <div id="analyticsTab" class="tab-content">
+            <div class="page-header">
+                <h2><i class="fas fa-chart-line"></i> Analytics Dashboard</h2>
+                <p>View website analytics and performance metrics</p>
+            </div>
+            <div class="form-card">
+                <h3>Coming Soon</h3>
+                <p class="subtitle">Analytics dashboard will be available soon</p>
+            </div>
+        </div>
+
+        <div id="settingsTab" class="tab-content">
+            <div class="page-header">
+                <h2><i class="fas fa-cog"></i> General Settings</h2>
+                <p>Configure general website settings</p>
+            </div>
+            <div class="form-card">
+                <h3>Coming Soon</h3>
+                <p class="subtitle">General settings will be available soon</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Auth Container -->
+    <div class="auth-container" id="authContainer">
+        <h2>Admin Access Required</h2>
+        <p>Please sign in with your Google account to access the admin panel</p>
+        <button class="google-signin-btn" id="signInBtn">
+            <i class="fab fa-google"></i>
+            Sign in with Google
+        </button>
     </div>
 
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, setDoc, doc, getDoc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // Firebase Configuration
@@ -684,33 +1361,131 @@
         const provider = new GoogleAuthProvider();
 
         let currentUser = null;
+        let currentTheme = null;
+
+        // Theme definitions
+        const festivalThemes = {
+            diwali: {
+                name: "Diwali Festival",
+                description: "Festival of Lights - Gold and orange theme with lamp decorations",
+                colors: {
+                    primary: "#FF9800",
+                    secondary: "#FF5722",
+                    accent: "#FFD700",
+                    background: "#FFF8E1"
+                },
+                icon: "fas fa-oil-can",
+                active: false
+            },
+            christmas: {
+                name: "Christmas",
+                description: "Christmas celebration - Red and green theme with snow effects",
+                colors: {
+                    primary: "#D32F2F",
+                    secondary: "#388E3C",
+                    accent: "#C62828",
+                    background: "#F5F5F5"
+                },
+                icon: "fas fa-tree",
+                active: false
+            },
+            eid: {
+                name: "Eid Celebration",
+                description: "Eid Mubarak - Green and gold theme with moon and star decorations",
+                colors: {
+                    primary: "#4CAF50",
+                    secondary: "#8BC34A",
+                    accent: "#CDDC39",
+                    background: "#F1F8E9"
+                },
+                icon: "fas fa-moon",
+                active: false
+            },
+            holi: {
+                name: "Holi Festival",
+                description: "Festival of Colors - Vibrant rainbow theme with color splashes",
+                colors: {
+                    primary: "#E91E63",
+                    secondary: "#9C27B0",
+                    accent: "#2196F3",
+                    background: "#FFF3E0"
+                },
+                icon: "fas fa-paint-brush",
+                active: false
+            },
+            newyear: {
+                name: "New Year",
+                description: "New Year Celebration - Blue and silver theme with fireworks",
+                colors: {
+                    primary: "#2196F3",
+                    secondary: "#03A9F4",
+                    accent: "#00BCD4",
+                    background: "#E3F2FD"
+                },
+                icon: "fas fa-glass-cheers",
+                active: false
+            }
+        };
 
         // Auth state observer
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             updateUIForAuthState(user);
+            if (user) {
+                loadCurrentTheme();
+                loadRecentItems();
+                loadThemes();
+            }
         });
 
         function updateUIForAuthState(user) {
             const authContainer = document.getElementById('authContainer');
             const userInfoBar = document.getElementById('userInfoBar');
-            const adminPanel = document.getElementById('adminPanel');
+            const userInfoSidebar = document.getElementById('userInfoSidebar');
+            const mainContent = document.querySelector('.main-content');
+            const sidebar = document.getElementById('sidebar');
 
             if (user) {
                 authContainer.classList.remove('show');
                 userInfoBar.classList.add('show');
-                adminPanel.classList.add('show');
-                document.getElementById('userName').textContent = `${user.displayName} (Admin User)`;
+                userInfoSidebar.style.display = 'block';
+                mainContent.style.display = 'block';
+                sidebar.style.display = 'block';
+
+                // Update user info in both places
+                document.getElementById('userName').textContent = user.displayName || 'Admin User';
                 document.getElementById('userEmail').textContent = user.email;
-                document.getElementById('userAvatar').src = user.photoURL;
-                loadRecentItems();
-                loadCurrentTheme();
+                document.getElementById('userAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Admin');
+                
+                document.getElementById('sidebarUserName').textContent = user.displayName || 'Admin User';
+                document.getElementById('sidebarUserEmail').textContent = user.email;
+                document.getElementById('sidebarUserAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Admin');
             } else {
                 authContainer.classList.add('show');
                 userInfoBar.classList.remove('show');
-                adminPanel.classList.remove('show');
+                userInfoSidebar.style.display = 'none';
+                mainContent.style.display = 'none';
+                sidebar.style.display = 'none';
             }
         }
+
+        // Tab Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active tab in sidebar
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show corresponding tab content
+                const tab = link.getAttribute('data-tab');
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(`${tab}Tab`).classList.add('active');
+            });
+        });
 
         // Sign in
         document.getElementById('signInBtn').addEventListener('click', async () => {
@@ -731,21 +1506,6 @@
             }
         });
 
-        // Tab Navigation
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tab = btn.dataset.tab;
-                
-                // Update active tab button
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                // Update active tab content
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                document.getElementById(tab + 'Tab').classList.add('active');
-            });
-        });
-
         // Collection type change handler
         document.getElementById('collectionType').addEventListener('change', (e) => {
             const categoryGroup = document.getElementById('categoryGroup');
@@ -758,10 +1518,7 @@
             } else {
                 categoryGroup.style.display = 'none';
                 document.getElementById('category').required = false;
-            }
-
-            // For featuredWork, always show video URL
-            if (e.target.value === 'featuredWork') {
+                // For featuredWork, always show video URL
                 videoUrlGroup.style.display = 'block';
                 imageUrlGroup.style.display = 'none';
             }
@@ -792,7 +1549,7 @@
             }
         });
 
-        // Form submission (Video Upload)
+        // Form submission for portfolio items
         document.getElementById('addItemForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -810,115 +1567,58 @@
                 const title = document.getElementById('title').value;
                 const description = document.getElementById('description').value;
                 const order = parseInt(document.getElementById('order').value);
+                const status = document.getElementById('status').value;
 
                 const itemData = {
-                    title,
-                    description,
-                    order,
+                    title: title,
+                    description: description,
+                    order: order,
+                    status: status,
                     createdAt: Timestamp.now(),
-                    addedBy: currentUser.email
+                    addedBy: currentUser.email,
+                    updatedAt: Timestamp.now()
                 };
 
                 if (collectionType === 'portfolioItems') {
                     const category = document.getElementById('category').value;
+                    if (!category) {
+                        throw new Error('Category is required for portfolio items');
+                    }
                     itemData.category = category;
+
                     if (category === 'videos') {
-                        itemData.videoUrl = document.getElementById('videoUrl').value;
+                        const videoUrl = document.getElementById('videoUrl').value;
+                        if (!videoUrl) {
+                            throw new Error('Video URL is required for videos category');
+                        }
+                        itemData.videoUrl = videoUrl;
                     } else {
-                        itemData.imageUrl = document.getElementById('imageUrl').value;
+                        const imageUrl = document.getElementById('imageUrl').value;
+                        if (!imageUrl) {
+                            throw new Error('Image URL is required for non-video categories');
+                        }
+                        itemData.imageUrl = imageUrl;
                     }
                 } else {
                     // featuredWork always has videoUrl
-                    itemData.videoUrl = document.getElementById('videoUrl').value;
+                    const videoUrl = document.getElementById('videoUrl').value;
+                    if (!videoUrl) {
+                        throw new Error('Video URL is required for featured work');
+                    }
+                    itemData.videoUrl = videoUrl;
                 }
 
                 await addDoc(collection(db, collectionType), itemData);
+
                 showSuccess(`Item added successfully to ${collectionType}!`);
                 document.getElementById('addItemForm').reset();
                 loadRecentItems();
             } catch (error) {
                 console.error('Error adding item:', error);
-                showError('Error: ' + error.message);
+                showError(`Error: ${error.message}`);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Firestore';
-            }
-        });
-
-        // Theme Management
-        const festivalThemes = {
-            diwali: { name: 'Diwali', color: '#ff6b35', gradient: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)' },
-            holi: { name: 'Holi', color: '#ff0080', gradient: 'linear-gradient(135deg, #ff0080 0%, #ff8e53 100%)' },
-            navratri: { name: 'Navratri', color: '#d4a017', gradient: 'linear-gradient(135deg, #d4a017 0%, #ff6b35 100%)' },
-            christmas: { name: 'Christmas', color: '#d63031', gradient: 'linear-gradient(135deg, #d63031 0%, #00b894 100%)' },
-            easter: { name: 'Easter', color: '#feca57', gradient: 'linear-gradient(135deg, #feca57 0%, #ff9ff3 100%)' },
-            'new-year': { name: 'New Year', color: '#00d2d3', gradient: 'linear-gradient(135deg, #00d2d3 0%, #5f27cd 100%)' }
-        };
-
-        // Load current theme
-        async function loadCurrentTheme() {
-            try {
-                const themeDoc = await getDoc(doc(db, 'siteSettings', 'mainTheme'));
-                if (themeDoc.exists()) {
-                    const themeData = themeDoc.data();
-                    document.getElementById('themeEnabled').value = themeData.enabled || 'false';
-                    document.getElementById('festivalName').value = themeData.festival || 'diwali';
-                    updateThemePreview();
-                }
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        }
-
-        // Update theme preview
-        function updateThemePreview() {
-            const enabled = document.getElementById('themeEnabled').value === 'true';
-            const festival = document.getElementById('festivalName').value;
-            const theme = festivalThemes[festival];
-            const preview = document.getElementById('themePreviewColors');
-            const status = document.getElementById('themeStatus');
-
-            preview.innerHTML = `
-                <div style="width: 50px; height: 50px; background: ${theme.gradient}; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"></div>
-                <div style="font-weight: 600; color: var(--text-primary);">${theme.name}</div>
-            `;
-
-            status.textContent = enabled ? `✓ ${theme.name} theme ${status.textContent.includes('Active') ? 'Active' : 'will be Active on main site'}` : 'Theme Disabled';
-            status.style.color = enabled ? 'var(--success-color)' : 'var(--text-secondary)';
-        }
-
-        // Theme settings change
-        document.getElementById('themeEnabled').addEventListener('change', updateThemePreview);
-        document.getElementById('festivalName').addEventListener('change', updateThemePreview);
-
-        // Save theme settings
-        document.getElementById('saveThemeBtn').addEventListener('click', async () => {
-            if (!currentUser) {
-                showError('Please sign in first');
-                return;
-            }
-
-            const submitBtn = document.getElementById('saveThemeBtn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
-            try {
-                const themeData = {
-                    enabled: document.getElementById('themeEnabled').value === 'true',
-                    festival: document.getElementById('festivalName').value,
-                    updatedAt: Timestamp.now(),
-                    updatedBy: currentUser.email
-                };
-
-                await setDoc(doc(db, 'siteSettings', 'mainTheme'), themeData);
-                showSuccess('Theme settings saved! Main site will now show the selected festival theme.');
-            } catch (error) {
-                console.error('Error saving theme:', error);
-                showError('Error: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
+                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Portfolio';
             }
         });
 
@@ -931,17 +1631,25 @@
                 const allItems = [];
 
                 // Load from portfolioItems
-                const portfolioQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(5));
+                const portfolioQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(10));
                 const portfolioSnapshot = await getDocs(portfolioQuery);
                 portfolioSnapshot.forEach((doc) => {
-                    allItems.push({ id: doc.id, collection: 'portfolioItems', ...doc.data() });
+                    allItems.push({
+                        id: doc.id,
+                        collection: 'portfolioItems',
+                        ...doc.data()
+                    });
                 });
 
                 // Load from featuredWork
-                const featuredQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(3));
+                const featuredQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(5));
                 const featuredSnapshot = await getDocs(featuredQuery);
                 featuredSnapshot.forEach((doc) => {
-                    allItems.push({ id: doc.id, collection: 'featuredWork', ...doc.data() });
+                    allItems.push({
+                        id: doc.id,
+                        collection: 'featuredWork',
+                        ...doc.data()
+                    });
                 });
 
                 // Sort by creation date
@@ -953,25 +1661,46 @@
                 }
 
                 itemsList.innerHTML = '';
-                allItems.slice(0, 10).forEach((item) => {
+                allItems.forEach((item) => {
                     const itemCard = document.createElement('div');
                     itemCard.className = 'item-card';
-                    const badgeClass = item.collection === 'featuredWork' ? 'badge-featured' : `badge-${item.category}`;
-                    const badgeText = item.collection === 'featuredWork' ? 'Featured' : (item.category || 'Video');
+
+                    const badgeClass = item.collection === 'featuredWork' 
+                        ? 'badge-featured' 
+                        : `badge-${item.category || 'videos'}`;
+
+                    const badgeText = item.collection === 'featuredWork' 
+                        ? 'Featured' 
+                        : item.category || 'Video';
+
                     const date = new Date(item.createdAt.seconds * 1000).toLocaleDateString();
+                    const status = item.status || 'active';
+                    const statusClass = status === 'active' ? 'badge-active' : 'badge-inactive';
 
                     itemCard.innerHTML = `
                         <div class="item-header">
                             <div class="item-title">${item.title}</div>
-                            <div class="item-badge ${badgeClass}">${badgeText}</div>
+                            <div style="display: flex; gap: 8px;">
+                                <div class="item-badge ${badgeClass}">${badgeText}</div>
+                                <div class="item-badge ${statusClass}">${status}</div>
+                            </div>
                         </div>
                         <div class="item-description">${item.description}</div>
                         <div class="item-meta">
                             <span><i class="fas fa-calendar"></i> ${date}</span>
-                            <span><i class="fas fa-sort"></i> Order ${item.order}</span>
+                            <span><i class="fas fa-sort"></i> Order: ${item.order}</span>
                             <span><i class="fas fa-database"></i> ${item.collection}</span>
                         </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" onclick="editItem('${item.id}', '${item.collection}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="delete-btn" onclick="deleteItem('${item.id}', '${item.collection}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
                     `;
+
                     itemsList.appendChild(itemCard);
                 });
             } catch (error) {
@@ -980,12 +1709,246 @@
             }
         }
 
+        // Load current theme
+        async function loadCurrentTheme() {
+            try {
+                const themeRef = doc(db, 'siteSettings', 'currentTheme');
+                const themeSnap = await getDoc(themeRef);
+                
+                if (themeSnap.exists()) {
+                    currentTheme = themeSnap.data();
+                    updateThemeUI(currentTheme);
+                } else {
+                    // Create default theme settings
+                    currentTheme = {
+                        enabled: false,
+                        festival: 'none',
+                        colors: {
+                            primary: '#0071e3',
+                            secondary: '#1d1d1f'
+                        },
+                        message: '',
+                        startDate: null,
+                        endDate: null,
+                        decorations: true,
+                        sounds: true,
+                        animations: true,
+                        banner: true,
+                        bannerImage: ''
+                    };
+                    await setDoc(themeRef, currentTheme);
+                    updateThemeUI(currentTheme);
+                }
+            } catch (error) {
+                console.error('Error loading theme:', error);
+                showError('Failed to load theme settings');
+            }
+        }
+
+        // Load themes for preview
+        async function loadThemes() {
+            const themePreview = document.getElementById('themePreview');
+            themePreview.innerHTML = '';
+            
+            Object.entries(festivalThemes).forEach(([key, theme]) => {
+                const themeCard = document.createElement('div');
+                themeCard.className = `theme-card ${currentTheme && currentTheme.festival === key ? 'active' : ''}`;
+                themeCard.setAttribute('data-festival', key);
+                themeCard.onclick = () => selectTheme(key);
+                
+                themeCard.innerHTML = `
+                    <div class="theme-icon">
+                        <i class="${theme.icon}"></i>
+                    </div>
+                    <h4>${theme.name}</h4>
+                    <p>${theme.description}</p>
+                    <div class="theme-meta">
+                        <span class="theme-status ${currentTheme && currentTheme.festival === key ? 'status-active' : 'status-inactive'}">
+                            ${currentTheme && currentTheme.festival === key ? 'Active' : 'Inactive'}
+                        </span>
+                        <span>Click to select</span>
+                    </div>
+                `;
+                
+                themePreview.appendChild(themeCard);
+            });
+        }
+
+        // Select theme
+        function selectTheme(festival) {
+            if (!currentTheme) return;
+            
+            currentTheme.festival = festival;
+            currentTheme.enabled = festival !== 'none';
+            
+            // Update theme colors based on selection
+            if (festival !== 'none' && festivalThemes[festival]) {
+                const theme = festivalThemes[festival];
+                currentTheme.colors = { ...theme.colors };
+                currentTheme.message = `Happy ${theme.name}! Enjoy our special theme.`;
+            } else {
+                currentTheme.colors = {
+                    primary: '#0071e3',
+                    secondary: '#1d1d1f'
+                };
+                currentTheme.message = '';
+            }
+            
+            updateThemeUI(currentTheme);
+            loadThemes();
+        }
+
+        // Update theme UI
+        function updateThemeUI(theme) {
+            if (!theme) return;
+            
+            // Update form values
+            document.getElementById('themeEnabled').checked = theme.enabled;
+            document.getElementById('selectedFestival').value = theme.festival || 'none';
+            document.getElementById('primaryColor').value = theme.colors?.primary || '#0071e3';
+            document.getElementById('primaryColorHex').value = theme.colors?.primary || '#0071e3';
+            document.getElementById('secondaryColor').value = theme.colors?.secondary || '#1d1d1f';
+            document.getElementById('secondaryColorHex').value = theme.colors?.secondary || '#1d1d1f';
+            document.getElementById('startDate').value = theme.startDate || '';
+            document.getElementById('endDate').value = theme.endDate || '';
+            document.getElementById('customMessage').value = theme.message || '';
+            document.getElementById('enableDecorations').checked = theme.decorations !== false;
+            document.getElementById('enableSounds').checked = theme.sounds !== false;
+            document.getElementById('enableAnimations').checked = theme.animations !== false;
+            document.getElementById('showBanner').checked = theme.banner !== false;
+            document.getElementById('bannerImage').value = theme.bannerImage || '';
+            
+            // Update banner preview
+            const bannerPreview = document.getElementById('bannerPreview');
+            if (theme.bannerImage) {
+                bannerPreview.innerHTML = `<img src="${theme.bannerImage}" alt="Banner Preview">`;
+            } else {
+                bannerPreview.innerHTML = '<i class="fas fa-image"></i><span>No banner image</span>';
+            }
+            
+            // Update current theme info
+            const themeInfo = document.getElementById('currentThemeInfo');
+            const themeName = document.getElementById('currentThemeName');
+            const themeDesc = document.getElementById('currentThemeDescription');
+            const themeStatus = document.getElementById('currentThemeStatus');
+            const themeDates = document.getElementById('currentThemeDates');
+            
+            if (theme.enabled && theme.festival !== 'none' && festivalThemes[festival]) {
+                const festivalTheme = festivalThemes[theme.festival];
+                themeName.textContent = festivalTheme.name;
+                themeDesc.textContent = festivalTheme.description;
+                themeStatus.textContent = 'Active';
+                themeStatus.className = 'theme-status status-active';
+                themeDates.textContent = theme.startDate && theme.endDate 
+                    ? `${theme.startDate} to ${theme.endDate}`
+                    : 'Always active';
+                
+                // Update theme icon
+                const themeIcon = themeInfo.querySelector('.theme-icon');
+                themeIcon.innerHTML = `<i class="${festivalTheme.icon}"></i>`;
+                themeIcon.style.background = `linear-gradient(135deg, ${theme.colors?.primary} 0%, ${theme.colors?.secondary} 100%)`;
+            } else {
+                themeName.textContent = 'Default Theme';
+                themeDesc.textContent = 'No festival theme active';
+                themeStatus.textContent = 'Inactive';
+                themeStatus.className = 'theme-status status-inactive';
+                themeDates.textContent = 'Always active';
+            }
+            
+            // Update demo
+            updateThemePreview();
+        }
+
+        // Save theme settings
+        document.getElementById('saveThemeBtn').addEventListener('click', async () => {
+            if (!currentUser || !currentTheme) {
+                showError('Please sign in first');
+                return;
+            }
+
+            const saveBtn = document.getElementById('saveThemeBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const themeRef = doc(db, 'siteSettings', 'currentTheme');
+                
+                // Update theme from form values
+                currentTheme.enabled = document.getElementById('themeEnabled').checked;
+                currentTheme.festival = document.getElementById('selectedFestival').value;
+                currentTheme.colors = {
+                    primary: document.getElementById('primaryColor').value,
+                    secondary: document.getElementById('secondaryColor').value
+                };
+                currentTheme.startDate = document.getElementById('startDate').value;
+                currentTheme.endDate = document.getElementById('endDate').value;
+                currentTheme.message = document.getElementById('customMessage').value;
+                currentTheme.decorations = document.getElementById('enableDecorations').checked;
+                currentTheme.sounds = document.getElementById('enableSounds').checked;
+                currentTheme.animations = document.getElementById('enableAnimations').checked;
+                currentTheme.banner = document.getElementById('showBanner').checked;
+                currentTheme.bannerImage = document.getElementById('bannerImage').value;
+                currentTheme.updatedAt = Timestamp.now();
+                currentTheme.updatedBy = currentUser.email;
+
+                await setDoc(themeRef, currentTheme, { merge: true });
+                
+                showSuccess('Theme settings saved successfully!');
+                loadThemes();
+                updateThemeUI(currentTheme);
+            } catch (error) {
+                console.error('Error saving theme:', error);
+                showError(`Error: ${error.message}`);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Theme Settings';
+            }
+        });
+
+        // Custom theme form submission
+        document.getElementById('customThemeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('saveThemeBtn').click();
+        });
+
+        // Color picker sync
+        document.getElementById('primaryColor').addEventListener('input', (e) => {
+            document.getElementById('primaryColorHex').value = e.target.value;
+        });
+
+        document.getElementById('secondaryColor').addEventListener('input', (e) => {
+            document.getElementById('secondaryColorHex').value = e.target.value;
+        });
+
+        document.getElementById('primaryColorHex').addEventListener('input', (e) => {
+            document.getElementById('primaryColor').value = e.target.value;
+        });
+
+        document.getElementById('secondaryColorHex').addEventListener('input', (e) => {
+            document.getElementById('secondaryColor').value = e.target.value;
+        });
+
+        // Festival selection change
+        document.getElementById('selectedFestival').addEventListener('change', (e) => {
+            selectTheme(e.target.value);
+        });
+
+        // Theme enabled toggle
+        document.getElementById('themeEnabled').addEventListener('change', (e) => {
+            if (!currentTheme) return;
+            currentTheme.enabled = e.target.checked;
+            updateThemeUI(currentTheme);
+        });
+
         // Show success message
         function showSuccess(message) {
             const alert = document.getElementById('successAlert');
             document.getElementById('successMessage').textContent = message;
             alert.classList.add('show');
-            setTimeout(() => alert.classList.remove('show'), 5000);
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
         }
 
         // Show error message
@@ -993,7 +1956,71 @@
             const alert = document.getElementById('errorAlert');
             document.getElementById('errorMessage').textContent = message;
             alert.classList.add('show');
-            setTimeout(() => alert.classList.remove('show'), 5000);
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        // Global functions for item actions
+        window.editItem = function(id, collection) {
+            alert(`Edit functionality for item ${id} in ${collection} will be implemented soon.`);
+        };
+
+        window.deleteItem = async function(id, collection) {
+            if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                await deleteDoc(doc(db, collection, id));
+                showSuccess('Item deleted successfully!');
+                loadRecentItems();
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                showError('Failed to delete item. Please try again.');
+            }
+        };
+
+        // Theme preview update
+        window.updateThemePreview = function() {
+            const demo = document.getElementById('themeDemo');
+            const festivalName = document.getElementById('demoFestivalName');
+            const festivalMessage = document.getElementById('demoFestivalMessage');
+            
+            if (currentTheme && currentTheme.enabled && currentTheme.festival !== 'none') {
+                const theme = festivalThemes[currentTheme.festival];
+                if (theme) {
+                    festivalName.textContent = theme.name;
+                    festivalMessage.textContent = currentTheme.message || `Enjoy our ${theme.name} theme!`;
+                    
+                    // Apply theme colors to demo
+                    demo.style.setProperty('--accent-color', currentTheme.colors?.primary || theme.colors.primary);
+                    demo.style.setProperty('--secondary-color', currentTheme.colors?.secondary || theme.colors.secondary);
+                    demo.style.setProperty('--bg-primary', theme.colors.background || '#ffffff');
+                }
+            } else {
+                festivalName.textContent = 'Default Theme';
+                festivalMessage.textContent = 'This is how your website looks without a festival theme.';
+                demo.style.setProperty('--accent-color', '#0071e3');
+                demo.style.setProperty('--secondary-color', '#1d1d1f');
+                demo.style.setProperty('--bg-primary', '#ffffff');
+            }
+        };
+
+        // Banner image preview
+        document.getElementById('bannerImage').addEventListener('input', (e) => {
+            const bannerPreview = document.getElementById('bannerPreview');
+            if (e.target.value) {
+                bannerPreview.innerHTML = `<img src="${e.target.value}" alt="Banner Preview" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\'></i><span>Invalid image URL</span>'">`;
+            } else {
+                bannerPreview.innerHTML = '<i class="fas fa-image"></i><span>No banner image</span>';
+            }
+        });
+
+        // Initialize theme preview
+        if (currentTheme) {
+            updateThemePreview();
         }
     </script>
 </body>
