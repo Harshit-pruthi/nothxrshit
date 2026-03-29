@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Harshit Pruthi</title>
+    <title>Archive - Harshit Pruthi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js for 3D Background Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         * {
             margin: 0;
@@ -24,136 +27,177 @@
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f7;
             --border-color: #e5e5e5;
-            --card-bg: #ffffff;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --gradient-1: linear-gradient(135deg, #0071e3 0%, #4facfe 100%);
             --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --gradient-3: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             --gradient-4: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+            --glare: rgba(255, 255, 255, 0.4);
         }
 
+        /* NEXT LEVEL Cinematic Dark Mode */
         [data-theme="dark"] {
             --primary-color: #ffffff;
-            --secondary-color: #1d1d1f;
-            --text-primary: #f5f5f7;
-            --text-secondary: #a1a1a6;
+            --secondary-color: #050505;
+            --accent-color: #ff003c;
+            --text-primary: #ffffff;
+            --text-secondary: #8a8a93;
             --white: #000000;
-            --bg-primary: #000000;
-            --bg-secondary: #1d1d1f;
-            --border-color: #2d2d2f;
-            --card-bg: #1d1d1f;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --bg-primary: #050506;
+            --bg-secondary: #0a0a0c;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(15, 15, 18, 0.7);
+            --gradient-1: linear-gradient(135deg, #ff003c 0%, #8b0000 100%);
+            --gradient-2: linear-gradient(135deg, #7b61ff 0%, #667eea 100%);
+            --gradient-3: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+            --gradient-4: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+            --glare: rgba(255, 0, 60, 0.15);
+        }
+
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            overflow-x: hidden;
             line-height: 1.6;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.5s ease, color 0.5s ease;
+            position: relative;
         }
 
-        html {
-            scroll-behavior: smooth;
+        /* Global CRT Scanline + Film Grain Noise Overlay */
+        body::after {
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 9998; background-size: 100% 4px, 6px 100%; pointer-events: none; opacity: 0.6;
         }
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9997; opacity: 0.04;
+            background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Flashbang Overlay */
+        #flashbang-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+        }
+        .flashbang-text {
+            font-size: 8vw; font-weight: 900; color: #000000;
+            text-transform: uppercase; letter-spacing: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            animation: shake 0.1s infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(2px, 2px) rotate(0deg); }
+            20% { transform: translate(-3px, -2px) rotate(-1deg); }
+            40% { transform: translate(3px, 0px) rotate(2deg); }
+            60% { transform: translate(-2px, 3px) rotate(0deg); }
+            80% { transform: translate(1px, -1px) rotate(1deg); }
+            100% { transform: translate(-1px, 2px) rotate(-2deg); }
+        }
+
+        /* Dynamic Mouse Cursor Glow */
+        #cursor-glow {
+            position: fixed; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255,0,60,0.12) 0%, rgba(0,0,0,0) 60%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
+            z-index: 9996; transition: background 0.3s ease; mix-blend-mode: screen;
+        }
+        [data-theme="light"] #cursor-glow {
+            background: radial-gradient(circle, rgba(0,113,227,0.1) 0%, rgba(0,0,0,0) 60%); mix-blend-mode: normal;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* 3D Canvas Background */
+        #hero-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* Ambient Glows */
+        .ambient-glow {
+            position: fixed; width: 800px; height: 800px; background: var(--accent-color);
+            border-radius: 50%; filter: blur(200px); opacity: 0.08;
+            z-index: 0; pointer-events: none; transition: all 1s ease;
+        }
+        [data-theme="dark"] .ambient-glow { opacity: 0.12; }
 
         /* Navigation */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: 20px 0;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed; top: 0; left: 0; width: 100%; 
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 10000; padding: 20px 0;
+            transition: all 0.3s ease; border-bottom: var(--glass-border);
         }
 
-        [data-theme="dark"] nav {
-            background: rgba(0, 0, 0, 0.95);
-        }
+        [data-theme="dark"] nav { background: rgba(5, 5, 6, 0.7); }
+        nav.scrolled { padding: 15px 0; background: rgba(255, 255, 255, 0.85); box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1); }
+        [data-theme="dark"] nav.scrolled { background: rgba(5, 5, 6, 0.95); box-shadow: 0 5px 30px rgba(0, 0, 0, 0.8); border-bottom: 1px solid rgba(255,0,60,0.2); }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
+        .nav-container { 
+            width: 100%; max-width: 1400px; margin: 0 auto; 
+            display: flex; justify-content: space-between; align-items: center; padding: 0 40px; 
         }
+        
+        .logo { font-size: 26px; font-weight: 900; color: var(--text-primary); text-decoration: none; letter-spacing: -1px; position: relative; z-index: 10; text-transform: uppercase; flex-shrink: 0;}
+        .logo::after { content: '_'; color: var(--accent-color); animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
+        .nav-right { display: flex; align-items: center; gap: 30px; flex-shrink: 0; }
 
         .back-btn {
-            padding: 10px 24px;
-            background: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-color);
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .back-btn:hover {
-            background: #005bb5;
-            transform: translateY(-1px);
-        }
-
-        .theme-toggle {
-            width: 50px;
-            height: 28px;
-            background: var(--border-color);
-            border-radius: 50px;
             position: relative;
-            cursor: pointer;
-            transition: background 0.3s ease;
+            overflow: hidden;
+            font-family: 'Share Tech Mono', monospace;
         }
 
-        .theme-toggle:hover {
-            background: var(--accent-color);
-        }
+        .back-btn::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--accent-color); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; z-index: -1; }
+        .back-btn:hover { color: #fff; box-shadow: 0 0 20px rgba(255,0,60,0.4); }
+        .back-btn:hover::before { transform: scaleX(1); transform-origin: left; }
 
-        .theme-toggle-slider {
-            position: absolute;
-            width: 22px;
-            height: 22px;
-            background: var(--bg-primary);
-            border-radius: 50%;
-            top: 3px;
-            left: 3px;
-            transition: transform 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        [data-theme="dark"] .theme-toggle-slider {
-            transform: translateX(22px);
-        }
+        .theme-toggle { width: 54px; height: 30px; background: rgba(100, 100, 100, 0.2); border-radius: 50px; position: relative; cursor: pointer; transition: all 0.3s ease; border: var(--glass-border); flex-shrink: 0;}
+        .theme-toggle:hover { background: rgba(100, 100, 100, 0.3); box-shadow: 0 0 15px rgba(255,0,60,0.3); }
+        .theme-toggle-slider { position: absolute; width: 24px; height: 24px; background: var(--text-primary); border-radius: 50%; top: 2px; left: 3px; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--bg-primary); }
+        [data-theme="dark"] .theme-toggle-slider { transform: translateX(24px); box-shadow: 0 0 10px var(--accent-color); }
 
         /* Portfolio Section */
         .portfolio-section {
-            padding: 140px 40px 80px;
+            padding: 160px 40px 80px;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .portfolio-header {
@@ -161,19 +205,42 @@
             margin-bottom: 60px;
         }
 
+        /* Glitch Title */
         .portfolio-title {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 56px; font-weight: 900; margin-bottom: 20px; color: var(--text-primary); position: relative; 
+            display: inline-block; letter-spacing: -2px; text-transform: uppercase; 
+            text-shadow: -2px 0px 0px rgba(0, 255, 249, 0.4), 2px 0px 0px rgba(255, 0, 60, 0.4);
+        }
+        .glitch-wrapper { position: relative; display: inline-flex; justify-content: center; align-items: center; }
+        .glitch-wrapper:hover .glitch-text::before, .glitch-wrapper:hover .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: -1; }
+        .glitch-wrapper:hover .glitch-text::before { left: 4px; text-shadow: -3px 0 #ff003c; clip: rect(44px, 900px, 56px, 0); animation: glitch-anim-extreme 2s infinite linear alternate-reverse; }
+        .glitch-wrapper:hover .glitch-text::after { left: -4px; text-shadow: -3px 0 #00fff9, 3px 3px #ff003c; clip: rect(44px, 900px, 56px, 0); animation: glitch-anim2-extreme 1.5s infinite linear alternate-reverse; }
+
+        @keyframes glitch-anim-extreme {
+            0% { clip: rect(10px, 9999px, 86px, 0); transform: skew(0.5deg); }
+            5% { clip: rect(69px, 9999px, 12px, 0); transform: skew(0.5deg); }
+            10% { clip: rect(38px, 9999px, 63px, 0); transform: translateX(-2px); }
+            15% { clip: rect(21px, 9999px, 94px, 0); transform: skew(-1deg); }
+            20% { clip: rect(79px, 9999px, 4px, 0); transform: skew(0.5deg); }
+            25% { clip: rect(98px, 9999px, 35px, 0); transform: translateX(2px); }
+            30% { clip: rect(51px, 9999px, 83px, 0); transform: skew(-1deg); }
+            100% { clip: rect(10px, 9999px, 86px, 0); transform: skew(0deg); }
+        }
+        @keyframes glitch-anim2-extreme {
+            0% { clip: rect(65px, 9999px, 100px, 0); transform: skew(-1deg); }
+            5% { clip: rect(52px, 9999px, 74px, 0); transform: translateX(2px); }
+            10% { clip: rect(79px, 9999px, 85px, 0); transform: skew(1.5deg); }
+            15% { clip: rect(75px, 9999px, 5px, 0); transform: skew(-1.5deg); }
+            20% { clip: rect(34px, 9999px, 26px, 0); transform: translateX(-2px); }
+            100% { clip: rect(65px, 9999px, 100px, 0); transform: skew(0deg); }
         }
 
         .portfolio-subtitle {
-            color: var(--text-secondary);
-            font-size: 20px;
+            color: var(--accent-color);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
         /* Category Filters */
@@ -187,56 +254,64 @@
 
         .category-btn {
             padding: 12px 30px;
-            background: var(--card-bg);
+            background: transparent;
             color: var(--text-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
+            border: 1px solid var(--text-primary);
+            border-radius: 2px;
+            font-size: 14px;
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .category-btn:hover {
             border-color: var(--accent-color);
-            transform: translateY(-2px);
+            background: rgba(255,0,60,0.05);
+            box-shadow: 0 0 15px rgba(255,0,60,0.2);
+            color: var(--accent-color);
         }
 
         .category-btn.active {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: var(--text-primary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         /* Portfolio Grid */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 40px;
             margin-bottom: 60px;
         }
 
         .portfolio-item {
             background: var(--card-bg);
-            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border-radius: 8px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: all 0.4s ease;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            transform-style: preserve-3d;
+            border-top: 2px solid transparent;
         }
 
         .portfolio-item:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-color);
+            border-top-color: var(--accent-color);
+            box-shadow: 0 20px 50px rgba(255,0,60,0.15);
         }
 
         .portfolio-media {
             position: relative;
             width: 100%;
             padding-bottom: 56.25%;
-            background: var(--bg-secondary);
+            background: #000;
             overflow: hidden;
+            transform: translateZ(20px);
         }
 
         .portfolio-media iframe,
@@ -250,125 +325,144 @@
         }
 
         .portfolio-media img {
-            transition: transform 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .portfolio-item:hover .portfolio-media img {
-            transform: scale(1.05);
+            transform: scale(1.08);
+            opacity: 0.8;
         }
 
         .portfolio-content {
-            padding: 25px;
+            padding: 30px;
+            transform: translateZ(30px);
         }
 
         .portfolio-category-tag {
             display: inline-block;
-            padding: 6px 12px;
-            background: var(--gradient-1);
-            color: white;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 12px;
+            padding: 4px 10px;
+            background: rgba(255,0,60,0.1);
+            color: var(--accent-color);
+            border: 1px solid rgba(255,0,60,0.3);
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 800;
+            font-family: 'Share Tech Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
         }
 
         .portfolio-item[data-category="thumbnails"] .portfolio-category-tag {
-            background: var(--gradient-2);
+            color: #7b61ff; border-color: rgba(123, 97, 255, 0.3); background: rgba(123, 97, 255, 0.1);
         }
 
         .portfolio-item[data-category="photos"] .portfolio-category-tag {
-            background: var(--gradient-3);
+            color: #00fff9; border-color: rgba(0, 255, 249, 0.3); background: rgba(0, 255, 249, 0.1);
         }
 
         .portfolio-item[data-category="reddit"] .portfolio-category-tag {
-            background: var(--gradient-4);
+            color: #ffb199; border-color: rgba(255, 177, 153, 0.3); background: rgba(255, 177, 153, 0.1);
         }
 
         .portfolio-content h3 {
             font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-weight: 800;
+            margin-bottom: 12px;
             color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .portfolio-content p {
             color: var(--text-secondary);
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.6;
         }
 
         .loading-message {
             text-align: center;
             padding: 100px 20px;
-            color: var(--text-secondary);
+            color: var(--accent-color);
+            font-family: 'Share Tech Mono', monospace;
             font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            grid-column: 1 / -1;
         }
 
         .no-items-message {
             text-align: center;
             padding: 100px 20px;
             color: var(--text-secondary);
+            font-family: 'Share Tech Mono', monospace;
             font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            grid-column: 1 / -1;
         }
 
         /* Footer */
         footer {
-            background: var(--primary-color);
-            color: var(--bg-primary);
+            background: #000;
+            color: #666;
             text-align: center;
             padding: 40px 20px;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 12px;
+            border-top: 1px solid #111;
+            position: relative;
+            z-index: 2;
         }
 
-        [data-theme="dark"] footer {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        footer p {
-            opacity: 0.7;
+        [data-theme="light"] footer {
+            background: #f5f5f7;
+            border-top: 1px solid #ddd;
+            color: #999;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .portfolio-title {
-                font-size: 36px;
-            }
-
-            .portfolio-subtitle {
-                font-size: 16px;
-            }
-
-            .category-filters {
-                gap: 10px;
-            }
-
-            .category-btn {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .portfolio-section {
-                padding: 120px 20px 60px;
-            }
+            .portfolio-title { font-size: 36px; }
+            .portfolio-subtitle { font-size: 14px; }
+            .category-filters { gap: 10px; }
+            .category-btn { padding: 10px 15px; font-size: 12px; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .portfolio-section { padding: 120px 20px 60px; }
+            #cursor-glow { display: none; }
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
+    <!-- Overlay effects -->
+    <div class="noise-overlay"></div>
+    <div id="cursor-glow"></div>
+
+    <!-- FLASHBANG OVERLAY -->
+    <div id="flashbang-overlay">
+        <h1 class="flashbang-text">FLASHBANG!!</h1>
+    </div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Ambient Glows -->
+    <div class="ambient-glow" style="top: -200px; left: -200px;"></div>
+    <div class="ambient-glow" style="top: 50%; right: -300px; background: #7b61ff;"></div>
+
     <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">HP</a>
+            <a href="index.html" class="logo">HRSHIT</a>
             <div class="nav-right">
                 <a href="index.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Back to Home
+                    <i class="fas fa-arrow-left"></i> RETURN_TO_BASE
                 </a>
                 <div class="theme-toggle" id="themeToggle">
                     <div class="theme-toggle-slider">
-                        <i class="fas fa-sun" id="themeIcon"></i>
+                        <i class="fas fa-moon" id="themeIcon"></i>
                     </div>
                 </div>
             </div>
@@ -378,36 +472,38 @@
     <!-- Portfolio Section -->
     <section class="portfolio-section">
         <div class="portfolio-header">
-            <h1 class="portfolio-title">My Portfolio</h1>
-            <p class="portfolio-subtitle">Explore my work across different categories</p>
+            <div class="glitch-wrapper">
+                <h1 class="portfolio-title glitch-text" data-text="ARCHIVE_">ARCHIVE_</h1>
+            </div>
+            <p class="portfolio-subtitle">> SYSTEM_LOG : DECRYPTED_FILES</p>
         </div>
 
         <!-- Category Filters -->
         <div class="category-filters">
-            <button class="category-btn active" data-category="all">All Work</button>
-            <button class="category-btn" data-category="videos">Videos</button>
-            <button class="category-btn" data-category="thumbnails">Thumbnails</button>
-            <button class="category-btn" data-category="photos">Edited Photos</button>
-            <button class="category-btn" data-category="reddit">Reddit Marketing</button>
+            <button class="category-btn active" data-category="all">All_Ops</button>
+            <button class="category-btn" data-category="videos">Video</button>
+            <button class="category-btn" data-category="thumbnails">Thumbs</button>
+            <button class="category-btn" data-category="photos">Photos</button>
+            <button class="category-btn" data-category="reddit">Reddit</button>
         </div>
 
         <!-- Portfolio Grid -->
         <div class="portfolio-grid" id="portfolioGrid">
             <div class="loading-message">
-                <i class="fas fa-spinner fa-spin"></i> Loading portfolio...
+                <i class="fas fa-spinner fa-spin"></i> Decrypting files...
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 Harshit Pruthi. All rights reserved. | Crafted with passion for visual storytelling</p>
+        <p>SYSTEM OK. © 2026 HARSHIT PRUTHI. VISUALS ENGINEERED TO DOMINATE.</p>
     </footer>
 
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, getDocs, query, orderBy, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -420,7 +516,6 @@
             measurementId: "G-XWR4Z7E97J"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
@@ -445,12 +540,12 @@
             } catch (error) {
                 console.error('Error loading portfolio:', error);
                 document.getElementById('portfolioGrid').innerHTML = 
-                    '<div class="loading-message">Error loading portfolio. Please try again later.</div>';
+                    '<div class="loading-message">Error accessing archive.</div>';
             }
         }
 
         // Display portfolio items based on category
-        function displayPortfolioItems(category) {
+        window.displayPortfolioItems = function(category) {
             const portfolioGrid = document.getElementById('portfolioGrid');
 
             let filteredItems = allPortfolioItems;
@@ -459,7 +554,7 @@
             }
 
             if (filteredItems.length === 0) {
-                portfolioGrid.innerHTML = '<div class="no-items-message">No items in this category yet. Check back soon!</div>';
+                portfolioGrid.innerHTML = '<div class="no-items-message">No files found in this sector.</div>';
                 return;
             }
 
@@ -467,7 +562,7 @@
 
             filteredItems.forEach((item) => {
                 const portfolioItem = document.createElement('div');
-                portfolioItem.className = 'portfolio-item';
+                portfolioItem.className = 'portfolio-item tilt-card'; // Added tilt-card class
                 portfolioItem.dataset.category = item.category;
 
                 let mediaContent = '';
@@ -501,23 +596,28 @@
                 }
 
                 const categoryNames = {
-                    'videos': 'Video Editing',
-                    'thumbnails': 'Thumbnail Design',
-                    'photos': 'Photo Editing',
-                    'reddit': 'Reddit Marketing'
+                    'videos': 'Timeline Ops',
+                    'thumbnails': 'CTR Hack',
+                    'photos': 'Pixel Edits',
+                    'reddit': 'Subreddit Infil'
                 };
 
                 portfolioItem.innerHTML = `
-                    ${mediaContent}
-                    <div class="portfolio-content">
-                        <span class="portfolio-category-tag">${categoryNames[item.category] || item.category}</span>
-                        <h3>${item.title}</h3>
-                        <p>${item.description || ''}</p>
+                    <div class="tilt-content" style="width:100%; height:100%;">
+                        ${mediaContent}
+                        <div class="portfolio-content">
+                            <span class="portfolio-category-tag">${categoryNames[item.category] || item.category}</span>
+                            <h3>${item.title}</h3>
+                            <p>${item.description || ''}</p>
+                        </div>
                     </div>
                 `;
 
                 portfolioGrid.appendChild(portfolioItem);
             });
+
+            // Re-initialize tilt effect for newly added cards
+            if(typeof initTiltCards === 'function') initTiltCards();
         }
 
         // Category filter functionality
@@ -525,48 +625,162 @@
 
         categoryButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Remove active class from all buttons
                 categoryButtons.forEach(btn => btn.classList.remove('active'));
-
-                // Add active class to clicked button
                 button.classList.add('active');
-
-                // Get category and display items
                 currentCategory = button.dataset.category;
                 displayPortfolioItems(currentCategory);
             });
         });
 
-        // Load portfolio on page load
         loadPortfolioItems();
     </script>
 
+    <!-- UI Interaction Scripts (Ported from Main Page) -->
     <script>
-        // Dark Mode Toggle
+        // 1. Cinematic 3D Background Particle System (Three.js)
+        let scene, camera, renderer, particles;
+        let isDarkMode = true;
+
+        function initThreeJS() {
+            const canvas = document.getElementById('hero-canvas');
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            const geometry = new THREE.BufferGeometry();
+            const particlesCount = 400; 
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 150; 
+            }
+            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.6,
+                color: isDarkMode ? 0xff003c : 0x0071e3,
+                transparent: true, opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            animateThreeJS();
+        }
+
+        let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+        const cursorGlow = document.getElementById('cursor-glow');
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+            
+            // Move cursor glow light
+            cursorGlow.style.left = event.clientX + 'px';
+            cursorGlow.style.top = event.clientY + 'px';
+        });
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            targetX = mouseX * 0.001; targetY = mouseY * 0.001;
+            
+            particles.rotation.y += 0.002; particles.rotation.x += 0.001;
+            particles.rotation.y += 0.05 * (targetX - particles.rotation.y);
+            particles.rotation.x += 0.05 * (targetY - particles.rotation.x);
+
+            const positions = particles.geometry.attributes.position.array;
+            for(let i = 1; i < positions.length; i+=3) {
+                positions[i] += 0.08; 
+                if(positions[i] > 75) { positions[i] = -75; }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            if(!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        initThreeJS();
+
+        // 2. Theme Toggle & FLASHBANG Protocol
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const body = document.body;
-
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        body.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme);
+        const savedTheme = localStorage.getItem('theme') || 'dark'; 
+        setTheme(savedTheme);
 
         themeToggle.addEventListener('click', () => {
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            // FLASHBANG PROTOCOL TRIGGER
+            if (newTheme === 'light') {
+                const fb = document.getElementById('flashbang-overlay');
+                fb.style.transition = 'none';
+                fb.style.opacity = '1';
+                void fb.offsetWidth;
+                fb.style.transition = 'opacity 2.5s cubic-bezier(0.2, 1, 0.3, 1)';
+                fb.style.opacity = '0';
+            }
 
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
+            setTheme(newTheme);
         });
 
-        function updateThemeIcon(theme) {
+        function setTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            isDarkMode = (theme === 'dark');
+            
             if (theme === 'dark') {
                 themeIcon.className = 'fas fa-moon';
+                if(particles) particles.material.color.setHex(0xff003c); 
             } else {
                 themeIcon.className = 'fas fa-sun';
+                if(particles) particles.material.color.setHex(0x0071e3); 
             }
         }
+
+        // 3. Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // 4. 3D Card Tilt Effect
+        window.initTiltCards = function() {
+            const cards = document.querySelectorAll('.tilt-card');
+            cards.forEach(card => {
+                // Remove existing listeners if any to prevent duplication
+                const newCard = card.cloneNode(true);
+                card.parentNode.replaceChild(newCard, card);
+                
+                newCard.addEventListener('mousemove', e => {
+                    const rect = newCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -5; 
+                    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
+                    newCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+                newCard.addEventListener('mouseleave', () => {
+                    newCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                });
+            });
+        }
+        // It's also called inside displayPortfolioItems after fetching.
+        initTiltCards();
     </script>
 </body>
 </html>
