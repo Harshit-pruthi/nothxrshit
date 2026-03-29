@@ -59,9 +59,7 @@
             --glare: rgba(255, 0, 60, 0.15);
         }
 
-        /* ALIGNMENT FIX: Enforcing strict 100% max-width and hidden overflow 
-           on BOTH html and body to stop absolute elements from pushing the page left 
-        */
+        /* ALIGNMENT FIX: Enforcing strict 100% max-width and hidden overflow */
         html, body {
             width: 100%;
             max-width: 100%;
@@ -79,7 +77,7 @@
             position: relative;
         }
 
-        /* CRAZY UPGRADE: Global CRT Scanline + Film Grain Noise Overlay */
+        /* Global CRT Scanline + Film Grain Noise Overlay */
         body::after {
             content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
@@ -113,7 +111,7 @@
             100% { transform: translate(-1px, 2px) rotate(-2deg); }
         }
 
-        /* CRAZY UPGRADE: Dynamic Mouse Cursor Glow */
+        /* Dynamic Mouse Cursor Glow */
         #cursor-glow {
             position: fixed; width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(255,0,60,0.12) 0%, rgba(0,0,0,0) 60%);
@@ -195,11 +193,11 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
         }
 
-        /* Next Level Glitch Effect + Chromatic Aberration */
+        /* Glitch Effect + Chromatic Aberration */
         .hero h1 { 
             font-size: 90px; font-weight: 900; margin-bottom: 20px; color: var(--text-primary); position: relative; 
             display: inline-block; letter-spacing: -3px; line-height: 1.1; text-transform: uppercase; 
-            text-shadow: -3px 0px 0px rgba(0, 255, 249, 0.4), 3px 0px 0px rgba(255, 0, 60, 0.4); /* Persistent Chromatic */
+            text-shadow: -3px 0px 0px rgba(0, 255, 249, 0.4), 3px 0px 0px rgba(255, 0, 60, 0.4);
         }
         .glitch-wrapper { position: relative; display: inline-flex; justify-content: center; align-items: center; }
         .glitch-wrapper:hover .glitch-text::before, .glitch-wrapper:hover .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: -1; }
@@ -240,26 +238,23 @@
         .cta-button:hover { color: #fff; transform: translateY(-5px); box-shadow: 0 20px 50px rgba(255, 0, 60, 0.6); border-color: var(--accent-color); }
         .cta-button:hover::after { transform: translateY(0); }
 
-        /* Floating Edit Tools (PHOTOSHOP / PREMIERE CC VIBE EXPANSION) */
+        /* Floating Edit Tools */
         .floating-tool { position: absolute; color: rgba(255,255,255,0.15); z-index: 1; pointer-events: none; animation: floatTool 6s ease-in-out infinite; filter: drop-shadow(0 0 10px currentColor); }
         [data-theme="light"] .floating-tool { color: rgba(0,0,0,0.1); filter: none; }
         
-        /* Original Basics */
-        .tool-1 { top: 20%; left: 10%; animation-delay: 0s; font-size: 35px; color: rgba(255,0,60,0.3); } /* Razor */
-        .tool-2 { top: 60%; right: 10%; animation-delay: 1s; font-size: 40px; color: rgba(255,255,255,0.2);} /* Pen */
-        .tool-3 { bottom: 15%; left: 20%; animation-delay: 2s; font-size: 28px; color: rgba(255,255,255,0.2);} /* Crop */
-        .tool-4 { top: 30%; right: 20%; animation-delay: 1.5s; font-size: 24px; color: rgba(153, 102, 255, 0.3);} /* Keyframe */
-        
-        /* NEW Adobe CC Additions */
-        .tool-5 { top: 15%; right: 35%; animation-delay: 0.5s; font-size: 30px; color: rgba(49, 168, 255, 0.3); } /* Magic Wand (PS Blue) */
-        .tool-6 { bottom: 25%; right: 25%; animation-delay: 2.5s; font-size: 45px; color: rgba(255, 0, 255, 0.2); } /* Layers (AE Purple) */
-        .tool-7 { top: 45%; left: 15%; animation-delay: 1.2s; font-size: 38px; color: rgba(255, 153, 0, 0.3); } /* Palette (AI Orange) */
-        .tool-8 { bottom: 35%; left: 10%; animation-delay: 0.8s; font-size: 32px; color: rgba(0, 255, 128, 0.3); } /* Waveform (AU Green) */
-        .tool-9 { top: 75%; left: 40%; animation-delay: 1.8s; font-size: 26px; color: rgba(255,0,60,0.3); } /* Vector Square (PR Red) */
+        .tool-1 { top: 20%; left: 10%; animation-delay: 0s; font-size: 35px; color: rgba(255,0,60,0.3); } 
+        .tool-2 { top: 60%; right: 10%; animation-delay: 1s; font-size: 40px; color: rgba(255,255,255,0.2);} 
+        .tool-3 { bottom: 15%; left: 20%; animation-delay: 2s; font-size: 28px; color: rgba(255,255,255,0.2);} 
+        .tool-4 { top: 30%; right: 20%; animation-delay: 1.5s; font-size: 24px; color: rgba(153, 102, 255, 0.3);} 
+        .tool-5 { top: 15%; right: 35%; animation-delay: 0.5s; font-size: 30px; color: rgba(49, 168, 255, 0.3); } 
+        .tool-6 { bottom: 25%; right: 25%; animation-delay: 2.5s; font-size: 45px; color: rgba(255, 0, 255, 0.2); } 
+        .tool-7 { top: 45%; left: 15%; animation-delay: 1.2s; font-size: 38px; color: rgba(255, 153, 0, 0.3); } 
+        .tool-8 { bottom: 35%; left: 10%; animation-delay: 0.8s; font-size: 32px; color: rgba(0, 255, 128, 0.3); } 
+        .tool-9 { top: 75%; left: 40%; animation-delay: 1.8s; font-size: 26px; color: rgba(255,0,60,0.3); } 
 
         @keyframes floatTool { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(15deg); } }
 
-        /* Sections (Maintains 1200px width for standard readability content blocks below the hero) */
+        /* Sections */
         section { padding: 140px 40px; max-width: 1200px; width: 100%; margin: 0 auto; position: relative; z-index: 2; }
         .section-title { font-size: 52px; font-weight: 900; text-align: center; margin-bottom: 15px; opacity: 0; transform: translateY(30px); transition: all 0.8s ease; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px rgba(255,0,60,0.3); }
         .section-title.visible { opacity: 1; transform: translateY(0); }
@@ -277,7 +272,7 @@
         .experience-number { font-size: 56px; font-weight: 900; color: var(--text-primary); margin-bottom: 5px; line-height: 1; text-shadow: 0 0 15px rgba(255,0,60,0.3); }
         .experience-label { font-size: 13px; color: var(--accent-color); font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- REALISTIC TIMELINE UI REDESIGN --- */
+        /* REALISTIC TIMELINE UI */
         .editing-workspace {
             width: 100%; background: #111111; border-radius: 12px; border: 1px solid #2a2a2a;
             box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 40px rgba(255,0,60,0.1); overflow: hidden;
@@ -443,7 +438,7 @@
             .user-name { display: none; }
             .floating-tool { display: none; }
             .editing-workspace { transform: scale(0.9); transform-origin: left; width: 110%;}
-            #cursor-glow { display: none; } /* Disable custom cursor on mobile */
+            #cursor-glow { display: none; }
         }
     </style>
 </head>
@@ -475,7 +470,7 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">HRSHIT</a>
+            <a href="#" class="logo dynamic-logo">HRSHIT</a>
             <div class="nav-right">
                 <ul class="nav-links">
                     <li><a href="#about">About</a></li>
@@ -511,9 +506,9 @@
         
         <div class="hero-content">
             <div class="glitch-wrapper">
-                <h1 class="glitch-text" data-text="Harshit Pruthi">Harshit Pruthi</h1>
+                <h1 class="glitch-text dynamic-logo" data-text="Harshit Pruthi">Harshit Pruthi</h1>
             </div>
-            <p class="hero-tagline">> SEQUENCE_INIT : VISUAL_STORYTELLING</p>
+            <p class="hero-tagline" id="dynamicHeroTagline">> SEQUENCE_INIT : VISUAL_STORYTELLING</p>
             <a href="#services" class="cta-button">Initiate Render</a>
         </div>
     </header>
@@ -524,11 +519,13 @@
         <p class="section-subtitle">System Config // Bio</p>
         <div class="about-content">
             <div class="about-text">
-                <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3 years of active timeline experience</strong> and <strong>1 year of professional client deployment</strong>. I specialize in rendering raw footage into high-retention, cinematic experiences.</p>
-                <br>
-                <p>My workflow is fueled by precision pacing, aggressive sound design, and sharp visual impact. Whether it's hyper-edited YouTube content, brand storytelling, or punchy social media ops, I treat every sequence as a masterpiece.</p>
-                <br>
-                <p>Equipped with elite technical mastery in NLEs, motion graphics, and algorithmic thumbnail design, I engineer visuals designed to dominate the timeline.</p>
+                <div id="dynamicAboutText">
+                    <p>Hi, I'm Harshit Pruthi, a professional video editor and visual storyteller with <strong>3 years of active timeline experience</strong> and <strong>1 year of professional client deployment</strong>. I specialize in rendering raw footage into high-retention, cinematic experiences.</p>
+                    <br>
+                    <p>My workflow is fueled by precision pacing, aggressive sound design, and sharp visual impact. Whether it's hyper-edited YouTube content, brand storytelling, or punchy social media ops, I treat every sequence as a masterpiece.</p>
+                    <br>
+                    <p>Equipped with elite technical mastery in NLEs, motion graphics, and algorithmic thumbnail design, I engineer visuals designed to dominate the timeline.</p>
+                </div>
                 <div class="experience-highlight">
                     <div class="experience-card tilt-card">
                         <div class="experience-number tilt-content">3+</div>
@@ -787,7 +784,7 @@
                     <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                     <div>
                         <strong>Email</strong><br>
-                        <span style="font-family: 'Share Tech Mono';">harshitpruthiorg@gmail.com</span>
+                        <span style="font-family: 'Share Tech Mono';" id="dynamicContactEmail">harshitpruthiorg@gmail.com</span>
                     </div>
                 </div>
                 <div class="contact-method">
@@ -801,14 +798,14 @@
                     <div class="contact-icon"><i class="fas fa-location-dot"></i></div>
                     <div>
                         <strong>Base Coordinates</strong><br>
-                        <span style="font-family: 'Share Tech Mono';">India</span>
+                        <span style="font-family: 'Share Tech Mono';" id="dynamicBaseLocation">India</span>
                     </div>
                 </div>
                 <div class="social-links">
-                    <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link" title="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="social-link" title="Reddit"><i class="fab fa-reddit"></i></a>
+                    <a href="#" id="socialIg" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" id="socialYt" class="social-link" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" id="socialLi" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" id="socialRd" class="social-link" title="Reddit"><i class="fab fa-reddit"></i></a>
                 </div>
             </div>
             <div class="contact-form">
@@ -839,7 +836,7 @@
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp, deleteDoc, doc, limit } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp, deleteDoc, doc, limit, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         const firebaseConfig = {
@@ -903,6 +900,56 @@
         document.getElementById('googleSignInBtn')?.addEventListener('click', signInWithGoogle);
         document.getElementById('signOutBtn')?.addEventListener('click', signOutUser);
 
+        // Fetch Dynamic Settings from Admin Panel
+        async function loadSiteSettings() {
+            try {
+                const docRef = doc(db, 'settings', 'general');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    if (data.siteTitle) {
+                        const logos = document.querySelectorAll('.dynamic-logo');
+                        logos.forEach(logo => {
+                            if(logo.tagName === 'A') logo.textContent = data.siteTitle.toUpperCase();
+                            else logo.setAttribute('data-text', data.siteTitle.toUpperCase());
+                            
+                            if(logo.tagName !== 'A') logo.textContent = data.siteTitle.toUpperCase();
+                        });
+                    }
+                    
+                    if (data.heroTagline) {
+                        const ht = document.getElementById('dynamicHeroTagline');
+                        if (ht) ht.textContent = data.heroTagline;
+                    }
+                    
+                    if (data.aboutText) {
+                        const at = document.getElementById('dynamicAboutText');
+                        if (at) at.innerHTML = data.aboutText.replace(/\n/g, '<br><br>');
+                    }
+                    
+                    if (data.contactEmail) {
+                        const ce = document.getElementById('dynamicContactEmail');
+                        if (ce) ce.textContent = data.contactEmail;
+                    }
+                    
+                    if (data.baseLocation) {
+                        const bl = document.getElementById('dynamicBaseLocation');
+                        if (bl) bl.textContent = data.baseLocation.toUpperCase();
+                    }
+                    
+                    if (data.socialLinks) {
+                        if (data.socialLinks.instagram) document.getElementById('socialIg').href = data.socialLinks.instagram;
+                        if (data.socialLinks.youtube) document.getElementById('socialYt').href = data.socialLinks.youtube;
+                        if (data.socialLinks.linkedin) document.getElementById('socialLi').href = data.socialLinks.linkedin;
+                        if (data.socialLinks.reddit) document.getElementById('socialRd').href = data.socialLinks.reddit;
+                    }
+                }
+            } catch (error) {
+                console.error("Error loading site config:", error);
+            }
+        }
+
         async function loadFeaturedVideos() {
             try {
                 const videosQuery = query(collection(db, 'featuredWork'), orderBy('order'), limit(3));
@@ -947,7 +994,7 @@
                     }
                     featuredVideos.appendChild(workCard);
                 });
-                initTiltCards(); 
+                if(typeof initTiltCards === 'function') initTiltCards(); 
             } catch (error) {
                 console.error('Error loading featured videos:', error);
                 document.getElementById('featuredVideos').innerHTML = '<div class="loading-message">Error loading work.</div>';
@@ -1104,7 +1151,10 @@
             finally { submitBtn.disabled = false; submitBtn.textContent = 'Send Transmission'; }
         });
 
-        loadFeaturedVideos(); loadReviews();
+        // Initialize Data Loaders
+        loadSiteSettings();
+        loadFeaturedVideos(); 
+        loadReviews();
     </script>
 
     <!-- UI Interaction Scripts -->
@@ -1155,8 +1205,10 @@
             mouseY = (event.clientY - windowHalfY);
             
             // Move cursor glow light
-            cursorGlow.style.left = event.clientX + 'px';
-            cursorGlow.style.top = event.clientY + 'px';
+            if(cursorGlow) {
+                cursorGlow.style.left = event.clientX + 'px';
+                cursorGlow.style.top = event.clientY + 'px';
+            }
         });
 
         function animateThreeJS() {
@@ -1200,14 +1252,9 @@
             // FLASHBANG PROTOCOL TRIGGER
             if (newTheme === 'light') {
                 const fb = document.getElementById('flashbang-overlay');
-                // Remove transitions to make the flash appear INSTANTLY
                 fb.style.transition = 'none';
                 fb.style.opacity = '1';
-                
-                // Force a browser reflow so it registers the instant flash before fading
                 void fb.offsetWidth;
-                
-                // Add the transition back and fade it out over 2 seconds
                 fb.style.transition = 'opacity 2.5s cubic-bezier(0.2, 1, 0.3, 1)';
                 fb.style.opacity = '0';
             }
@@ -1237,19 +1284,23 @@
         });
 
         // 4. 3D Card Tilt Effect
-        function initTiltCards() {
+        window.initTiltCards = function() {
             const cards = document.querySelectorAll('.tilt-card');
             cards.forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
+                // To prevent multiple listener buildup if called again
+                const newCard = card.cloneNode(true);
+                if(card.parentNode) card.parentNode.replaceChild(newCard, card);
+                
+                newCard.addEventListener('mousemove', e => {
+                    const rect = newCard.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -10; 
                     const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 10;
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    newCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                 });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                newCard.addEventListener('mouseleave', () => {
+                    newCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
                 });
             });
         }
