@@ -348,11 +348,19 @@
             background: var(--accent-color); color: white; border: none;
             border-radius: 12px; padding: 16px 32px; font-size: 16px;
             font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; gap: 10px; justify-content: center;
+        }
+        
+        .cancel-btn {
+            background: var(--border-color); color: var(--text-primary); border: none;
+            border-radius: 12px; padding: 16px 32px; font-size: 16px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 10px; justify-content: center;
         }
 
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .cancel-btn:hover { transform: translateY(-2px); opacity: 0.8; }
 
         /* Alerts */
         .alert {
@@ -381,7 +389,7 @@
 
         .item-badge {
             padding: 6px 12px; border-radius: 20px; font-size: 12px;
-            font-weight: 600; color: white;
+            font-weight: 600; color: white; display: inline-block;
         }
 
         .badge-videos { background: var(--gradient-1); }
@@ -389,14 +397,17 @@
         .badge-photos { background: var(--gradient-3); }
         .badge-reddit { background: var(--gradient-4); }
         .badge-featured { background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); }
+        .badge-custom { background: var(--error-color); }
 
         .item-description { color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; line-height: 1.6; }
         .item-meta { display: flex; gap: 15px; font-size: 13px; color: var(--text-secondary); align-items: center; justify-content: space-between;}
 
         .action-btn {
             padding: 8px 14px; border: none; border-radius: 8px; font-size: 13px;
-            font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px;
         }
+        .action-btn.edit { background: rgba(0, 113, 227, 0.1); color: var(--accent-color); }
+        .action-btn.edit:hover { background: var(--accent-color); color: #fff; }
         .action-btn.delete { background: rgba(255, 59, 48, 0.1); color: var(--error-color); }
         .action-btn.delete:hover { background: var(--error-color); color: #fff; }
 
@@ -476,6 +487,10 @@
             <a href="#" class="nav-item active" data-section="portfolio">
                 <i class="fas fa-briefcase"></i>
                 <span>Portfolio Items</span>
+            </a>
+            <a href="#" class="nav-item" data-section="services">
+                <i class="fas fa-tools"></i>
+                <span>Services (Arsenal)</span>
             </a>
             <a href="#" class="nav-item" data-section="linktree">
                 <i class="fas fa-link"></i>
@@ -587,6 +602,66 @@
                 <h3 class="tilt-content"><i class="fas fa-list"></i> Recent Portfolio Items</h3>
                 <div id="itemsList" class="tilt-content">
                     <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading items...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Services Section -->
+        <div class="content-section" id="servicesSection">
+            <div class="section-header">
+                <h2>Services Management</h2>
+                <p>Customize your service offerings and set availability statuses</p>
+            </div>
+
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-edit"></i> <span id="serviceFormTitle">Add New Service</span></h3>
+                <form id="serviceForm" class="tilt-content">
+                    <input type="hidden" id="serviceId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Service Title *</label>
+                            <input type="text" id="serviceTitle" required placeholder="e.g., Video Editing">
+                        </div>
+                        <div class="form-group">
+                            <label>Icon Class (FontAwesome) *</label>
+                            <input type="text" id="serviceIcon" required placeholder="e.g., fas fa-film">
+                            <small style="color: var(--text-secondary); font-size: 12px; margin-top: 5px; display: block;">Search icons at fontawesome.com</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Pricing Text</label>
+                            <input type="text" id="servicePrice" placeholder="e.g., Custom Pricing">
+                        </div>
+                        <div class="form-group">
+                            <label>Order Number *</label>
+                            <input type="number" id="serviceOrder" required value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Banner/Status (Optional)</label>
+                        <input type="text" id="serviceBanner" placeholder="e.g., Unavailable, Hot, Popular">
+                        <small style="color: var(--text-secondary); font-size: 12px; margin-top: 5px; display: block;">Adds a colored badge to the service card</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea id="serviceDesc" required rows="3" placeholder="Describe the service offering..."></textarea>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <button type="submit" class="submit-btn" id="serviceSubmitBtn" style="flex: 1;">
+                            <i class="fas fa-save"></i> Save Service
+                        </button>
+                        <button type="button" class="cancel-btn" id="serviceCancelBtn" style="display: none; flex: 1;">
+                            <i class="fas fa-times"></i> Cancel Edit
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-list"></i> Active Services</h3>
+                <div id="servicesList" class="tilt-content">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading services...</div>
                 </div>
             </div>
         </div>
@@ -764,6 +839,7 @@
         const provider = new GoogleAuthProvider();
 
         let currentUser = null;
+        let allServicesData = []; // Store services globally for quick editing lookup
 
         // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -778,6 +854,7 @@
                 document.getElementById(`${section}Section`).classList.add('active');
                 
                 if (section === 'portfolio') loadRecentItems();
+                if (section === 'services') loadServices();
                 if (section === 'linktree') loadLinkTreeItems();
                 if (section === 'reviews') loadReviews();
                 if (section === 'discount') loadDiscounts();
@@ -922,7 +999,123 @@
             catch(e) { showError(e.message); }
         }
 
-        // 2. LINK TREE LOGIC (NEW)
+        // NEW: SERVICES LOGIC
+        document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return showError('Please sign in first');
+            
+            const submitBtn = document.getElementById('serviceSubmitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true; 
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const id = document.getElementById('serviceId').value;
+                const data = {
+                    title: document.getElementById('serviceTitle').value,
+                    icon: document.getElementById('serviceIcon').value,
+                    priceText: document.getElementById('servicePrice').value || 'Custom Pricing',
+                    banner: document.getElementById('serviceBanner').value || null,
+                    description: document.getElementById('serviceDesc').value,
+                    order: parseInt(document.getElementById('serviceOrder').value),
+                    updatedAt: Timestamp.now()
+                };
+
+                if (id) {
+                    await updateDoc(doc(db, 'services', id), data);
+                    showSuccess('Service updated successfully!');
+                } else {
+                    data.createdAt = Timestamp.now();
+                    await addDoc(collection(db, 'services'), data);
+                    showSuccess('New service created!');
+                }
+                
+                resetServiceForm();
+                loadServices();
+            } catch (error) {
+                showError("Permission Error. Please add 'services' rules to Firebase.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        function resetServiceForm() {
+            document.getElementById('serviceForm').reset();
+            document.getElementById('serviceId').value = '';
+            document.getElementById('serviceSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Save Service';
+            document.getElementById('serviceCancelBtn').style.display = 'none';
+            document.getElementById('serviceFormTitle').innerText = 'Add New Service';
+        }
+
+        document.getElementById('serviceCancelBtn').addEventListener('click', resetServiceForm);
+
+        async function loadServices() {
+            const list = document.getElementById('servicesList');
+            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading services...</div>';
+            try {
+                allServicesData = [];
+                const q = query(collection(db, 'services'), orderBy('order', 'asc'));
+                const snap = await getDocs(q);
+                
+                if (snap.empty) return list.innerHTML = '<div class="empty-state"><i class="fas fa-tools"></i><h4>No Services</h4><p>Add some services to your portfolio.</p></div>';
+
+                let html = '<div class="items-grid">';
+                snap.forEach(docSnap => {
+                    const item = docSnap.data();
+                    allServicesData.push({ id: docSnap.id, ...item });
+                    
+                    const bannerHtml = item.banner ? `<span class="item-badge badge-custom" style="margin-left: 10px;">${item.banner}</span>` : '';
+                    
+                    html += `
+                        <div class="item-card">
+                            <div class="item-header">
+                                <div class="item-title"><i class="${item.icon}" style="margin-right:8px; color:var(--accent-color);"></i> ${item.title} ${bannerHtml}</div>
+                            </div>
+                            <div class="item-description" style="margin-bottom: 5px;">${item.description}</div>
+                            <div style="font-size: 13px; color: var(--accent-color); margin-bottom: 15px; font-weight: 600;">${item.priceText}</div>
+                            <div class="item-meta">
+                                <span>Order: ${item.order}</span>
+                                <div style="display:flex; gap:8px;">
+                                    <button class="action-btn edit" onclick="editService('${docSnap.id}')"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="action-btn delete" onclick="deleteService('${docSnap.id}')"><i class="fas fa-trash"></i> Delete</button>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                list.innerHTML = html + '</div>';
+            } catch (e) {
+                list.innerHTML = `<div class="empty-state"><p>Permission Denied. Please update Firebase Rules for 'services'.</p></div>`;
+            }
+        }
+
+        window.editService = (id) => {
+            const service = allServicesData.find(s => s.id === id);
+            if(!service) return;
+            
+            document.getElementById('serviceId').value = service.id;
+            document.getElementById('serviceTitle').value = service.title;
+            document.getElementById('serviceIcon').value = service.icon;
+            document.getElementById('servicePrice').value = service.priceText || '';
+            document.getElementById('serviceBanner').value = service.banner || '';
+            document.getElementById('serviceDesc').value = service.description;
+            document.getElementById('serviceOrder').value = service.order;
+            
+            document.getElementById('serviceFormTitle').innerText = 'Edit Service';
+            document.getElementById('serviceSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update Service';
+            document.getElementById('serviceCancelBtn').style.display = 'flex';
+            
+            // Scroll to form
+            document.getElementById('servicesSection').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.deleteService = async (id) => {
+            if(!confirm('Are you sure you want to delete this service?')) return;
+            try { await deleteDoc(doc(db, 'services', id)); showSuccess('Service deleted!'); loadServices(); }
+            catch(e) { showError(e.message); }
+        };
+
+        // 2. LINK TREE LOGIC
         document.getElementById('addLinkTreeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser) return showError('Please sign in first');
