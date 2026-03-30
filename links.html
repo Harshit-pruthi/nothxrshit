@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links - Harshit Pruthi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js for 3D Particle Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1d1d1f;
+            --secondary-color: #f5f5f7;
+            --accent-color: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --white: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --border-color: #e5e5e5;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ffffff;
+            --secondary-color: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --white: #000000;
+            --bg-primary: #000000;
+            --bg-secondary: #1d1d1f;
+            --border-color: #2d2d2f;
+            --card-bg: rgba(29, 29, 31, 0.6);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.4s ease, color 0.4s ease;
+            position: relative;
+        }
+
+        /* 3D Canvas Particles */
+        #hero-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+
+        /* Flashbang Overlay */
+        #flashbang-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+        }
+        
+        .flashbang-text {
+            font-size: 8vw; font-weight: 900; color: #000000;
+            text-transform: uppercase; letter-spacing: 10px;
+            animation: shake 0.1s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(2px, 2px) rotate(0deg); }
+            20% { transform: translate(-3px, -2px) rotate(-1deg); }
+            40% { transform: translate(3px, 0px) rotate(2deg); }
+            60% { transform: translate(-2px, 3px) rotate(0deg); }
+            80% { transform: translate(1px, -1px) rotate(1deg); }
+            100% { transform: translate(-1px, 2px) rotate(-2deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .theme-toggle {
+            width: 50px;
+            height: 28px;
+            background: var(--border-color);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-color);
+        }
+
+        .theme-toggle-slider {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(22px);
+        }
+
+        /* Link Tree Specific Layout */
+        .link-tree-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-container {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease;
+            position: relative;
+        }
+
+        /* Upgraded Pulsing Avatar */
+        .profile-avatar-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(15px);
+            opacity: 0.6;
+            animation: pulseGlow 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { filter: blur(12px); opacity: 0.5; transform: scale(0.95); }
+            100% { filter: blur(20px); opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            box-shadow: var(--shadow);
+            border: 4px solid var(--bg-primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-name {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
+        .links-container {
+            width: 100%;
+            max-width: 640px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Upgraded 3D Tilt Link Cards */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.1s ease, border-color 0.3s ease;
+            will-change: transform;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            padding: 22px 30px;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            text-decoration: none;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease backwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Platform Specific Glassmorphism Glows */
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--hover-bg, rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .link-card:hover::before { opacity: 1; }
+        
+        .link-card.portfolio { --hover-bg: linear-gradient(90deg, transparent, rgba(0, 113, 227, 0.15), transparent); }
+        .link-card.portfolio:hover { border-color: var(--accent-color); }
+        .link-card.portfolio:hover .link-icon { color: var(--accent-color); }
+        
+        .link-card.instagram { --hover-bg: linear-gradient(90deg, transparent, rgba(225, 48, 108, 0.15), transparent); }
+        .link-card.instagram:hover { border-color: #E1306C; }
+        .link-card.instagram:hover .link-icon { color: #E1306C; }
+        
+        .link-card.youtube { --hover-bg: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.15), transparent); }
+        .link-card.youtube:hover { border-color: #FF0000; }
+        .link-card.youtube:hover .link-icon { color: #FF0000; }
+        
+        .link-card.linkedin { --hover-bg: linear-gradient(90deg, transparent, rgba(0, 119, 181, 0.15), transparent); }
+        .link-card.linkedin:hover { border-color: #0077B5; }
+        .link-card.linkedin:hover .link-icon { color: #0077B5; }
+        
+        .link-card.reddit { --hover-bg: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.15), transparent); }
+        .link-card.reddit:hover { border-color: #FF4500; }
+        .link-card.reddit:hover .link-icon { color: #FF4500; }
+
+        /* 3D Pop-out elements inside the card */
+        .link-content-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            transform: translateZ(40px); /* Pushes content out */
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-icon {
+            font-size: 26px;
+            width: 50px;
+            display: flex;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .link-card:hover .link-icon {
+            transform: scale(1.1);
+        }
+
+        .link-text {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            margin-right: 50px; /* Counter-balance the icon */
+            letter-spacing: 0.5px;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container { padding: 0 20px; }
+            .link-tree-section { padding: 100px 20px 40px; }
+            .profile-avatar-wrapper { width: 100px; height: 100px; }
+            .profile-avatar { font-size: 40px; border-width: 3px; }
+            .profile-name { font-size: 26px; }
+            .link-card { padding: 18px 20px; border-radius: 18px; }
+            .link-icon { font-size: 22px; width: 40px; }
+            .link-text { font-size: 16px; margin-right: 40px; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- 3D Particle Background Canvas -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- FLASHBANG OVERLAY -->
+    <div id="flashbang-overlay">
+        <h1 class="flashbang-text">FLASHBANG!!</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo dynamic-logo">HP</a>
+            <div class="theme-toggle" id="themeToggle">
+                <div class="theme-toggle-slider">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Link Tree Section -->
+    <section class="link-tree-section">
+        
+        <div class="profile-container">
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar">
+                    <i class="fas fa-video"></i>
+                </div>
+            </div>
+            <h1 class="profile-name dynamic-logo">Harshit Pruthi</h1>
+            <p class="profile-bio" id="dynamicTagline">Crafting Visual Stories that Inspire</p>
+        </div>
+
+        <div class="links-container" id="linksContainer">
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Establishing connection...
+            </div>
+            <!-- Links will be injected here via JS -->
+        </div>
+
+    </section>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzbKueSLaSGeMiDFd1aioP04iduaXdE4w",
+            authDomain: "portfolio-harshit-d73fb.firebaseapp.com",
+            projectId: "portfolio-harshit-d73fb",
+            storageBucket: "portfolio-harshit-d73fb.firebasestorage.app",
+            messagingSenderId: "766300632445",
+            appId: "1:766300632445:web:edd338edb1204fa5080814"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Fetch Dynamic Settings from Admin Panel
+        async function loadLinkTreeData() {
+            const linksContainer = document.getElementById('linksContainer');
+            
+            try {
+                const docRef = doc(db, 'settings', 'general');
+                const docSnap = await getDoc(docRef);
+                
+                // Initialize default permanent links (Portfolio & Main Site) with tilt-card class
+                let linksHTML = `
+                    <a href="index.html" class="link-card tilt-card portfolio" style="animation-delay: 0.1s">
+                        <div class="link-content-wrapper tilt-content">
+                            <div class="link-icon"><i class="fas fa-globe"></i></div>
+                            <div class="link-text">Main Website</div>
+                        </div>
+                    </a>
+                    <a href="portfolio.html" class="link-card tilt-card portfolio" style="animation-delay: 0.2s">
+                        <div class="link-content-wrapper tilt-content">
+                            <div class="link-icon"><i class="fas fa-folder-open"></i></div>
+                            <div class="link-text">Full Archive</div>
+                        </div>
+                    </a>
+                `;
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    // Update Text Identifiers
+                    if (data.siteTitle) {
+                        document.querySelectorAll('.dynamic-logo').forEach(el => el.textContent = data.siteTitle);
+                    }
+                    if (data.heroTagline) {
+                        document.getElementById('dynamicTagline').textContent = data.heroTagline;
+                    }
+                    
+                    // Inject Social Links from Admin Config
+                    let delay = 0.3; // Animation cascading delay
+                    
+                    if (data.socialLinks) {
+                        // Map standardized platform keys to FontAwesome classes and Display Names
+                        const platformDetails = {
+                            'youtube': { icon: 'fa-youtube', name: 'YouTube', class: 'youtube' },
+                            'instagram': { icon: 'fa-instagram', name: 'Instagram', class: 'instagram' },
+                            'linkedin': { icon: 'fa-linkedin-in', name: 'LinkedIn', class: 'linkedin' },
+                            'reddit': { icon: 'fa-reddit', name: 'Reddit', class: 'reddit' },
+                            'twitter': { icon: 'fa-twitter', name: 'Twitter', class: 'twitter' }
+                        };
+
+                        Object.keys(data.socialLinks).forEach((platform) => {
+                            const url = data.socialLinks[platform];
+                            if(url && url.trim() !== '') {
+                                const details = platformDetails[platform.toLowerCase()] || { icon: 'fa-link', name: platform, class: 'portfolio' };
+                                
+                                linksHTML += `
+                                    <a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card tilt-card ${details.class}" style="animation-delay: ${delay}s">
+                                        <div class="link-content-wrapper tilt-content">
+                                            <div class="link-icon"><i class="fab ${details.icon}"></i></div>
+                                            <div class="link-text">${details.name}</div>
+                                        </div>
+                                    </a>
+                                `;
+                                delay += 0.1;
+                            }
+                        });
+                    }
+                }
+                
+                linksContainer.innerHTML = linksHTML;
+
+                // Initialize 3D Tilt interaction after injection
+                if(typeof window.initTiltCards === 'function') {
+                    window.initTiltCards();
+                }
+
+            } catch (error) {
+                console.error("Error loading linktree config:", error);
+                linksContainer.innerHTML = `
+                    <div class="loading-message" style="color: var(--error-color);">
+                        <i class="fas fa-exclamation-triangle"></i> Failed to connect to mainframe.
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize Data Loaders
+        loadLinkTreeData();
+    </script>
+
+    <script>
+        // 1. Cinematic 3D Background Particle System (Three.js)
+        let scene, camera, renderer, particles;
+        let isDarkMode = true; // Default to dark
+
+        function initThreeJS() {
+            const canvas = document.getElementById('hero-canvas');
+            if(!canvas) return;
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            const geometry = new THREE.BufferGeometry();
+            const particlesCount = 400; 
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 150; 
+            }
+            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.6,
+                color: 0x0071e3,
+                transparent: true, opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            animateThreeJS();
+        }
+
+        let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            targetX = mouseX * 0.001; targetY = mouseY * 0.001;
+            
+            particles.rotation.y += 0.002; particles.rotation.x += 0.001;
+            particles.rotation.y += 0.05 * (targetX - particles.rotation.y);
+            particles.rotation.x += 0.05 * (targetY - particles.rotation.x);
+
+            const positions = particles.geometry.attributes.position.array;
+            for(let i = 1; i < positions.length; i+=3) {
+                positions[i] += 0.08; 
+                if(positions[i] > 75) { positions[i] = -75; }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            if(!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        initThreeJS();
+
+        // 2. Dark Mode Toggle & Flashbang logic
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const body = document.body;
+
+        const currentTheme = localStorage.getItem('theme') || 'dark'; // Force default dark
+        body.setAttribute('data-theme', currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            // Flashbang effect trigger
+            if (newTheme === 'light') {
+                const fb = document.getElementById('flashbang-overlay');
+                if(fb) {
+                    fb.style.transition = 'none';
+                    fb.style.opacity = '1';
+                    void fb.offsetWidth;
+                    fb.style.transition = 'opacity 2.5s cubic-bezier(0.2, 1, 0.3, 1)';
+                    fb.style.opacity = '0';
+                }
+            }
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        // 3. Tilt Card 3D Interaction Logic
+        window.initTiltCards = function() {
+            const cards = document.querySelectorAll('.tilt-card');
+            cards.forEach(card => {
+                // Clone and replace to prevent duplicate event listeners on re-renders
+                const newCard = card.cloneNode(true);
+                if(card.parentNode) card.parentNode.replaceChild(newCard, card);
+                
+                newCard.addEventListener('mousemove', e => {
+                    const rect = newCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -12; 
+                    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 12;
+                    newCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                });
+                
+                newCard.addEventListener('mouseleave', () => {
+                    newCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                });
+            });
+        }
+        // Initialize once for static elements, also called after DB fetch.
+        initTiltCards();
+    </script>
+</body>
+</html>
