@@ -300,10 +300,6 @@
         .section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
         .section-header p { color: var(--text-secondary); font-size: 16px; }
 
-        /* 3D Tilt Cards Base */
-        .tilt-card { transform-style: preserve-3d; transform: perspective(1000px); transition: transform 0.1s ease, box-shadow 0.3s ease; will-change: transform; }
-        .tilt-content { transform: translateZ(20px); }
-
         /* Cards */
         .card {
             background: var(--card-bg);
@@ -397,7 +393,7 @@
         .badge-photos { background: var(--gradient-3); }
         .badge-reddit { background: var(--gradient-4); }
         .badge-featured { background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); }
-        .badge-custom { background: var(--error-color); }
+        .badge-custom { background: var(--error-color); color: white; } /* Banner for Unavailable/Custom */
 
         .item-description { color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; line-height: 1.6; }
         .item-meta { display: flex; gap: 15px; font-size: 13px; color: var(--text-secondary); align-items: center; justify-content: space-between;}
@@ -420,22 +416,7 @@
         .stat-number { font-size: 42px; font-weight: 800; margin-bottom: 5px; color: var(--text-primary); }
         .stat-label { color: var(--text-secondary); font-size: 14px; font-weight: 500;}
 
-        /* Reviews Grid */
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin-top: 20px; }
-        .review-card {
-            background: var(--bg-primary); border-radius: 16px; padding: 25px;
-            border: 1px solid var(--border-color); transition: transform 0.3s ease;
-        }
-        .review-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent-color); }
-
-        .review-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .reviewer-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); }
-        .reviewer-info { flex: 1; }
-        .reviewer-name { font-weight: 700; font-size: 16px; margin-bottom: 3px; }
-        .reviewer-email { color: var(--text-secondary); font-size: 13px; margin-bottom: 5px; }
-        .review-rating { color: #ffa500; font-size: 14px; }
-        .review-comment { color: var(--text-primary); line-height: 1.6; margin-bottom: 15px; position: relative; }
-        
+        /* Loading & Empty States */
         .loading { text-align: center; padding: 50px; color: var(--text-secondary); }
         .loading i { font-size: 28px; margin-bottom: 15px; display: block; color: var(--accent-color); }
 
@@ -486,11 +467,11 @@
         <div class="nav-menu">
             <a href="#" class="nav-item active" data-section="portfolio">
                 <i class="fas fa-briefcase"></i>
-                <span>Portfolio Items</span>
+                <span>Database</span>
             </a>
             <a href="#" class="nav-item" data-section="services">
                 <i class="fas fa-tools"></i>
-                <span>Services (Arsenal)</span>
+                <span>Services</span>
             </a>
             <a href="#" class="nav-item" data-section="linktree">
                 <i class="fas fa-link"></i>
@@ -498,46 +479,44 @@
             </a>
             <a href="#" class="nav-item" data-section="reviews">
                 <i class="fas fa-star"></i>
-                <span>Reviews</span>
+                <span>Intel Logs</span>
             </a>
             <a href="#" class="nav-item" data-section="discount">
                 <i class="fas fa-percentage"></i>
-                <span>Discount</span>
+                <span>Overrides</span>
             </a>
             <a href="#" class="nav-item" data-section="analytics">
                 <i class="fas fa-chart-bar"></i>
-                <span>Analytics</span>
+                <span>Telemetry</span>
             </a>
             <a href="#" class="nav-item" data-section="settings">
                 <i class="fas fa-cog"></i>
-                <span>Settings</span>
+                <span>Config</span>
             </a>
         </div>
         
         <button class="signout-btn" id="signOutBtn">
-            <i class="fas fa-sign-out-alt"></i> Sign Out
+            <i class="fas fa-sign-out-alt"></i> Terminate Session
         </button>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Auth Container -->
-        <div class="auth-container tilt-card" id="authContainer">
-            <div class="tilt-content">
-                <h2>Admin Access Required</h2>
-                <p style="color: var(--text-secondary); margin-bottom: 20px;">Please sign in with your Google account to access the admin panel.</p>
-                <button class="google-signin-btn" id="signInBtn">
-                    <i class="fab fa-google"></i>
-                    Sign in with Google
-                </button>
-            </div>
+        <div class="auth-container" id="authContainer">
+            <h2>Admin Access Required</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Please sign in with your Google account to access the admin panel.</p>
+            <button class="google-signin-btn" id="signInBtn">
+                <i class="fab fa-google"></i>
+                Sign in with Google
+            </button>
         </div>
 
         <!-- Portfolio Section -->
         <div class="content-section active" id="portfolioSection">
             <div class="section-header">
-                <h2>Portfolio Management</h2>
-                <p>Add and manage portfolio items for your website</p>
+                <h2>Database Uplink</h2>
+                <p>Upload new sequence files to the mainframe</p>
             </div>
 
             <div class="alert alert-success" id="successAlert">
@@ -547,61 +526,61 @@
                 <i class="fas fa-exclamation-circle"></i><span id="errorMessage"></span>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-plus-circle"></i> Add New Portfolio Item</h3>
-                <form id="addItemForm" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-plus-circle"></i> Inject New Data</h3>
+                <form id="addItemForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="collectionType">Collection Type *</label>
+                            <label for="collectionType">Target Sector *</label>
                             <select id="collectionType" required>
                                 <option value="">Choose collection...</option>
-                                <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
-                                <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
+                                <option value="portfolioItems">Archive (Full Portfolio Page)</option>
+                                <option value="featuredWork">Vault (Homepage - Top 3)</option>
                             </select>
                         </div>
                         <div class="form-group" id="categoryGroup" style="display: none;">
-                            <label for="category">Category *</label>
+                            <label for="category">Module Tag *</label>
                             <select id="category">
                                 <option value="">Choose category...</option>
-                                <option value="videos">Videos</option>
-                                <option value="thumbnails">Thumbnails</option>
-                                <option value="photos">Edited Photos</option>
-                                <option value="reddit">Reddit Marketing</option>
+                                <option value="videos">Timeline Ops (Video)</option>
+                                <option value="thumbnails">CTR Hack (Thumbnails)</option>
+                                <option value="photos">Pixel Edits (Photos)</option>
+                                <option value="reddit">Subreddit Infil (Reddit)</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="title">Title *</label>
-                        <input type="text" id="title" required placeholder="Enter item title">
+                        <label for="title">Sequence Title *</label>
+                        <input type="text" id="title" required placeholder="Enter sequence name">
                     </div>
                     <div class="form-group">
-                        <label for="description">Description *</label>
-                        <textarea id="description" required rows="3" placeholder="Enter item description"></textarea>
+                        <label for="description">Mission Log (Description) *</label>
+                        <textarea id="description" required rows="3" placeholder="Detail the operation parameters..."></textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-group" id="videoUrlGroup" style="display: none;">
-                            <label for="videoUrl">Video URL (YouTube)</label>
+                            <label for="videoUrl">Video Stream Link (YouTube)</label>
                             <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
                         </div>
                         <div class="form-group" id="imageUrlGroup" style="display: none;">
-                            <label for="imageUrl">Image URL</label>
+                            <label for="imageUrl">Asset Direct Link (Image URL)</label>
                             <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com/...">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="order">Order Number *</label>
+                        <label for="order">Priority Index *</label>
                         <input type="number" id="order" required value="1" min="1">
                     </div>
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-plus-circle"></i> Add to Portfolio
+                        <i class="fas fa-satellite-dish"></i> Transmit Data
                     </button>
                 </form>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-list"></i> Recent Portfolio Items</h3>
-                <div id="itemsList" class="tilt-content">
-                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading items...</div>
+            <div class="card">
+                <h3><i class="fas fa-server"></i> Active Blocks</h3>
+                <div id="itemsList">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Indexing memory...</div>
                 </div>
             </div>
         </div>
@@ -613,9 +592,9 @@
                 <p>Customize your service offerings and set availability statuses</p>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-edit"></i> <span id="serviceFormTitle">Add New Service</span></h3>
-                <form id="serviceForm" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-edit"></i> <span id="serviceFormTitle">Add New Service</span></h3>
+                <form id="serviceForm">
                     <input type="hidden" id="serviceId">
                     <div class="form-row">
                         <div class="form-group">
@@ -658,9 +637,9 @@
                 </form>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-list"></i> Active Services</h3>
-                <div id="servicesList" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-list"></i> Active Services</h3>
+                <div id="servicesList">
                     <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading services...</div>
                 </div>
             </div>
@@ -673,9 +652,9 @@
                 <p>Add and manage dynamic links for your custom Link Tree page</p>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-link"></i> Add New Link</h3>
-                <form id="addLinkTreeForm" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-link"></i> Add New Link</h3>
+                <form id="addLinkTreeForm">
                     <div class="form-row">
                         <div class="form-group">
                             <label>Link Title *</label>
@@ -703,9 +682,9 @@
                 </form>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-list"></i> Active Links</h3>
-                <div id="linkTreeList" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-list"></i> Active Links</h3>
+                <div id="linkTreeList">
                     <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading link tree data...</div>
                 </div>
             </div>
@@ -714,21 +693,14 @@
         <!-- Reviews Section -->
         <div class="content-section" id="reviewsSection">
             <div class="section-header">
-                <h2>Client Reviews</h2>
-                <p>View and manage client feedback and testimonials</p>
+                <h2>Intel Logs</h2>
+                <p>Monitor intercepted client transmissions</p>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-chart-pie"></i> Reviews Overview</h3>
-                <div class="stats-container tilt-content" id="reviewStatsContainer">
-                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
-                </div>
-            </div>
-
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-comments"></i> All Reviews</h3>
-                <div id="reviewsList" class="tilt-content">
-                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</div>
+            <div class="card">
+                <h3><i class="fas fa-list-check"></i> Raw Transcripts</h3>
+                <div id="reviewsList">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Decoding logs...</div>
                 </div>
             </div>
         </div>
@@ -736,37 +708,37 @@
         <!-- Discount Section -->
         <div class="content-section" id="discountSection">
             <div class="section-header">
-                <h2>Discount Management</h2>
-                <p>Create and manage special offers and discounts</p>
+                <h2>Protocol Overrides</h2>
+                <p>Generate bypass codes and parameter discounts</p>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-percentage"></i> Create New Discount</h3>
-                <form id="discountForm" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-percentage"></i> Generate Override</h3>
+                <form id="discountForm">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="discountCode">Discount Code *</label>
-                            <input type="text" id="discountCode" required placeholder="e.g., SUMMER2024">
+                            <label for="discountCode">Auth Code *</label>
+                            <input type="text" id="discountCode" required placeholder="e.g., BREACH20">
                         </div>
                         <div class="form-group">
-                            <label for="discountPercentage">Discount Percentage *</label>
+                            <label for="discountPercentage">Bypass Margin (%) *</label>
                             <input type="number" id="discountPercentage" required min="1" max="100" placeholder="e.g., 20">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="discountDescription">Description</label>
-                        <textarea id="discountDescription" rows="2" placeholder="Describe the discount offer..."></textarea>
+                        <label for="discountDescription">Protocol Details</label>
+                        <textarea id="discountDescription" rows="2" placeholder="State reason for bypass injection..."></textarea>
                     </div>
                     <button type="submit" class="submit-btn">
-                        <i class="fas fa-save"></i> Save Discount
+                        <i class="fas fa-save"></i> Inject Code
                     </button>
                 </form>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-tags"></i> Active Discounts</h3>
-                <div id="discountsList" class="tilt-content">
-                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading discounts...</div>
+            <div class="card">
+                <h3><i class="fas fa-tags"></i> Active Protocols</h3>
+                <div id="discountsList">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Scanning registry...</div>
                 </div>
             </div>
         </div>
@@ -774,13 +746,13 @@
         <!-- Analytics Section -->
         <div class="content-section" id="analyticsSection">
             <div class="section-header">
-                <h2>Analytics Dashboard</h2>
-                <p>View website performance and visitor statistics</p>
+                <h2>Telemetry</h2>
+                <p>System traffic and vector tracking</p>
             </div>
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-chart-line"></i> System Telemetry</h3>
-                <div class="stats-container tilt-content" id="telemetryStats">
-                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Compiling metrics...</div>
+            <div class="card">
+                <h3><i class="fas fa-server"></i> System Telemetry Overview</h3>
+                <div class="stats-container" id="telemetryStats">
+                    <div class="loading" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin"></i> Compiling system metrics...</div>
                 </div>
             </div>
         </div>
@@ -788,28 +760,28 @@
         <!-- Settings Section -->
         <div class="content-section" id="settingsSection">
             <div class="section-header">
-                <h2>Settings</h2>
-                <p>Configure your portfolio parameters</p>
+                <h2>System Config</h2>
+                <p>Modify core mainframe parameters</p>
             </div>
 
-            <div class="card tilt-card">
-                <h3 class="tilt-content"><i class="fas fa-sliders-h"></i> Global Settings</h3>
-                <form id="settingsForm" class="tilt-content">
+            <div class="card">
+                <h3><i class="fas fa-sliders-h"></i> Global Variables</h3>
+                <form id="settingsForm">
                     <div class="form-group">
-                        <label for="siteTitle">Site Title</label>
+                        <label for="siteTitle">Root Designation (Site Title)</label>
                         <input type="text" id="siteTitle" placeholder="Harshit Pruthi">
                     </div>
                     <div class="form-group">
-                        <label for="contactEmail">Contact Email</label>
+                        <label for="contactEmail">Master Comm Link (Email)</label>
                         <input type="email" id="contactEmail" placeholder="contact@example.com">
                     </div>
                     <div class="form-group">
-                        <label for="heroTagline">Hero Tagline</label>
+                        <label for="heroTagline">Hero Console Output (Tagline)</label>
                         <input type="text" id="heroTagline" placeholder="Crafting Visual Stories...">
                     </div>
                     
                     <button type="submit" class="submit-btn" style="margin-top: 20px;">
-                        <i class="fas fa-save"></i> Save Settings
+                        <i class="fas fa-save"></i> Write to ROM
                     </button>
                 </form>
             </div>
@@ -868,17 +840,28 @@
             currentUser = user;
             const authContainer = document.getElementById('authContainer');
             const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
 
             if (user) {
                 authContainer.style.display = 'none';
                 sidebar.style.display = 'flex';
+                mainContent.style.padding = '40px';
+
                 document.getElementById('sidebarUserName').textContent = user.displayName || 'Admin User';
                 document.getElementById('sidebarUserEmail').textContent = user.email;
                 document.getElementById('sidebarUserAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName);
-                loadRecentItems(); // Load default tab
+                loadRecentItems(); 
             } else {
                 authContainer.style.display = 'block';
                 sidebar.style.display = 'none';
+                mainContent.style.padding = '20px';
+                
+                document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById('portfolioSection').classList.add('active');
+                document.querySelectorAll('.nav-item').forEach((nav, index) => {
+                    nav.classList.remove('active');
+                    if (index === 0) nav.classList.add('active');
+                });
             }
         });
 
@@ -890,7 +873,7 @@
             try { await signOut(auth); } catch (error) { console.error(error); }
         });
 
-        // Portfolio Form Display Logic
+        // Form Toggles
         document.getElementById('collectionType').addEventListener('change', (e) => {
             const categoryGroup = document.getElementById('categoryGroup');
             const videoUrlGroup = document.getElementById('videoUrlGroup');
@@ -999,7 +982,7 @@
             catch(e) { showError(e.message); }
         }
 
-        // NEW: SERVICES LOGIC
+        // 2. SERVICES LOGIC (NEW)
         document.getElementById('serviceForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser) return showError('Please sign in first');
@@ -1105,7 +1088,6 @@
             document.getElementById('serviceSubmitBtn').innerHTML = '<i class="fas fa-save"></i> Update Service';
             document.getElementById('serviceCancelBtn').style.display = 'flex';
             
-            // Scroll to form
             document.getElementById('servicesSection').scrollIntoView({ behavior: 'smooth' });
         };
 
@@ -1115,7 +1097,7 @@
             catch(e) { showError(e.message); }
         };
 
-        // 2. LINK TREE LOGIC
+        // 3. LINK TREE LOGIC (NEW)
         document.getElementById('addLinkTreeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!currentUser) return showError('Please sign in first');
@@ -1180,34 +1162,25 @@
             catch(e) { showError(e.message); }
         }
 
-        // 3. REVIEWS LOGIC
+        // 4. REVIEWS LOGIC
         async function loadReviews() {
             const list = document.getElementById('reviewsList');
-            const stats = document.getElementById('reviewStatsContainer');
             list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</div>';
 
             try {
                 const rQuery = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
                 const rSnap = await getDocs(rQuery);
                 
-                let tot = 0, totRate = 0, fiveStar = 0;
-                
                 if (rSnap.empty) {
                     list.innerHTML = '<div class="empty-state"><i class="fas fa-comment-slash"></i><h4>No Reviews</h4></div>';
-                    stats.innerHTML = '<p>No data available</p>';
                     return;
                 }
                 
                 let html = '<div class="reviews-grid">';
                 rSnap.forEach(docSnap => {
-                    tot++;
                     const r = docSnap.data();
-                    const rate = r.rating || 5;
-                    totRate += rate;
-                    if(rate === 5) fiveStar++;
-                    
                     let starsHtml = '';
-                    for(let i=0; i<5; i++) starsHtml += i<rate ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+                    for(let i=0; i<5; i++) starsHtml += i<(r.rating || 5) ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
                     
                     html += `
                         <div class="review-card">
@@ -1222,12 +1195,6 @@
                         </div>`;
                 });
                 list.innerHTML = html + '</div>';
-                
-                stats.innerHTML = `
-                    <div class="stat-card"><div class="stat-number">${tot}</div><div class="stat-label">Total</div></div>
-                    <div class="stat-card"><div class="stat-number">${(totRate/tot).toFixed(1)}</div><div class="stat-label">Average</div></div>
-                    <div class="stat-card"><div class="stat-number">${fiveStar}</div><div class="stat-label">5-Star</div></div>
-                `;
             } catch (err) {
                 list.innerHTML = `<div class="empty-state"><p>${err.message}</p></div>`;
             }
@@ -1239,7 +1206,7 @@
             catch(e) { showError(e.message); }
         };
 
-        // 4. DISCOUNTS LOGIC
+        // 5. DISCOUNTS LOGIC
         document.getElementById('discountForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if(!currentUser) return showError('Auth failure.');
@@ -1286,7 +1253,7 @@
             catch(e) { showError(e.message); }
         };
 
-        // 5. ANALYTICS LOGIC
+        // 6. ANALYTICS LOGIC
         async function loadAnalytics() {
             const container = document.getElementById('telemetryStats');
             container.innerHTML = '<div class="loading" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin"></i> Compiling...</div>';
@@ -1300,7 +1267,7 @@
             } catch(e) { container.innerHTML = `<p>${e.message}</p>`; }
         }
 
-        // 6. SETTINGS LOGIC
+        // 7. SETTINGS LOGIC
         document.getElementById('settingsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if(!currentUser) return showError('Auth failure.');
@@ -1343,10 +1310,8 @@
 
     <!-- UI/3D Scripts -->
     <script>
-        // Cinematic 3D Background Particle System
         let scene, camera, renderer, particles;
-        let isDarkMode = true; 
-
+        
         function initThreeJS() {
             const canvas = document.getElementById('hero-canvas');
             if(!canvas) return;
@@ -1415,7 +1380,7 @@
 
         initThreeJS();
 
-        // Dark Mode Toggle & Flashbang logic
+        // Dark Mode Toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
         const currentTheme = localStorage.getItem('theme') || 'dark'; 
@@ -1440,29 +1405,6 @@
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         });
-
-        // Tilt Card Logic
-        window.initTiltCards = function() {
-            const cards = document.querySelectorAll('.tilt-card');
-            cards.forEach(card => {
-                const newCard = card.cloneNode(true);
-                if(card.parentNode) card.parentNode.replaceChild(newCard, card);
-                
-                newCard.addEventListener('mousemove', e => {
-                    const rect = newCard.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -5; 
-                    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
-                    newCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
-                });
-                
-                newCard.addEventListener('mouseleave', () => {
-                    newCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                });
-            });
-        }
-        initTiltCards();
     </script>
 </body>
 </html>
