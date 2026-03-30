@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HQ Mainframe - Admin Panel</title>
+    <title>Admin Panel - Portfolio Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js for 3D Particle Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         * {
             margin: 0;
@@ -16,79 +17,99 @@
         }
 
         :root {
-            --sidebar-bg: #050505;
+            --primary-color: #1d1d1f;
+            --secondary-color: #f5f5f7;
+            --accent-color: #0071e3;
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --white: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --border-color: #e5e5e5;
+            --card-bg: #ffffff;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            
+            /* Admin Specific */
+            --sidebar-bg: #1d1d1f;
+            --sidebar-text: #ffffff;
+            --sidebar-text-secondary: #b0b0b0;
+            --success-color: #34c759;
+            --error-color: #ff3b30;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #ffffff;
+            --secondary-color: #1d1d1f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --white: #000000;
+            --bg-primary: #000000;
+            --bg-secondary: #1d1d1f;
+            --border-color: #2d2d2f;
+            --card-bg: #1d1d1f;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            
+            /* Admin Specific Dark */
+            --sidebar-bg: #111111;
             --sidebar-text: #ffffff;
             --sidebar-text-secondary: #8a8a93;
-            --sidebar-accent: #ff003c;
-            --main-bg: #0a0a0c;
-            --card-bg: rgba(15, 15, 18, 0.7);
-            --text-primary: #ffffff;
-            --text-secondary: #8a8a93;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --success-color: #00fff9;
-            --error-color: #ff003c;
-            --warning-color: #ffb199;
-            --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            --glare: rgba(255, 0, 60, 0.05);
         }
 
         html, body {
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow: hidden; /* Main scroll handled by content */
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--main-bg);
+            background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
             display: flex;
             min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--main-bg); }
-        ::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--sidebar-accent); }
+        /* 3D Canvas Particles */
+        #hero-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
 
-        body::after {
-            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            z-index: 9998; background-size: 100% 4px, 6px 100%; pointer-events: none; opacity: 0.5;
+        /* Flashbang Overlay */
+        #flashbang-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff; z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
         }
         
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9997; opacity: 0.03;
-            background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        .flashbang-text {
+            font-size: 8vw; font-weight: 900; color: #000000;
+            text-transform: uppercase; letter-spacing: 10px;
+            animation: shake 0.1s infinite;
         }
 
-        #cursor-glow {
-            position: fixed; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(255,0,60,0.08) 0%, rgba(0,0,0,0) 60%);
-            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%);
-            z-index: 9996; mix-blend-mode: screen;
+        @keyframes shake {
+            0% { transform: translate(2px, 2px) rotate(0deg); }
+            20% { transform: translate(-3px, -2px) rotate(-1deg); }
+            40% { transform: translate(3px, 0px) rotate(2deg); }
+            60% { transform: translate(-2px, 3px) rotate(0deg); }
+            80% { transform: translate(1px, -1px) rotate(1deg); }
+            100% { transform: translate(-1px, 2px) rotate(-2deg); }
         }
 
-        .glitch-text {
-            position: relative; display: inline-block;
-            font-family: 'Share Tech Mono', monospace; text-transform: uppercase;
-        }
-        .glitch-wrapper:hover .glitch-text::before, .glitch-wrapper:hover .glitch-text::after {
-            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--sidebar-bg); z-index: -1;
-        }
-        .glitch-wrapper:hover .glitch-text::before { left: 2px; text-shadow: -2px 0 #ff003c; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim 2s infinite linear alternate-reverse; }
-        .glitch-wrapper:hover .glitch-text::after { left: -2px; text-shadow: -2px 0 #00fff9; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
-        @keyframes glitch-anim {
-            0% { clip: rect(10px, 9999px, 86px, 0); }
-            20% { clip: rect(79px, 9999px, 4px, 0); }
-            40% { clip: rect(21px, 9999px, 94px, 0); }
-            60% { clip: rect(98px, 9999px, 35px, 0); }
-            80% { clip: rect(51px, 9999px, 83px, 0); }
-            100% { clip: rect(10px, 9999px, 86px, 0); }
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
+        /* Sidebar */
         .sidebar {
             width: 280px;
             background: var(--sidebar-bg);
@@ -97,112 +118,118 @@
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
-            border-right: 1px solid var(--border-color);
+            position: relative;
             z-index: 10;
-            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
 
         .sidebar-header {
             padding: 0 25px 30px;
-            border-bottom: 1px solid rgba(255, 0, 60, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
 
         .sidebar-header h1 {
             font-size: 24px;
-            font-weight: 900;
+            font-weight: 700;
             margin-bottom: 5px;
             color: var(--sidebar-text);
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(255,0,60,0.5);
         }
 
         .sidebar-header p {
-            color: var(--sidebar-accent);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 12px;
-            letter-spacing: 1px;
+            color: var(--sidebar-text-secondary);
+            font-size: 14px;
         }
+
+        /* Theme Toggle in Sidebar */
+        .theme-toggle {
+            width: 44px;
+            height: 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .theme-toggle:hover { background: var(--accent-color); }
+        .theme-toggle-slider {
+            position: absolute; width: 18px; height: 18px;
+            background: #fff; border-radius: 50%; top: 3px; left: 3px;
+            transition: transform 0.3s ease; display: flex; align-items: center;
+            justify-content: center; font-size: 10px; color: #000;
+        }
+        [data-theme="dark"] .theme-toggle-slider { transform: translateX(20px); }
 
         .user-info {
             padding: 0 25px 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 20px;
         }
 
         .user-avatar {
             width: 50px;
             height: 50px;
-            border-radius: 4px;
+            border-radius: 50%;
             margin-bottom: 15px;
-            border: 1px solid var(--sidebar-accent);
-            box-shadow: 0 0 15px rgba(255,0,60,0.2);
+            border: 3px solid var(--accent-color);
         }
 
         .user-name {
-            font-weight: 800;
-            font-size: 16px;
+            font-weight: 600;
+            font-size: 18px;
             margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .user-email {
             color: var(--sidebar-text-secondary);
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .nav-menu {
             flex: 1;
-            padding: 0 15px;
+            padding: 0 20px;
+            overflow-y: auto;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 14px 20px;
-            border-radius: 4px;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
             margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             color: var(--sidebar-text-secondary);
             text-decoration: none;
-            font-family: 'Share Tech Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 13px;
-            border-left: 2px solid transparent;
+            font-weight: 500;
+            font-size: 14px;
         }
 
         .nav-item:hover {
-            background: rgba(255, 0, 60, 0.05);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--sidebar-text);
-            border-left-color: rgba(255,0,60,0.5);
         }
 
         .nav-item.active {
-            background: rgba(255, 0, 60, 0.1);
-            color: #fff;
-            border-left-color: var(--sidebar-accent);
-            box-shadow: inset 20px 0 30px -20px rgba(255,0,60,0.3);
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
         }
 
-        .nav-item i { width: 20px; font-size: 16px; }
+        .nav-item i { width: 20px; font-size: 18px; }
 
         .signout-btn {
             margin: 20px 25px 0;
-            padding: 14px;
-            background: transparent;
-            color: var(--sidebar-accent);
-            border: 1px solid var(--sidebar-accent);
-            border-radius: 2px;
-            font-size: 13px;
-            font-weight: 800;
-            font-family: 'Share Tech Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            padding: 12px;
+            background: rgba(255, 59, 48, 0.1);
+            color: #ff3b30;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -212,67 +239,54 @@
         }
 
         .signout-btn:hover {
-            background: var(--sidebar-accent);
-            color: #000;
-            box-shadow: 0 0 15px rgba(255,0,60,0.4);
+            background: rgba(255, 59, 48, 0.2);
         }
 
+        /* Main Content */
         .main-content {
             flex: 1;
-            padding: 50px;
+            padding: 40px;
             overflow-y: auto;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .auth-container {
-            max-width: 500px;
+            max-width: 400px;
             margin: 100px auto;
             text-align: center;
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            padding: 60px 40px;
-            border: 1px solid var(--sidebar-accent);
-            border-radius: 4px;
-            box-shadow: 0 0 30px rgba(255,0,60,0.1);
-        }
-
-        .auth-container h2 {
-            font-family: 'Share Tech Mono', monospace;
-            color: var(--sidebar-accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
         }
 
         .google-signin-btn {
-            background: #fff;
-            color: #000;
-            padding: 15px 30px;
+            background: #4285f4;
+            color: white;
+            padding: 14px 32px;
             border: none;
-            border-radius: 2px;
-            font-size: 14px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 12px;
             transition: all 0.3s ease;
-            margin-top: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 20px;
         }
 
         .google-signin-btn:hover {
-            background: #f0f0f0;
+            background: #3367d6;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255,255,255,0.2);
         }
 
+        /* Content Sections */
         .content-section {
             display: none;
-            animation: fadeIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            animation: fadeIn 0.4s ease;
         }
 
         .content-section.active { display: block; }
@@ -282,328 +296,342 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .section-header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;}
-        .section-header h2 { font-size: 32px; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;}
-        .section-header p { color: var(--sidebar-accent); font-family: 'Share Tech Mono', monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+        .section-header { margin-bottom: 40px; }
+        .section-header h2 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .section-header p { color: var(--text-secondary); font-size: 16px; }
 
+        /* 3D Tilt Cards Base */
+        .tilt-card { transform-style: preserve-3d; transform: perspective(1000px); transition: transform 0.1s ease, box-shadow 0.3s ease; will-change: transform; }
+        .tilt-content { transform: translateZ(20px); }
+
+        /* Cards */
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border-radius: 4px;
+            border-radius: 20px;
             padding: 35px;
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--sidebar-accent);
         }
 
         .card h3 {
-            font-size: 20px; font-weight: 800; margin-bottom: 25px;
-            display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .card h3 i { color: var(--sidebar-accent); }
+        .card h3 i { color: var(--accent-color); }
 
-        .form-group { margin-bottom: 25px; }
+        /* Forms */
+        .form-group { margin-bottom: 20px; }
         .form-group label {
-            display: block; font-weight: 700; margin-bottom: 10px; font-size: 12px; 
-            color: var(--sidebar-accent); text-transform: uppercase; letter-spacing: 2px;
+            display: block; font-weight: 600; margin-bottom: 8px;
+            font-size: 14px; color: var(--text-primary);
         }
 
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 14px 16px; border: 1px solid var(--border-color);
-            border-radius: 2px; font-size: 14px; font-family: 'Share Tech Mono', monospace;
-            transition: all 0.3s ease; background: rgba(0,0,0,0.5); color: #fff;
+            width: 100%; padding: 14px 16px; border: 2px solid var(--border-color);
+            border-radius: 12px; font-size: 15px; font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease; background: var(--bg-primary); color: var(--text-primary);
         }
 
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none; border-color: var(--sidebar-accent);
-            box-shadow: inset 0 0 15px rgba(255,0,60,0.1); background: rgba(255,0,60,0.05);
+            outline: none; border-color: var(--accent-color);
         }
 
         .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 
         .submit-btn {
-            background: var(--text-primary); color: #000; border: none; border-radius: 2px;
-            padding: 16px 30px; font-size: 14px; font-weight: 900; cursor: pointer;
-            transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px;
-            text-transform: uppercase; letter-spacing: 2px; font-family: 'Share Tech Mono', monospace;
+            background: var(--accent-color); color: white; border: none;
+            border-radius: 12px; padding: 16px 32px; font-size: 16px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 10px;
         }
 
-        .submit-btn:hover {
-            background: var(--sidebar-accent); color: #fff; transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255,0,60,0.3);
-        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
+        /* Alerts */
         .alert {
-            padding: 16px 20px; border-radius: 2px; margin-bottom: 25px; display: none;
-            align-items: center; gap: 15px; font-weight: 700; font-family: 'Share Tech Mono', monospace;
-            text-transform: uppercase; letter-spacing: 1px; font-size: 13px;
+            padding: 16px 20px; border-radius: 12px; margin-bottom: 25px;
+            display: none; align-items: center; gap: 12px; font-weight: 500;
         }
-        .alert.show { display: flex; animation: fadeIn 0.3s ease; }
-        .alert-success { background: rgba(0, 255, 249, 0.1); color: var(--success-color); border: 1px solid var(--success-color); box-shadow: 0 0 15px rgba(0,255,249,0.1); }
-        .alert-error { background: rgba(255, 0, 60, 0.1); color: var(--error-color); border: 1px solid var(--error-color); box-shadow: 0 0 15px rgba(255,0,60,0.1); }
+        .alert.show { display: flex; }
+        .alert-success { background: rgba(52, 199, 89, 0.1); color: var(--success-color); border: 1px solid var(--success-color); }
+        .alert-error { background: rgba(255, 59, 48, 0.1); color: var(--error-color); border: 1px solid var(--error-color); }
 
+        /* Items Grid */
         .items-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px; margin-top: 20px;
         }
 
         .item-card {
-            background: rgba(0,0,0,0.4); border-radius: 4px; padding: 25px;
+            background: var(--bg-primary); border-radius: 16px; padding: 25px;
             border: 1px solid var(--border-color); transition: all 0.3s ease;
         }
-        .item-card:hover { border-color: var(--sidebar-accent); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        .item-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; }
-        .item-title { font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .item-card:hover { border-color: var(--accent-color); transform: translateY(-3px); box-shadow: var(--shadow); }
+
+        .item-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .item-title { font-weight: 700; font-size: 18px; }
 
         .item-badge {
-            padding: 4px 10px; border-radius: 2px; font-size: 11px; font-weight: 800;
-            font-family: 'Share Tech Mono', monospace; text-transform: uppercase; letter-spacing: 1px; border: 1px solid transparent;
-        }
-        .badge-videos { color: #7b61ff; border-color: rgba(123, 97, 255, 0.3); background: rgba(123, 97, 255, 0.1); }
-        .badge-thumbnails { color: #f5576c; border-color: rgba(245, 87, 108, 0.3); background: rgba(245, 87, 108, 0.1); }
-        .badge-photos { color: #00fff9; border-color: rgba(0, 255, 249, 0.3); background: rgba(0, 255, 249, 0.1); }
-        .badge-reddit { color: #ffb199; border-color: rgba(255, 177, 153, 0.3); background: rgba(255, 177, 153, 0.1); }
-        .badge-featured { color: #ffd700; border-color: rgba(255, 215, 0, 0.3); background: rgba(255, 215, 0, 0.1); }
-
-        .item-description { color: var(--text-secondary); font-size: 13px; margin-bottom: 15px; line-height: 1.6; }
-        .item-meta { display: flex; gap: 15px; align-items: center; justify-content: space-between; font-size: 11px; font-family: 'Share Tech Mono', monospace; color: var(--sidebar-accent); text-transform: uppercase; }
-
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; margin-top: 20px; }
-        
-        .review-card {
-            background: rgba(0,0,0,0.4); border-radius: 4px; padding: 25px;
-            border: 1px solid var(--border-color); transition: transform 0.3s ease; border-left: 3px solid transparent;
-        }
-        .review-card:hover { transform: translateY(-3px); border-left-color: var(--success-color); box-shadow: 0 10px 25px rgba(0, 255, 249, 0.1); }
-
-        .review-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .reviewer-avatar { width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid var(--success-color); }
-        .reviewer-name { font-weight: 800; font-size: 15px; margin-bottom: 2px; text-transform: uppercase;}
-        .reviewer-email { color: var(--text-secondary); font-family: 'Share Tech Mono', monospace; font-size: 11px; margin-bottom: 5px; }
-        .review-rating { color: var(--sidebar-accent); font-size: 13px; }
-
-        .review-comment { color: var(--text-primary); font-size: 14px; line-height: 1.7; margin-bottom: 20px; position: relative; }
-        .comment-text { position: relative; overflow: hidden; transition: max-height 0.3s ease; }
-        .comment-text.collapsed { max-height: 80px; }
-        .comment-text.expanded { max-height: none; }
-        .comment-text.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(to bottom, transparent, rgba(15,15,18,1) 90%); }
-        
-        .read-more-btn {
-            color: var(--success-color); background: none; border: none; font-size: 12px; font-weight: 800;
-            font-family: 'Share Tech Mono', monospace; text-transform: uppercase; cursor: pointer; padding: 5px 0; display: flex; align-items: center; gap: 5px;
+            padding: 6px 12px; border-radius: 20px; font-size: 12px;
+            font-weight: 600; color: white;
         }
 
-        .review-meta {
-            display: flex; justify-content: space-between; align-items: center; padding-top: 15px;
-            border-top: 1px dashed var(--border-color); font-size: 11px; font-family: 'Share Tech Mono', monospace; color: var(--text-secondary); text-transform: uppercase;
-        }
+        .badge-videos { background: var(--gradient-1); }
+        .badge-thumbnails { background: var(--gradient-2); }
+        .badge-photos { background: var(--gradient-3); }
+        .badge-reddit { background: var(--gradient-4); }
+        .badge-featured { background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%); }
+
+        .item-description { color: var(--text-secondary); font-size: 14px; margin-bottom: 15px; line-height: 1.6; }
+        .item-meta { display: flex; gap: 15px; font-size: 13px; color: var(--text-secondary); align-items: center; justify-content: space-between;}
 
         .action-btn {
-            padding: 8px 12px; border: 1px solid transparent; border-radius: 2px; font-size: 11px;
-            font-weight: 800; font-family: 'Share Tech Mono', monospace; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 5px;
+            padding: 8px 14px; border: none; border-radius: 8px; font-size: 13px;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;
         }
-        .action-btn.delete { background: rgba(255, 0, 60, 0.1); color: var(--error-color); border-color: rgba(255,0,60,0.3); }
-        .action-btn.delete:hover { background: var(--error-color); color: #000; box-shadow: 0 0 10px rgba(255,0,60,0.4); }
+        .action-btn.delete { background: rgba(255, 59, 48, 0.1); color: var(--error-color); }
+        .action-btn.delete:hover { background: var(--error-color); color: #fff; }
+
+        /* Stats Container */
+        .stats-container { display: flex; gap: 20px; margin-top: 15px; }
+        .stat-card {
+            flex: 1; text-align: center; padding: 25px; background: var(--bg-primary);
+            border-radius: 16px; border: 1px solid var(--border-color);
+        }
+        .stat-number { font-size: 42px; font-weight: 800; margin-bottom: 5px; color: var(--text-primary); }
+        .stat-label { color: var(--text-secondary); font-size: 14px; font-weight: 500;}
+
+        /* Reviews Grid */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; margin-top: 20px; }
+        .review-card {
+            background: var(--bg-primary); border-radius: 16px; padding: 25px;
+            border: 1px solid var(--border-color); transition: transform 0.3s ease;
+        }
+        .review-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent-color); }
+
+        .review-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .reviewer-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-color); }
+        .reviewer-info { flex: 1; }
+        .reviewer-name { font-weight: 700; font-size: 16px; margin-bottom: 3px; }
+        .reviewer-email { color: var(--text-secondary); font-size: 13px; margin-bottom: 5px; }
+        .review-rating { color: #ffa500; font-size: 14px; }
+        .review-comment { color: var(--text-primary); line-height: 1.6; margin-bottom: 15px; position: relative; }
         
-        /* New Action Btn for Incrementing Use */
-        .action-btn.update { background: rgba(0, 255, 249, 0.1); color: var(--success-color); border-color: rgba(0, 255, 249, 0.3); }
-        .action-btn.update:hover { background: var(--success-color); color: #000; box-shadow: 0 0 10px rgba(0, 255, 249, 0.4); }
+        .loading { text-align: center; padding: 50px; color: var(--text-secondary); }
+        .loading i { font-size: 28px; margin-bottom: 15px; display: block; color: var(--accent-color); }
 
-        /* Stats Grid */
-        .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 15px; }
-        .stat-card { text-align: center; padding: 25px; background: rgba(0,0,0,0.5); border-radius: 4px; border: 1px solid var(--border-color); }
-        .stat-number { font-size: 36px; font-weight: 900; margin-bottom: 5px; color: var(--success-color); text-shadow: 0 0 15px rgba(0,255,249,0.3); }
-        .stat-card.locked .stat-number { color: var(--error-color); text-shadow: 0 0 15px rgba(255,0,60,0.3); font-size: 24px; }
-        .stat-label { color: var(--text-secondary); font-family: 'Share Tech Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-
-        .rating-distribution { margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--border-color); }
-        .rating-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
-        .rating-label { width: 70px; font-size: 12px; font-family: 'Share Tech Mono', monospace; color: var(--text-secondary); text-transform: uppercase;}
-        .rating-progress { flex: 1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 0; overflow: hidden; }
-        .rating-fill { height: 100%; background: var(--sidebar-accent); box-shadow: 0 0 10px var(--sidebar-accent); transition: width 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); }
-
-        .loading { text-align: center; padding: 50px; color: var(--sidebar-accent); font-family: 'Share Tech Mono', monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;}
-        .loading i { font-size: 24px; margin-bottom: 15px; display: block; }
-
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); border: 1px dashed var(--border-color); border-radius: 4px; background: rgba(0,0,0,0.2);}
-        .empty-state i { font-size: 36px; margin-bottom: 20px; opacity: 0.5; color: var(--sidebar-accent); }
-        .empty-state h4 { font-size: 16px; margin-bottom: 10px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; font-weight: 800;}
-        .empty-state p { font-size: 13px; font-family: 'Share Tech Mono', monospace; }
-
-        .diagnostic-box {
-            background: rgba(0,0,0,0.8); padding: 20px; border-radius: 4px; text-align: left; 
-            font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--success-color);
-            margin-top: 20px; display: inline-block; text-transform: none; border: 1px solid var(--border-color);
-        }
-
-        /* Config Section Subheaders */
-        .config-subheader {
-            font-family: 'Share Tech Mono', monospace; color: var(--success-color); 
-            font-size: 14px; text-transform: uppercase; margin-top: 30px; margin-bottom: 15px;
-            border-bottom: 1px dashed var(--border-color); padding-bottom: 5px;
-        }
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); background: var(--bg-primary); border-radius: 16px; border: 1px dashed var(--border-color);}
+        .empty-state i { font-size: 48px; margin-bottom: 20px; opacity: 0.5; color: var(--text-primary); }
+        .empty-state h4 { font-size: 20px; margin-bottom: 10px; color: var(--text-primary); font-weight: 700; }
 
         @media (max-width: 1024px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; padding: 20px; border-right: none; border-bottom: 1px solid var(--border-color); }
+            .sidebar { width: 100%; height: auto; padding: 20px; }
             .nav-menu { display: flex; flex-wrap: wrap; gap: 10px; }
             .nav-item { margin-bottom: 0; flex: 1; justify-content: center; }
             .main-content { padding: 20px; }
             .form-row { grid-template-columns: 1fr; }
+            .stats-container { flex-direction: column; }
         }
     </style>
 </head>
-<body>
-    <div class="noise-overlay"></div>
-    <div id="cursor-glow"></div>
+<body data-theme="dark">
+    <!-- 3D Particle Background Canvas -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- FLASHBANG OVERLAY -->
+    <div id="flashbang-overlay">
+        <h1 class="flashbang-text">FLASHBANG!!</h1>
+    </div>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar" style="display: none;">
         <div class="sidebar-header">
-            <div class="glitch-wrapper">
-                <h1 class="glitch-text" data-text="SYS_ADMIN">SYS_ADMIN</h1>
+            <div>
+                <h1><i class="fas fa-crown"></i> HQ Panel</h1>
+                <p>Manage your entire ecosystem</p>
             </div>
-            <p>> ACCESS_GRANTED</p>
+            <div class="theme-toggle" id="themeToggle">
+                <div class="theme-toggle-slider">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </div>
+            </div>
         </div>
         
         <div class="user-info">
             <img src="" alt="User" class="user-avatar" id="sidebarUserAvatar">
-            <div class="user-name" id="sidebarUserName">User</div>
-            <div class="user-email" id="sidebarUserEmail">email@domain.com</div>
+            <div class="user-name" id="sidebarUserName">Harshit Arora</div>
+            <div class="user-email" id="sidebarUserEmail">harshitpruthi10@gmail.com</div>
         </div>
         
         <div class="nav-menu">
             <a href="#" class="nav-item active" data-section="portfolio">
-                <i class="fas fa-folder-open"></i>
-                <span>Database</span>
+                <i class="fas fa-briefcase"></i>
+                <span>Portfolio Items</span>
+            </a>
+            <a href="#" class="nav-item" data-section="linktree">
+                <i class="fas fa-link"></i>
+                <span>Link Tree</span>
             </a>
             <a href="#" class="nav-item" data-section="reviews">
-                <i class="fas fa-satellite-dish"></i>
-                <span>Intel Logs</span>
+                <i class="fas fa-star"></i>
+                <span>Reviews</span>
             </a>
             <a href="#" class="nav-item" data-section="discount">
-                <i class="fas fa-barcode"></i>
-                <span>Overrides</span>
+                <i class="fas fa-percentage"></i>
+                <span>Discount</span>
             </a>
             <a href="#" class="nav-item" data-section="analytics">
-                <i class="fas fa-chart-line"></i>
-                <span>Telemetry</span>
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
             </a>
             <a href="#" class="nav-item" data-section="settings">
-                <i class="fas fa-microchip"></i>
-                <span>Config</span>
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
             </a>
         </div>
         
         <button class="signout-btn" id="signOutBtn">
-            <i class="fas fa-power-off"></i> Terminate Session
+            <i class="fas fa-sign-out-alt"></i> Sign Out
         </button>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Auth Container -->
-        <div class="auth-container" id="authContainer">
-            <h2>RESTRICTED AREA</h2>
-            <p style="color: var(--text-secondary); font-family: 'Share Tech Mono', monospace; font-size: 13px; margin-bottom: 20px;">Awaiting Level 4 Clearance Credentials...</p>
-            <button class="google-signin-btn" id="signInBtn">
-                <i class="fab fa-google"></i>
-                Authenticate
-            </button>
+        <div class="auth-container tilt-card" id="authContainer">
+            <div class="tilt-content">
+                <h2>Admin Access Required</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 20px;">Please sign in with your Google account to access the admin panel.</p>
+                <button class="google-signin-btn" id="signInBtn">
+                    <i class="fab fa-google"></i>
+                    Sign in with Google
+                </button>
+            </div>
         </div>
 
         <!-- Portfolio Section -->
         <div class="content-section active" id="portfolioSection">
             <div class="section-header">
-                <h2>Database Uplink</h2>
-                <p>Upload new sequence files to the mainframe</p>
+                <h2>Portfolio Management</h2>
+                <p>Add and manage portfolio items for your website</p>
             </div>
 
             <div class="alert alert-success" id="successAlert">
-                <i class="fas fa-check-square"></i>
-                <span id="successMessage"></span>
+                <i class="fas fa-check-circle"></i><span id="successMessage"></span>
             </div>
-
             <div class="alert alert-error" id="errorAlert">
-                <i class="fas fa-triangle-exclamation"></i>
-                <span id="errorMessage"></span>
+                <i class="fas fa-exclamation-circle"></i><span id="errorMessage"></span>
             </div>
 
-            <div class="card">
-                <h3><i class="fas fa-upload"></i> Inject New Data</h3>
-                <form id="addItemForm">
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-plus-circle"></i> Add New Portfolio Item</h3>
+                <form id="addItemForm" class="tilt-content">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="collectionType">Target Sector *</label>
+                            <label for="collectionType">Collection Type *</label>
                             <select id="collectionType" required>
-                                <option value="">Select deployment zone...</option>
-                                <option value="portfolioItems">Archive (Full Portfolio Page)</option>
-                                <option value="featuredWork">Vault (Homepage - Top 3)</option>
+                                <option value="">Choose collection...</option>
+                                <option value="portfolioItems">Portfolio Items (Full Portfolio Page)</option>
+                                <option value="featuredWork">Featured Work (Homepage - Top 3)</option>
                             </select>
                         </div>
-
                         <div class="form-group" id="categoryGroup" style="display: none;">
-                            <label for="category">Module Tag *</label>
+                            <label for="category">Category *</label>
                             <select id="category">
-                                <option value="">Select classification...</option>
-                                <option value="videos">Timeline Ops (Video)</option>
-                                <option value="thumbnails">CTR Hack (Thumbnails)</option>
-                                <option value="photos">Pixel Edits (Photos)</option>
-                                <option value="reddit">Subreddit Infil (Reddit)</option>
+                                <option value="">Choose category...</option>
+                                <option value="videos">Videos</option>
+                                <option value="thumbnails">Thumbnails</option>
+                                <option value="photos">Edited Photos</option>
+                                <option value="reddit">Reddit Marketing</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="title">Sequence Title *</label>
-                        <input type="text" id="title" required placeholder="Enter sequence name">
+                        <label for="title">Title *</label>
+                        <input type="text" id="title" required placeholder="Enter item title">
                     </div>
-
                     <div class="form-group">
-                        <label for="description">Mission Log (Description) *</label>
-                        <textarea id="description" required rows="3" placeholder="Detail the operation parameters..."></textarea>
+                        <label for="description">Description *</label>
+                        <textarea id="description" required rows="3" placeholder="Enter item description"></textarea>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group" id="videoUrlGroup" style="display: none;">
-                            <label for="videoUrl">Video Stream Link (YouTube)</label>
+                            <label for="videoUrl">Video URL (YouTube)</label>
                             <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=...">
                         </div>
-
                         <div class="form-group" id="imageUrlGroup" style="display: none;">
-                            <label for="imageUrl">Asset Direct Link (Image URL)</label>
+                            <label for="imageUrl">Image URL</label>
                             <input type="url" id="imageUrl" placeholder="https://firebasestorage.googleapis.com/...">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="order">Priority Index *</label>
+                        <label for="order">Order Number *</label>
                         <input type="number" id="order" required value="1" min="1">
-                        <small style="color: var(--text-secondary); font-size: 11px; font-family: 'Share Tech Mono', monospace; display:block; margin-top:5px;">LOWER VALUE = HIGHER PRIORITY DISPLAY</small>
                     </div>
-
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-satellite-dish"></i>
-                        Transmit Data
+                        <i class="fas fa-plus-circle"></i> Add to Portfolio
                     </button>
                 </form>
             </div>
 
-            <div class="card">
-                <h3><i class="fas fa-server"></i> Active Blocks</h3>
-                <div id="itemsList">
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Indexing memory...
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-list"></i> Recent Portfolio Items</h3>
+                <div id="itemsList" class="tilt-content">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading items...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Link Tree Section -->
+        <div class="content-section" id="linktreeSection">
+            <div class="section-header">
+                <h2>Link Tree Management</h2>
+                <p>Add and manage dynamic links for your custom Link Tree page</p>
+            </div>
+
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-link"></i> Add New Link</h3>
+                <form id="addLinkTreeForm" class="tilt-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Link Title *</label>
+                            <input type="text" id="linkTitle" required placeholder="e.g., My Latest Video">
+                        </div>
+                        <div class="form-group">
+                            <label>URL *</label>
+                            <input type="url" id="linkUrl" required placeholder="https://...">
+                        </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Icon Class (FontAwesome)</label>
+                            <input type="text" id="linkIcon" placeholder="e.g., fab fa-youtube">
+                            <small style="color: var(--text-secondary); font-size: 12px; margin-top: 5px; display: block;">Leave blank for default link icon.</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Order Number *</label>
+                            <input type="number" id="linkOrder" required value="1" min="1">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn" id="linkSubmitBtn">
+                        <i class="fas fa-plus-circle"></i> Add Link
+                    </button>
+                </form>
+            </div>
+
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-list"></i> Active Links</h3>
+                <div id="linkTreeList" class="tilt-content">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading link tree data...</div>
                 </div>
             </div>
         </div>
@@ -611,16 +639,21 @@
         <!-- Reviews Section -->
         <div class="content-section" id="reviewsSection">
             <div class="section-header">
-                <h2>Intel Logs</h2>
-                <p>Monitor intercepted client transmissions</p>
+                <h2>Client Reviews</h2>
+                <p>View and manage client feedback and testimonials</p>
             </div>
 
-            <div class="card">
-                <h3><i class="fas fa-list-check"></i> Raw Transcripts</h3>
-                <div id="reviewsList">
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Decoding logs...
-                    </div>
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-chart-pie"></i> Reviews Overview</h3>
+                <div class="stats-container tilt-content" id="reviewStatsContainer">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+                </div>
+            </div>
+
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-comments"></i> All Reviews</h3>
+                <div id="reviewsList" class="tilt-content">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</div>
                 </div>
             </div>
         </div>
@@ -628,56 +661,37 @@
         <!-- Discount Section -->
         <div class="content-section" id="discountSection">
             <div class="section-header">
-                <h2>Protocol Overrides</h2>
-                <p>Generate bypass codes and parameter discounts</p>
+                <h2>Discount Management</h2>
+                <p>Create and manage special offers and discounts</p>
             </div>
 
-            <div class="card">
-                <h3><i class="fas fa-terminal"></i> Generate Override</h3>
-                <form id="discountForm">
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-percentage"></i> Create New Discount</h3>
+                <form id="discountForm" class="tilt-content">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="discountCode">Auth Code *</label>
-                            <input type="text" id="discountCode" required placeholder="e.g., BREACH20">
+                            <label for="discountCode">Discount Code *</label>
+                            <input type="text" id="discountCode" required placeholder="e.g., SUMMER2024">
                         </div>
                         <div class="form-group">
-                            <label for="discountPercentage">Bypass Margin (%) *</label>
+                            <label for="discountPercentage">Discount Percentage *</label>
                             <input type="number" id="discountPercentage" required min="1" max="100" placeholder="e.g., 20">
                         </div>
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="discountType">Modifier Type</label>
-                            <select id="discountType">
-                                <option value="percentage">Percentage Cut</option>
-                                <option value="fixed">Fixed Subtraction</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="maxUses">Usage Limit</label>
-                            <input type="number" id="maxUses" min="1" placeholder="Null for infinite">
-                        </div>
-                    </div>
-
                     <div class="form-group">
-                        <label for="discountDescription">Protocol Details</label>
-                        <textarea id="discountDescription" rows="3" placeholder="State reason for bypass injection..."></textarea>
+                        <label for="discountDescription">Description</label>
+                        <textarea id="discountDescription" rows="2" placeholder="Describe the discount offer..."></textarea>
                     </div>
-
                     <button type="submit" class="submit-btn">
-                        <i class="fas fa-code-commit"></i>
-                        Inject Code
+                        <i class="fas fa-save"></i> Save Discount
                     </button>
                 </form>
             </div>
 
-            <div class="card">
-                <h3><i class="fas fa-shield-halved"></i> Active Protocols</h3>
-                <div id="discountsList">
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Scanning registry...
-                    </div>
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-tags"></i> Active Discounts</h3>
+                <div id="discountsList" class="tilt-content">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading discounts...</div>
                 </div>
             </div>
         </div>
@@ -685,16 +699,13 @@
         <!-- Analytics Section -->
         <div class="content-section" id="analyticsSection">
             <div class="section-header">
-                <h2>Telemetry</h2>
-                <p>System traffic and database metrics</p>
+                <h2>Analytics Dashboard</h2>
+                <p>View website performance and visitor statistics</p>
             </div>
-
-            <div class="card">
-                <h3><i class="fas fa-server"></i> System Telemetry Overview</h3>
-                <div class="stats-container" id="telemetryStats">
-                    <div class="loading" style="grid-column: 1 / -1;">
-                        <i class="fas fa-spinner fa-spin"></i> Compiling system metrics...
-                    </div>
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-chart-line"></i> System Telemetry</h3>
+                <div class="stats-container tilt-content" id="telemetryStats">
+                    <div class="loading"><i class="fas fa-spinner fa-spin"></i> Compiling metrics...</div>
                 </div>
             </div>
         </div>
@@ -702,65 +713,28 @@
         <!-- Settings Section -->
         <div class="content-section" id="settingsSection">
             <div class="section-header">
-                <h2>System Config</h2>
-                <p>Modify core mainframe parameters</p>
+                <h2>Settings</h2>
+                <p>Configure your portfolio parameters</p>
             </div>
 
-            <div class="card">
-                <h3><i class="fas fa-sliders"></i> Global Variables</h3>
-                <form id="settingsForm">
+            <div class="card tilt-card">
+                <h3 class="tilt-content"><i class="fas fa-sliders-h"></i> Global Settings</h3>
+                <form id="settingsForm" class="tilt-content">
+                    <div class="form-group">
+                        <label for="siteTitle">Site Title</label>
+                        <input type="text" id="siteTitle" placeholder="Harshit Pruthi">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Contact Email</label>
+                        <input type="email" id="contactEmail" placeholder="contact@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="heroTagline">Hero Tagline</label>
+                        <input type="text" id="heroTagline" placeholder="Crafting Visual Stories...">
+                    </div>
                     
-                    <div class="config-subheader">Identity Parameters</div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="siteTitle">Root Designation (Site Title)</label>
-                            <input type="text" id="siteTitle" placeholder="HARSHIT PRUTHI">
-                        </div>
-                        <div class="form-group">
-                            <label for="contactEmail">Master Comm Link (Email)</label>
-                            <input type="email" id="contactEmail" placeholder="hq@domain.com">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="baseLocation">Base Coordinates (Location)</label>
-                        <input type="text" id="baseLocation" placeholder="India">
-                    </div>
-
-                    <div class="config-subheader">System Copy (Text)</div>
-                    <div class="form-group">
-                        <label for="heroTagline">Hero Console Output (Tagline)</label>
-                        <input type="text" id="heroTagline" placeholder="> SEQUENCE_INIT : VISUAL_STORYTELLING">
-                    </div>
-                    <div class="form-group">
-                        <label for="aboutText">System Config Bio (About Description)</label>
-                        <textarea id="aboutText" rows="4" placeholder="Professional video editor..."></textarea>
-                    </div>
-
-                    <div class="config-subheader">Network Nodes (Social Links)</div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="igLink"><i class="fab fa-instagram"></i> Instagram Node</label>
-                            <input type="url" id="igLink" placeholder="https://instagram.com/...">
-                        </div>
-                        <div class="form-group">
-                            <label for="ytLink"><i class="fab fa-youtube"></i> YouTube Node</label>
-                            <input type="url" id="ytLink" placeholder="https://youtube.com/...">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="liLink"><i class="fab fa-linkedin-in"></i> LinkedIn Node</label>
-                            <input type="url" id="liLink" placeholder="https://linkedin.com/in/...">
-                        </div>
-                        <div class="form-group">
-                            <label for="rdLink"><i class="fab fa-reddit"></i> Reddit Node</label>
-                            <input type="url" id="rdLink" placeholder="https://reddit.com/user/...">
-                        </div>
-                    </div>
-
                     <button type="submit" class="submit-btn" style="margin-top: 20px;">
-                        <i class="fas fa-floppy-disk"></i>
-                        Write to ROM
+                        <i class="fas fa-save"></i> Save Settings
                     </button>
                 </form>
             </div>
@@ -770,9 +744,10 @@
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, getDoc, query, orderBy, limit, Timestamp, deleteDoc, doc, setDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, Timestamp, deleteDoc, doc, updateDoc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBzbKueSLaSGeMiDFd1aioP04iduaXdE4w",
             authDomain: "portfolio-harshit-d73fb.firebaseapp.com",
@@ -790,26 +765,7 @@
 
         let currentUser = null;
 
-        // Custom Mouse Cursor Effect
-        const cursorGlow = document.getElementById('cursor-glow');
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-        });
-
-        // Diagnostic Error HTML Generator
-        function getErrorHtml(e, moduleName) {
-            if (e.message.includes('permission')) {
-                return `<div class="empty-state" style="border-color: var(--error-color);">
-                    <i class="fas fa-lock" style="color: var(--error-color);"></i>
-                    <h4 style="color: var(--error-color);">ACCESS DENIED: ${moduleName}</h4>
-                    <p style="margin-bottom: 15px;">Your Firebase Security Rules are blocking access to this database collection.</p>
-                </div>`;
-            }
-            return `<div class="empty-state"><i class="fas fa-bug"></i><h4>Query Failed</h4><p>${e.message}</p></div>`;
-        }
-
-        // Navigation Tab Logic
+        // Navigation
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -821,102 +777,77 @@
                 document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
                 document.getElementById(`${section}Section`).classList.add('active');
                 
-                if (section === 'reviews') loadReviews();
                 if (section === 'portfolio') loadRecentItems();
+                if (section === 'linktree') loadLinkTreeItems();
+                if (section === 'reviews') loadReviews();
                 if (section === 'discount') loadDiscounts();
-                if (section === 'settings') loadSettings();
                 if (section === 'analytics') loadAnalytics();
+                if (section === 'settings') loadSettings();
             });
         });
 
-        // Auth Observer
+        // Auth state observer
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
-            updateUIForAuthState(user);
-        });
-
-        function updateUIForAuthState(user) {
             const authContainer = document.getElementById('authContainer');
             const sidebar = document.getElementById('sidebar');
-            const mainContent = document.querySelector('.main-content');
 
             if (user) {
                 authContainer.style.display = 'none';
                 sidebar.style.display = 'flex';
-                mainContent.style.padding = '50px';
-
-                document.getElementById('sidebarUserName').textContent = user.displayName || 'ADMIN_USER';
+                document.getElementById('sidebarUserName').textContent = user.displayName || 'Admin User';
                 document.getElementById('sidebarUserEmail').textContent = user.email;
-                document.getElementById('sidebarUserAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'Admin') + '&background=ff003c&color=fff';
-
-                loadRecentItems();
+                document.getElementById('sidebarUserAvatar').src = user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName);
+                loadRecentItems(); // Load default tab
             } else {
                 authContainer.style.display = 'block';
                 sidebar.style.display = 'none';
-                mainContent.style.padding = '20px';
-                
-                document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-                document.getElementById('portfolioSection').classList.add('active');
-                document.querySelectorAll('.nav-item').forEach((nav, index) => {
-                    nav.classList.remove('active');
-                    if (index === 0) nav.classList.add('active');
-                });
             }
-        }
+        });
 
-        // Sign In/Out Functions
         document.getElementById('signInBtn').addEventListener('click', async () => {
-            try { await signInWithPopup(auth, provider); } 
-            catch (error) { showError('Auth protocol failed. Check logs.'); }
+            try { await signInWithPopup(auth, provider); } catch (error) { showError('Failed to sign in.'); }
         });
 
         document.getElementById('signOutBtn').addEventListener('click', async () => {
             try { await signOut(auth); } catch (error) { console.error(error); }
         });
 
-        // Form UI Logic
+        // Portfolio Form Display Logic
         document.getElementById('collectionType').addEventListener('change', (e) => {
-            const catGroup = document.getElementById('categoryGroup');
-            const vidGroup = document.getElementById('videoUrlGroup');
-            const imgGroup = document.getElementById('imageUrlGroup');
-            const catInput = document.getElementById('category');
-
+            const categoryGroup = document.getElementById('categoryGroup');
+            const videoUrlGroup = document.getElementById('videoUrlGroup');
+            const imageUrlGroup = document.getElementById('imageUrlGroup');
             if (e.target.value === 'portfolioItems') {
-                catGroup.style.display = 'block'; catInput.required = true;
+                categoryGroup.style.display = 'block';
+                document.getElementById('category').required = true;
             } else {
-                catGroup.style.display = 'none'; catInput.required = false;
-                catInput.value = ''; 
-                vidGroup.style.display = 'block'; imgGroup.style.display = 'none';
+                categoryGroup.style.display = 'none';
+                document.getElementById('category').required = false;
+                videoUrlGroup.style.display = 'block';
+                imageUrlGroup.style.display = 'none';
             }
         });
 
         document.getElementById('category').addEventListener('change', (e) => {
-            const vidGroup = document.getElementById('videoUrlGroup');
-            const imgGroup = document.getElementById('imageUrlGroup');
-            const vidInput = document.getElementById('videoUrl');
-            const imgInput = document.getElementById('imageUrl');
-
+            const videoUrlGroup = document.getElementById('videoUrlGroup');
+            const imageUrlGroup = document.getElementById('imageUrlGroup');
             if (e.target.value === 'videos') {
-                vidGroup.style.display = 'block'; imgGroup.style.display = 'none';
-                vidInput.required = true; imgInput.required = false;
+                videoUrlGroup.style.display = 'block'; imageUrlGroup.style.display = 'none';
             } else if (e.target.value) {
-                vidGroup.style.display = 'none'; imgGroup.style.display = 'block';
-                vidInput.required = false; imgInput.required = true;
+                videoUrlGroup.style.display = 'none'; imageUrlGroup.style.display = 'block';
             } else {
-                vidGroup.style.display = 'none'; imgGroup.style.display = 'none';
-                vidInput.required = false; imgInput.required = false;
+                videoUrlGroup.style.display = 'none'; imageUrlGroup.style.display = 'none';
             }
         });
 
-        // ==========================================
         // 1. PORTFOLIO LOGIC
-        // ==========================================
         document.getElementById('addItemForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUser) return showError('Unauthorized. Sign in required.');
-
+            if (!currentUser) return showError('Please sign in first');
+            
             const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Transmitting...';
+            submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
 
             try {
                 const collectionType = document.getElementById('collectionType').value;
@@ -924,8 +855,7 @@
                     title: document.getElementById('title').value,
                     description: document.getElementById('description').value,
                     order: parseInt(document.getElementById('order').value),
-                    createdAt: Timestamp.now(),
-                    addedBy: currentUser.email
+                    createdAt: Timestamp.now(), addedBy: currentUser.email
                 };
 
                 if (collectionType === 'portfolioItems') {
@@ -937,102 +867,151 @@
                 }
 
                 await addDoc(collection(db, collectionType), itemData);
-                showSuccess(`Data injected to ${collectionType} array.`);
+                showSuccess('Item added successfully!');
                 document.getElementById('addItemForm').reset();
-                document.getElementById('categoryGroup').style.display = 'none';
-                document.getElementById('videoUrlGroup').style.display = 'none';
-                document.getElementById('imageUrlGroup').style.display = 'none';
                 loadRecentItems();
             } catch (error) {
-                if(error.message.includes('permission')) showError('Access Denied: Missing Firebase Permissions.');
-                else showError(`Upload Error: ${error.message}`);
+                showError(error.message);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-satellite-dish"></i> Transmit Data';
+                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add to Portfolio';
             }
         });
 
         async function loadRecentItems() {
-            const list = document.getElementById('itemsList');
-            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Scanning indices...</div>';
-
+            const itemsList = document.getElementById('itemsList');
+            itemsList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
             try {
-                let allItems = [];
-                const pQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(5));
+                const allItems = [];
+                const pQuery = query(collection(db, 'portfolioItems'), orderBy('createdAt', 'desc'), limit(10));
                 const pSnap = await getDocs(pQuery);
-                pSnap.forEach(d => allItems.push({ id: d.id, collection: 'Archive', ...d.data() }));
+                pSnap.forEach(doc => allItems.push({ id: doc.id, collection: 'portfolioItems', ...doc.data() }));
 
-                const fQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(3));
+                const fQuery = query(collection(db, 'featuredWork'), orderBy('createdAt', 'desc'), limit(10));
                 const fSnap = await getDocs(fQuery);
-                fSnap.forEach(d => allItems.push({ id: d.id, collection: 'Vault', ...d.data() }));
+                fSnap.forEach(doc => allItems.push({ id: doc.id, collection: 'featuredWork', ...doc.data() }));
 
                 allItems.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
 
-                if (!allItems.length) {
-                    list.innerHTML = '<div class="empty-state"><i class="fas fa-ghost"></i><h4>Database Empty</h4><p>No sequences found in memory.</p></div>';
-                    return;
-                }
+                if (!allItems.length) return itemsList.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><h4>No Items</h4></div>';
 
                 let html = '<div class="items-grid">';
                 allItems.forEach(item => {
-                    const isVault = item.collection === 'Vault';
-                    const badgeClass = isVault ? 'badge-featured' : `badge-${item.category || 'videos'}`;
-                    const badgeText = isVault ? 'Vault (Featured)' : item.category || 'Video';
-                    const date = item.createdAt ? new Date(item.createdAt.seconds * 1000).toLocaleDateString() : 'UNKNOWN';
-
+                    const badgeClass = item.collection === 'featuredWork' ? 'badge-featured' : `badge-${item.category || 'videos'}`;
                     html += `
                         <div class="item-card">
                             <div class="item-header">
                                 <div class="item-title">${item.title}</div>
-                                <div class="item-badge ${badgeClass}">${badgeText}</div>
+                                <div class="item-badge ${badgeClass}">${item.collection === 'featuredWork' ? 'Featured' : item.category}</div>
                             </div>
-                            <div class="item-description">${item.description}</div>
                             <div class="item-meta">
-                                <div>[ID: ${item.order}]<br>[DB: ${item.collection}]<br>[${date}]</div>
-                                <button class="action-btn delete" onclick="deletePortfolioItem('${item.collection === 'Vault' ? 'featuredWork' : 'portfolioItems'}', '${item.id}')"><i class="fas fa-trash"></i> DELETE</button>
+                                <span>Order: ${item.order}</span>
+                                <button class="action-btn delete" onclick="deleteItem('${item.collection}', '${item.id}')"><i class="fas fa-trash"></i> Delete</button>
+                            </div>
+                        </div>`;
+                });
+                itemsList.innerHTML = html + '</div>';
+            } catch (error) {
+                itemsList.innerHTML = `<div class="empty-state"><p>${error.message}</p></div>`;
+            }
+        }
+
+        window.deleteItem = async (col, id) => {
+            if(!confirm('Delete this item?')) return;
+            try { await deleteDoc(doc(db, col, id)); showSuccess('Deleted!'); loadRecentItems(); }
+            catch(e) { showError(e.message); }
+        }
+
+        // 2. LINK TREE LOGIC (NEW)
+        document.getElementById('addLinkTreeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return showError('Please sign in first');
+            
+            const submitBtn = document.getElementById('linkSubmitBtn');
+            submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+
+            try {
+                const itemData = {
+                    title: document.getElementById('linkTitle').value,
+                    url: document.getElementById('linkUrl').value,
+                    icon: document.getElementById('linkIcon').value || 'fas fa-link',
+                    order: parseInt(document.getElementById('linkOrder').value),
+                    createdAt: Timestamp.now()
+                };
+
+                await addDoc(collection(db, 'linkTree'), itemData);
+                showSuccess('Link added to Link Tree successfully!');
+                document.getElementById('addLinkTreeForm').reset();
+                loadLinkTreeItems();
+            } catch (error) {
+                showError("Permission Error. Add 'linkTree' rules to Firebase.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> Add Link';
+            }
+        });
+
+        async function loadLinkTreeItems() {
+            const list = document.getElementById('linkTreeList');
+            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading links...</div>';
+            try {
+                const q = query(collection(db, 'linkTree'), orderBy('order', 'asc'));
+                const snap = await getDocs(q);
+                
+                if (snap.empty) return list.innerHTML = '<div class="empty-state"><i class="fas fa-link"></i><h4>No Links</h4><p>Add some links to your Link Tree page.</p></div>';
+
+                let html = '<div class="items-grid">';
+                snap.forEach(docSnap => {
+                    const item = docSnap.data();
+                    html += `
+                        <div class="item-card">
+                            <div class="item-header">
+                                <div class="item-title"><i class="${item.icon}" style="margin-right:8px; color:var(--accent-color);"></i> ${item.title}</div>
+                            </div>
+                            <div class="item-description" style="word-break: break-all;"><a href="${item.url}" target="_blank" style="color:var(--text-secondary);">${item.url}</a></div>
+                            <div class="item-meta">
+                                <span>Order: ${item.order}</span>
+                                <button class="action-btn delete" onclick="deleteLinkTree('${docSnap.id}')"><i class="fas fa-trash"></i> Delete</button>
                             </div>
                         </div>`;
                 });
                 list.innerHTML = html + '</div>';
-            } catch (err) {
-                list.innerHTML = getErrorHtml(err, "Portfolio/Vault");
+            } catch (e) {
+                list.innerHTML = `<div class="empty-state"><p>Permission Denied. Please update Firebase Rules for 'linkTree'.</p></div>`;
             }
         }
 
-        window.deletePortfolioItem = async (colName, id) => {
-            if(!confirm('WARNING: PERMANENT PURGE of sequence. Execute?')) return;
-            try { await deleteDoc(doc(db, colName, id)); showSuccess('Sequence purged.'); loadRecentItems(); }
-            catch(e) { 
-                if(e.message.includes('permission')) showError('Action Denied by Firebase Rules.');
-                else showError('Purge failed. ' + e.message); 
-            }
-        };
+        window.deleteLinkTree = async (id) => {
+            if(!confirm('Delete this link?')) return;
+            try { await deleteDoc(doc(db, 'linkTree', id)); showSuccess('Deleted!'); loadLinkTreeItems(); }
+            catch(e) { showError(e.message); }
+        }
 
-        // ==========================================
-        // 2. REVIEWS LOGIC
-        // ==========================================
+        // 3. REVIEWS LOGIC
         async function loadReviews() {
             const list = document.getElementById('reviewsList');
-            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Extracting logs...</div>';
+            const stats = document.getElementById('reviewStatsContainer');
+            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</div>';
 
             try {
                 const rQuery = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
                 const rSnap = await getDocs(rQuery);
                 
+                let tot = 0, totRate = 0, fiveStar = 0;
+                
                 if (rSnap.empty) {
-                    list.innerHTML = '<div class="empty-state"><i class="fas fa-comment-slash"></i><h4>No Intercepts</h4><p>System shows zero client transmissions.</p></div>';
+                    list.innerHTML = '<div class="empty-state"><i class="fas fa-comment-slash"></i><h4>No Reviews</h4></div>';
+                    stats.innerHTML = '<p>No data available</p>';
                     return;
                 }
                 
                 let html = '<div class="reviews-grid">';
                 rSnap.forEach(docSnap => {
+                    tot++;
                     const r = docSnap.data();
                     const rate = r.rating || 5;
-                    const dt = r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : 'ERR_DATE';
-                    const name = r.userName || r.name || 'ANON_USER';
-                    const pic = r.userPhoto || r.photoURL || `https://ui-avatars.com/api/?name=${name}&background=ff003c&color=fff`;
-                    const msg = r.comment || r.text || r.message || '[NO DATA]';
-                    const isLong = msg.length > 200;
+                    totRate += rate;
+                    if(rate === 5) fiveStar++;
                     
                     let starsHtml = '';
                     for(let i=0; i<5; i++) starsHtml += i<rate ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
@@ -1040,291 +1019,257 @@
                     html += `
                         <div class="review-card">
                             <div class="review-header">
-                                <img src="${pic}" class="reviewer-avatar">
                                 <div class="reviewer-info">
-                                    <div class="reviewer-name">${name}</div>
-                                    <div class="reviewer-email">${r.email || r.userEmail || 'NULL_COMMS'}</div>
-                                    <div class="review-rating">${starsHtml} <span style="color:#fff; margin-left:5px;">${rate}.0</span></div>
+                                    <div class="reviewer-name">${r.name || 'Anonymous'}</div>
+                                    <div class="review-rating">${starsHtml}</div>
                                 </div>
+                                <button class="action-btn delete" onclick="deleteReview('${docSnap.id}')"><i class="fas fa-trash"></i></button>
                             </div>
-                            <div class="review-comment">
-                                <div class="comment-text ${isLong ? 'collapsed' : ''}" id="comment-${docSnap.id}">${msg}</div>
-                                ${isLong ? `<button class="read-more-btn" onclick="toggleReadMore('${docSnap.id}')"><i class="fas fa-chevron-down"></i> EXPAND LOG</button>` : ''}
-                            </div>
-                            <div class="review-meta">
-                                <div>[LOG: ${dt}]</div>
-                                <button class="action-btn delete" onclick="deleteReview('${docSnap.id}')"><i class="fas fa-trash"></i> PURGE</button>
-                            </div>
+                            <div class="review-comment">${r.text || r.comment || '[No Text]'}</div>
                         </div>`;
                 });
                 list.innerHTML = html + '</div>';
+                
+                stats.innerHTML = `
+                    <div class="stat-card"><div class="stat-number">${tot}</div><div class="stat-label">Total</div></div>
+                    <div class="stat-card"><div class="stat-number">${(totRate/tot).toFixed(1)}</div><div class="stat-label">Average</div></div>
+                    <div class="stat-card"><div class="stat-number">${fiveStar}</div><div class="stat-label">5-Star</div></div>
+                `;
             } catch (err) {
-                list.innerHTML = getErrorHtml(err, "Intel Logs (Reviews)");
+                list.innerHTML = `<div class="empty-state"><p>${err.message}</p></div>`;
             }
         }
-
-        window.toggleReadMore = (id) => {
-            const el = document.getElementById(`comment-${id}`);
-            const btn = el.nextElementSibling;
-            if(el.classList.contains('collapsed')) {
-                el.classList.replace('collapsed', 'expanded');
-                btn.innerHTML = '<i class="fas fa-chevron-up"></i> COLLAPSE LOG';
-            } else {
-                el.classList.replace('expanded', 'collapsed');
-                btn.innerHTML = '<i class="fas fa-chevron-down"></i> EXPAND LOG';
-            }
-        };
-
+        
         window.deleteReview = async (id) => {
-            if(!confirm('WARNING: PERMANENT PURGE. Execute?')) return;
-            try { await deleteDoc(doc(db, 'reviews', id)); showSuccess('Log purged.'); loadReviews(); loadAnalytics(); }
-            catch(e) { 
-                if(e.message.includes('permission')) showError('Action Denied by Firebase Rules.');
-                else showError('Purge failed. ' + e.message); 
-            }
+            if(!confirm('Delete review?')) return;
+            try { await deleteDoc(doc(db, 'reviews', id)); showSuccess('Deleted.'); loadReviews(); }
+            catch(e) { showError(e.message); }
         };
 
-        // ==========================================
-        // 3. OVERRIDES (DISCOUNT) LOGIC
-        // ==========================================
+        // 4. DISCOUNTS LOGIC
         document.getElementById('discountForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if(!currentUser) return showError('Auth failure.');
-            
             try {
                 const data = {
                     code: document.getElementById('discountCode').value,
                     percentage: parseInt(document.getElementById('discountPercentage').value),
-                    type: document.getElementById('discountType').value,
                     description: document.getElementById('discountDescription').value,
-                    used: 0,
-                    createdAt: Timestamp.now(), createdBy: currentUser.email, active: true
+                    createdAt: Timestamp.now()
                 };
-                const mx = document.getElementById('maxUses').value;
-                if(mx) { data.maxUses = parseInt(mx); }
-                
                 await addDoc(collection(db, 'discounts'), data);
-                showSuccess('Override active.'); e.target.reset();
-                loadDiscounts(); loadAnalytics();
-            } catch(err) { 
-                if(err.message.includes('permission')) showError('Injection Denied: Missing Firebase Permissions.');
-                else showError('Injection failed. ' + err.message); 
-            }
+                showSuccess('Discount created.'); e.target.reset(); loadDiscounts();
+            } catch(err) { showError(err.message); }
         });
 
         async function loadDiscounts() {
             const list = document.getElementById('discountsList');
-            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Scanning registry...</div>';
+            list.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
             try {
                 const q = query(collection(db, 'discounts'), orderBy('createdAt', 'desc'));
                 const snap = await getDocs(q);
-                if (snap.empty) {
-                    list.innerHTML = '<div class="empty-state"><i class="fas fa-ghost"></i><h4>No Protocols</h4><p>No active overrides found in the system.</p></div>';
-                    return;
-                }
+                if (snap.empty) return list.innerHTML = '<div class="empty-state"><i class="fas fa-tags"></i><h4>No Discounts</h4></div>';
+                
                 let html = '<div class="items-grid">';
                 snap.forEach(docSnap => {
                     const d = docSnap.data();
-                    const uses = d.used || 0;
-                    const max = d.maxUses || null;
-                    const isMaxed = (max !== null && uses >= max);
-
                     html += `
-                    <div class="item-card" style="${isMaxed ? 'opacity: 0.5; filter: grayscale(100%);' : ''}">
+                    <div class="item-card">
                         <div class="item-header">
-                            <div class="item-title" style="color: ${isMaxed ? 'var(--error-color)' : 'var(--success-color)'};">
-                                ${d.code} ${isMaxed ? '(DEPLETED)' : ''}
-                            </div>
-                            <div class="item-badge badge-featured">${d.type === 'percentage' ? d.percentage + '%' : '$' + d.percentage} OFF</div>
+                            <div class="item-title" style="color: var(--success-color);">${d.code}</div>
+                            <div class="item-badge badge-featured">${d.percentage}% OFF</div>
                         </div>
-                        <div class="item-description">${d.description || 'No parameters given.'}</div>
-                        <div class="item-meta" style="flex-direction: column; align-items: flex-start; gap: 10px;">
-                            <span style="font-size: 13px;">USES: ${uses} / ${max || '∞'}</span>
-                            <div style="display: flex; gap: 10px; width: 100%;">
-                                <button class="action-btn update" style="flex:1; justify-content:center;" onclick="incrementDiscount('${docSnap.id}', ${uses}, ${max})">
-                                    <i class="fas fa-plus"></i> LOG USE
-                                </button>
-                                <button class="action-btn delete" onclick="deleteDiscount('${docSnap.id}')">
-                                    <i class="fas fa-trash"></i> REVOKE
-                                </button>
-                            </div>
-                        </div>
+                        <div class="item-description">${d.description || ''}</div>
+                        <button class="action-btn delete" onclick="deleteDiscount('${docSnap.id}')" style="margin-top:10px;"><i class="fas fa-trash"></i> Delete</button>
                     </div>`;
                 });
                 list.innerHTML = html + '</div>';
-            } catch(err) {
-                list.innerHTML = getErrorHtml(err, "Discounts Database");
-            }
+            } catch(e) { list.innerHTML = `<p>${e.message}</p>`; }
         }
-
-        window.incrementDiscount = async (id, currentUses, maxUses) => {
-            if (maxUses !== null && currentUses >= maxUses) {
-                return showError('PROTOCOL REJECTED: Override has reached maximum limit.');
-            }
-            try {
-                await updateDoc(doc(db, 'discounts', id), { used: currentUses + 1 });
-                showSuccess('Usage logged successfully.');
-                loadDiscounts();
-                loadAnalytics(); // refresh analytics graph
-            } catch(e) {
-                showError('Update failed: ' + e.message);
-            }
-        };
 
         window.deleteDiscount = async (id) => {
-            if(!confirm('WARNING: Revoke this protocol?')) return;
-            try { await deleteDoc(doc(db, 'discounts', id)); showSuccess('Protocol revoked.'); loadDiscounts(); loadAnalytics(); }
-            catch(e) { 
-                if(e.message.includes('permission')) showError('Action Denied by Firebase Rules.');
-                else showError('Revoke failed. ' + e.message); 
-            }
+            if(!confirm('Delete discount?')) return;
+            try { await deleteDoc(doc(db, 'discounts', id)); showSuccess('Deleted.'); loadDiscounts(); }
+            catch(e) { showError(e.message); }
         };
 
-        // ==========================================
-        // 4. TELEMETRY (ANALYTICS) LOGIC
-        // ==========================================
+        // 5. ANALYTICS LOGIC
         async function loadAnalytics() {
             const container = document.getElementById('telemetryStats');
-            container.innerHTML = '<div class="loading" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin"></i> Compiling system metrics...</div>';
-            
+            container.innerHTML = '<div class="loading" style="grid-column: 1 / -1;"><i class="fas fa-spinner fa-spin"></i> Compiling...</div>';
             try {
-                // Parallel data fetching for speed
-                const [pSnap, fSnap, rSnap, dSnap] = await Promise.all([
-                    getDocs(collection(db, 'portfolioItems')).catch(()=>null),
-                    getDocs(collection(db, 'featuredWork')).catch(()=>null),
-                    getDocs(collection(db, 'reviews')).catch(()=>null),
-                    getDocs(collection(db, 'discounts')).catch(()=>null)
-                ]);
-
-                const totalSeq = (pSnap && fSnap) ? (pSnap.size + fSnap.size) : 'LOCKED';
-                
-                // Review Math
-                let totalIntercepts = 'LOCKED';
-                let avgIntegrity = 'LOCKED';
-                let flawless = 'LOCKED';
-                if(rSnap) {
-                    totalIntercepts = rSnap.size;
-                    let rTotal = 0; flawless = 0;
-                    rSnap.forEach(doc => {
-                        const rate = doc.data().rating || 5;
-                        rTotal += rate;
-                        if(rate === 5) flawless++;
-                    });
-                    avgIntegrity = totalIntercepts > 0 ? (rTotal / totalIntercepts).toFixed(1) : '0.0';
-                }
-
-                // Discounts Math
-                let activeOverrides = 'LOCKED';
-                let totalUses = 'LOCKED';
-                if(dSnap) {
-                    activeOverrides = dSnap.size;
-                    totalUses = 0;
-                    dSnap.forEach(doc => { totalUses += (doc.data().used || 0); });
-                }
-
+                const pSnap = await getDocs(collection(db, 'portfolioItems')).catch(()=>({size:0}));
+                const rSnap = await getDocs(collection(db, 'reviews')).catch(()=>({size:0}));
                 container.innerHTML = `
-                    <div class="stat-card ${totalSeq === 'LOCKED' ? 'locked' : ''}">
-                        <div class="stat-number">${totalSeq}</div>
-                        <div class="stat-label">Total Sequences (Assets)</div>
-                    </div>
-                    <div class="stat-card ${totalIntercepts === 'LOCKED' ? 'locked' : ''}">
-                        <div class="stat-number">${totalIntercepts}</div>
-                        <div class="stat-label">Total Intercepts (Reviews)</div>
-                    </div>
-                    <div class="stat-card ${avgIntegrity === 'LOCKED' ? 'locked' : ''}">
-                        <div class="stat-number">${avgIntegrity}</div>
-                        <div class="stat-label">Average Integrity (Rating)</div>
-                    </div>
-                    <div class="stat-card ${flawless === 'LOCKED' ? 'locked' : ''}">
-                        <div class="stat-number">${flawless}</div>
-                        <div class="stat-label">Flawless Signals (5★)</div>
-                    </div>
-                    <div class="stat-card ${activeOverrides === 'LOCKED' ? 'locked' : ''}">
-                        <div class="stat-number">${activeOverrides}</div>
-                        <div class="stat-label">Active Overrides (Codes)</div>
-                    </div>
-                    <div class="stat-card ${totalUses === 'LOCKED' ? 'locked' : ''}">
-                        <div class="stat-number" style="color: #ffb199; text-shadow: 0 0 15px rgba(255,177,153,0.3);">${totalUses}</div>
-                        <div class="stat-label">Total Override Executions (Uses)</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-number">${pSnap.size}</div><div class="stat-label">Portfolio Assets</div></div>
+                    <div class="stat-card"><div class="stat-number">${rSnap.size}</div><div class="stat-label">Total Reviews</div></div>
                 `;
-            } catch(e) {
-                container.innerHTML = getErrorHtml(e, "Telemetry Overview");
-            }
+            } catch(e) { container.innerHTML = `<p>${e.message}</p>`; }
         }
 
-        // ==========================================
-        // 5. CONFIG (SETTINGS) LOGIC
-        // ==========================================
+        // 6. SETTINGS LOGIC
         document.getElementById('settingsForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if(!currentUser) return showError('Auth failure.');
-            
-            const submitBtn = e.target.querySelector('.submit-btn');
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Writing...';
-
             try {
                 const data = {
                     siteTitle: document.getElementById('siteTitle').value,
                     contactEmail: document.getElementById('contactEmail').value,
-                    baseLocation: document.getElementById('baseLocation').value,
                     heroTagline: document.getElementById('heroTagline').value,
-                    aboutText: document.getElementById('aboutText').value,
-                    socialLinks: {
-                        instagram: document.getElementById('igLink').value,
-                        youtube: document.getElementById('ytLink').value,
-                        linkedin: document.getElementById('liLink').value,
-                        reddit: document.getElementById('rdLink').value
-                    },
-                    updatedAt: Timestamp.now(), 
-                    updatedBy: currentUser.email
+                    updatedAt: Timestamp.now()
                 };
-                
                 await setDoc(doc(db, 'settings', 'general'), data, { merge: true });
-                showSuccess('Config written to ROM successfully.');
-            } catch(err) { 
-                if(err.message.includes('permission')) showError('Write Denied: Missing Firebase Permissions.');
-                else showError('Write failure: ' + err.message); 
-            } finally {
-                submitBtn.innerHTML = '<i class="fas fa-floppy-disk"></i> Write to ROM';
-            }
+                showSuccess('Settings saved.');
+            } catch(err) { showError(err.message); }
         });
 
         async function loadSettings() {
             try {
-                const docRef = doc(db, 'settings', 'general');
-                const docSnap = await getDoc(docRef);
+                const docSnap = await getDoc(doc(db, 'settings', 'general'));
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    
-                    // Identity
                     if(data.siteTitle) document.getElementById('siteTitle').value = data.siteTitle;
                     if(data.contactEmail) document.getElementById('contactEmail').value = data.contactEmail;
-                    if(data.baseLocation) document.getElementById('baseLocation').value = data.baseLocation;
-                    
-                    // Copy
                     if(data.heroTagline) document.getElementById('heroTagline').value = data.heroTagline;
-                    if(data.aboutText) document.getElementById('aboutText').value = data.aboutText;
-                    
-                    // Socials
-                    if(data.socialLinks) {
-                        if(data.socialLinks.instagram) document.getElementById('igLink').value = data.socialLinks.instagram;
-                        if(data.socialLinks.youtube) document.getElementById('ytLink').value = data.socialLinks.youtube;
-                        if(data.socialLinks.linkedin) document.getElementById('liLink').value = data.socialLinks.linkedin;
-                        if(data.socialLinks.reddit) document.getElementById('rdLink').value = data.socialLinks.reddit;
-                    }
                 }
-            } catch (e) {
-                if(e.message.includes('permission')) {
-                    showError("Firebase Permissions are blocking Config data from loading.");
-                } else {
-                    console.error("Config missing or unreadable.", e);
-                }
-            }
+            } catch (e) { console.error("Error loading settings"); }
         }
 
-        // Initialize Display
-        loadRecentItems();
+        function showSuccess(msg) {
+            const el = document.getElementById('successAlert');
+            document.getElementById('successMessage').textContent = msg;
+            el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3000);
+        }
+        function showError(msg) {
+            const el = document.getElementById('errorAlert');
+            document.getElementById('errorMessage').textContent = msg;
+            el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 4000);
+        }
+
+    </script>
+
+    <!-- UI/3D Scripts -->
+    <script>
+        // Cinematic 3D Background Particle System
+        let scene, camera, renderer, particles;
+        let isDarkMode = true; 
+
+        function initThreeJS() {
+            const canvas = document.getElementById('hero-canvas');
+            if(!canvas) return;
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            const geometry = new THREE.BufferGeometry();
+            const particlesCount = 400; 
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 150; 
+            }
+            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.6,
+                color: 0x0071e3,
+                transparent: true, opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            animateThreeJS();
+        }
+
+        let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        function animateThreeJS() {
+            requestAnimationFrame(animateThreeJS);
+            targetX = mouseX * 0.001; targetY = mouseY * 0.001;
+            
+            particles.rotation.y += 0.002; particles.rotation.x += 0.001;
+            particles.rotation.y += 0.05 * (targetX - particles.rotation.y);
+            particles.rotation.x += 0.05 * (targetY - particles.rotation.x);
+
+            const positions = particles.geometry.attributes.position.array;
+            for(let i = 1; i < positions.length; i+=3) {
+                positions[i] += 0.08; 
+                if(positions[i] > 75) { positions[i] = -75; }
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            if(!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        initThreeJS();
+
+        // Dark Mode Toggle & Flashbang logic
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme') || 'dark'; 
+        body.setAttribute('data-theme', currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const curTheme = body.getAttribute('data-theme');
+            const newTheme = curTheme === 'light' ? 'dark' : 'light';
+
+            // Flashbang effect trigger
+            if (newTheme === 'light') {
+                const fb = document.getElementById('flashbang-overlay');
+                if(fb) {
+                    fb.style.transition = 'none';
+                    fb.style.opacity = '1';
+                    void fb.offsetWidth;
+                    fb.style.transition = 'opacity 2.5s cubic-bezier(0.2, 1, 0.3, 1)';
+                    fb.style.opacity = '0';
+                }
+            }
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Tilt Card Logic
+        window.initTiltCards = function() {
+            const cards = document.querySelectorAll('.tilt-card');
+            cards.forEach(card => {
+                const newCard = card.cloneNode(true);
+                if(card.parentNode) card.parentNode.replaceChild(newCard, card);
+                
+                newCard.addEventListener('mousemove', e => {
+                    const rect = newCard.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -5; 
+                    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 5;
+                    newCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+                });
+                
+                newCard.addEventListener('mouseleave', () => {
+                    newCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                });
+            });
+        }
+        initTiltCards();
     </script>
 </body>
 </html>
