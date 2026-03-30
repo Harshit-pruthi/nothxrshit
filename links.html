@@ -28,7 +28,6 @@
             --border-color: #e5e5e5;
             --card-bg: rgba(255, 255, 255, 0.7);
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
 
@@ -80,16 +79,6 @@
         .flashbang-text {
             font-size: 8vw; font-weight: 900; color: #000000;
             text-transform: uppercase; letter-spacing: 10px;
-            animation: shake 0.1s infinite;
-        }
-
-        @keyframes shake {
-            0% { transform: translate(2px, 2px) rotate(0deg); }
-            20% { transform: translate(-3px, -2px) rotate(-1deg); }
-            40% { transform: translate(3px, 0px) rotate(2deg); }
-            60% { transform: translate(-2px, 3px) rotate(0deg); }
-            80% { transform: translate(1px, -1px) rotate(1deg); }
-            100% { transform: translate(-1px, 2px) rotate(-2deg); }
         }
 
         /* Navigation */
@@ -173,7 +162,6 @@
             position: relative;
         }
 
-        /* Upgraded Pulsing Avatar */
         .profile-avatar-wrapper {
             position: relative;
             width: 120px;
@@ -266,45 +254,25 @@
             overflow: hidden;
         }
 
-        /* Platform Specific Glassmorphism Glows */
         .link-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--hover-bg, rgba(255,255,255,0.05));
+            background: linear-gradient(90deg, transparent, rgba(0, 113, 227, 0.15), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
             z-index: 0;
         }
 
         .link-card:hover::before { opacity: 1; }
-        
-        .link-card.portfolio { --hover-bg: linear-gradient(90deg, transparent, rgba(0, 113, 227, 0.15), transparent); }
-        .link-card.portfolio:hover { border-color: var(--accent-color); }
-        .link-card.portfolio:hover .link-icon { color: var(--accent-color); }
-        
-        .link-card.instagram { --hover-bg: linear-gradient(90deg, transparent, rgba(225, 48, 108, 0.15), transparent); }
-        .link-card.instagram:hover { border-color: #E1306C; }
-        .link-card.instagram:hover .link-icon { color: #E1306C; }
-        
-        .link-card.youtube { --hover-bg: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.15), transparent); }
-        .link-card.youtube:hover { border-color: #FF0000; }
-        .link-card.youtube:hover .link-icon { color: #FF0000; }
-        
-        .link-card.linkedin { --hover-bg: linear-gradient(90deg, transparent, rgba(0, 119, 181, 0.15), transparent); }
-        .link-card.linkedin:hover { border-color: #0077B5; }
-        .link-card.linkedin:hover .link-icon { color: #0077B5; }
-        
-        .link-card.reddit { --hover-bg: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.15), transparent); }
-        .link-card.reddit:hover { border-color: #FF4500; }
-        .link-card.reddit:hover .link-icon { color: #FF4500; }
+        .link-card:hover { border-color: var(--accent-color); }
+        .link-card:hover .link-icon { color: var(--accent-color); }
 
-        /* 3D Pop-out elements inside the card */
         .link-content-wrapper {
             display: flex;
             align-items: center;
             width: 100%;
-            transform: translateZ(40px); /* Pushes content out */
+            transform: translateZ(40px);
             position: relative;
             z-index: 1;
         }
@@ -327,7 +295,7 @@
             text-align: center;
             font-size: 18px;
             font-weight: 700;
-            margin-right: 50px; /* Counter-balance the icon */
+            margin-right: 50px;
             letter-spacing: 0.5px;
         }
 
@@ -343,7 +311,6 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
             .nav-container { padding: 0 20px; }
             .link-tree-section { padding: 100px 20px 40px; }
@@ -379,7 +346,6 @@
 
     <!-- Link Tree Section -->
     <section class="link-tree-section">
-        
         <div class="profile-container">
             <div class="profile-avatar-wrapper">
                 <div class="profile-avatar">
@@ -396,13 +362,12 @@
             </div>
             <!-- Links will be injected here via JS -->
         </div>
-
     </section>
 
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, doc, getDoc, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -414,80 +379,60 @@
             appId: "1:766300632445:web:edd338edb1204fa5080814"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Fetch Dynamic Settings from Admin Panel
         async function loadLinkTreeData() {
             const linksContainer = document.getElementById('linksContainer');
             
             try {
+                // 1. Fetch Dynamic Profile Settings
                 const docRef = doc(db, 'settings', 'general');
                 const docSnap = await getDoc(docRef);
                 
-                // Initialize default permanent links (Portfolio & Main Site) with tilt-card class
-                let linksHTML = `
-                    <a href="index.html" class="link-card tilt-card portfolio" style="animation-delay: 0.1s">
-                        <div class="link-content-wrapper tilt-content">
-                            <div class="link-icon"><i class="fas fa-globe"></i></div>
-                            <div class="link-text">Main Website</div>
-                        </div>
-                    </a>
-                    <a href="portfolio.html" class="link-card tilt-card portfolio" style="animation-delay: 0.2s">
-                        <div class="link-content-wrapper tilt-content">
-                            <div class="link-icon"><i class="fas fa-folder-open"></i></div>
-                            <div class="link-text">Full Archive</div>
-                        </div>
-                    </a>
-                `;
-
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    
-                    // Update Text Identifiers
                     if (data.siteTitle) {
                         document.querySelectorAll('.dynamic-logo').forEach(el => el.textContent = data.siteTitle);
                     }
                     if (data.heroTagline) {
                         document.getElementById('dynamicTagline').textContent = data.heroTagline;
                     }
-                    
-                    // Inject Social Links from Admin Config
-                    let delay = 0.3; // Animation cascading delay
-                    
-                    if (data.socialLinks) {
-                        // Map standardized platform keys to FontAwesome classes and Display Names
-                        const platformDetails = {
-                            'youtube': { icon: 'fa-youtube', name: 'YouTube', class: 'youtube' },
-                            'instagram': { icon: 'fa-instagram', name: 'Instagram', class: 'instagram' },
-                            'linkedin': { icon: 'fa-linkedin-in', name: 'LinkedIn', class: 'linkedin' },
-                            'reddit': { icon: 'fa-reddit', name: 'Reddit', class: 'reddit' },
-                            'twitter': { icon: 'fa-twitter', name: 'Twitter', class: 'twitter' }
-                        };
-
-                        Object.keys(data.socialLinks).forEach((platform) => {
-                            const url = data.socialLinks[platform];
-                            if(url && url.trim() !== '') {
-                                const details = platformDetails[platform.toLowerCase()] || { icon: 'fa-link', name: platform, class: 'portfolio' };
-                                
-                                linksHTML += `
-                                    <a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card tilt-card ${details.class}" style="animation-delay: ${delay}s">
-                                        <div class="link-content-wrapper tilt-content">
-                                            <div class="link-icon"><i class="fab ${details.icon}"></i></div>
-                                            <div class="link-text">${details.name}</div>
-                                        </div>
-                                    </a>
-                                `;
-                                delay += 0.1;
-                            }
-                        });
-                    }
                 }
+
+                // 2. Fetch User-Added Links from Database
+                const q = query(collection(db, 'linkTree'), orderBy('order', 'asc'));
+                const linkSnap = await getDocs(q);
+
+                if (linkSnap.empty) {
+                    linksContainer.innerHTML = `
+                        <div class="loading-message" style="color: var(--text-secondary);">
+                            <i class="fas fa-link" style="font-size: 24px; margin-bottom: 10px; display:block;"></i>
+                            No links found. Add some in your Admin Panel!
+                        </div>
+                    `;
+                    return;
+                }
+
+                let linksHTML = '';
+                let delay = 0.1;
+
+                linkSnap.forEach(doc => {
+                    const item = doc.data();
+                    linksHTML += `
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="link-card tilt-card" style="animation-delay: ${delay}s">
+                            <div class="link-content-wrapper tilt-content">
+                                <div class="link-icon"><i class="${item.icon || 'fas fa-link'}"></i></div>
+                                <div class="link-text">${item.title}</div>
+                            </div>
+                        </a>
+                    `;
+                    delay += 0.1;
+                });
                 
                 linksContainer.innerHTML = linksHTML;
 
-                // Initialize 3D Tilt interaction after injection
+                // Re-initialize 3D Tilt interaction after injection
                 if(typeof window.initTiltCards === 'function') {
                     window.initTiltCards();
                 }
@@ -495,8 +440,8 @@
             } catch (error) {
                 console.error("Error loading linktree config:", error);
                 linksContainer.innerHTML = `
-                    <div class="loading-message" style="color: var(--error-color);">
-                        <i class="fas fa-exclamation-triangle"></i> Failed to connect to mainframe.
+                    <div class="loading-message" style="color: #ff3b30;">
+                        <i class="fas fa-exclamation-triangle"></i> Failed to connect to database.
                     </div>
                 `;
             }
@@ -509,7 +454,7 @@
     <script>
         // 1. Cinematic 3D Background Particle System (Three.js)
         let scene, camera, renderer, particles;
-        let isDarkMode = true; // Default to dark
+        let isDarkMode = true;
 
         function initThreeJS() {
             const canvas = document.getElementById('hero-canvas');
@@ -581,16 +526,14 @@
 
         // 2. Dark Mode Toggle & Flashbang logic
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
         const body = document.body;
 
-        const currentTheme = localStorage.getItem('theme') || 'dark'; // Force default dark
+        const currentTheme = localStorage.getItem('theme') || 'dark'; // Default dark
         body.setAttribute('data-theme', currentTheme);
-        updateThemeIcon(currentTheme);
 
         themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const curTheme = body.getAttribute('data-theme');
+            const newTheme = curTheme === 'light' ? 'dark' : 'light';
 
             // Flashbang effect trigger
             if (newTheme === 'light') {
@@ -606,22 +549,12 @@
 
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
         });
-
-        function updateThemeIcon(theme) {
-            if (theme === 'dark') {
-                themeIcon.className = 'fas fa-moon';
-            } else {
-                themeIcon.className = 'fas fa-sun';
-            }
-        }
 
         // 3. Tilt Card 3D Interaction Logic
         window.initTiltCards = function() {
             const cards = document.querySelectorAll('.tilt-card');
             cards.forEach(card => {
-                // Clone and replace to prevent duplicate event listeners on re-renders
                 const newCard = card.cloneNode(true);
                 if(card.parentNode) card.parentNode.replaceChild(newCard, card);
                 
@@ -639,7 +572,6 @@
                 });
             });
         }
-        // Initialize once for static elements, also called after DB fetch.
         initTiltCards();
     </script>
 </body>
